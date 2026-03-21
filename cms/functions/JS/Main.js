@@ -4,7 +4,7 @@ $(document).ready(function(){
     countedUser();
     function countedUser(){
         $.ajax({
-            url : "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url : "/functions/PHP/process.php",
             method : "POST",
             data : {countUsers:1},
             success : function(data){
@@ -18,7 +18,7 @@ $(document).ready(function(){
     getUsers();
     function getUsers(){
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             data: {viewUsers:1},
             success: function(data){
@@ -53,7 +53,7 @@ $(document).ready(function(){
 
         if(status){
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+                url: "/functions/PHP/process.php",
                 type: "POST",
                 data:  new FormData(this),
                 contentType: false,
@@ -74,7 +74,7 @@ $(document).ready(function(){
                             $("#brand_view").fadeIn(1500).show();
                             getBrand();
                         })
-                        $("#btn_brand").html("<img src='https://nidrip.mraalionline.com/cms/assets/images/loader.gif' width='20'/> &nbsp; Adding Brand..");
+                        $("#btn_brand").html("<img src='/assets/images/loader.gif' width='20'/> &nbsp; Adding Brand..");
                     }else{
                         $("#msg").html("<span class='alert alert-danger alert-block'>"+data+"</span>");
                         $("#brand_form").trigger("reset"); 
@@ -88,7 +88,7 @@ $(document).ready(function(){
     countBrand();
     function countBrand(){
         $.ajax({
-            url : "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url : "/functions/PHP/process.php",
             method : "POST",
             data : {count_brand:1},
             success : function(data){
@@ -101,7 +101,7 @@ $(document).ready(function(){
     optionBrand();
     function optionBrand(){
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             data: {fetchBrand:1},
             success: function(data){
@@ -117,7 +117,7 @@ $(document).ready(function(){
     getBrand();
     function getBrand(){
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             data: {viewBrand:1},
             success: function(data){
@@ -130,7 +130,7 @@ $(document).ready(function(){
     $("body").delegate(".update_brand","click",function(){
         var uid = $(this).attr("uid");
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             dataType: "json",
             data: {updateBrand:1,id:uid},
@@ -157,7 +157,7 @@ $(document).ready(function(){
 
         if(update_brand_name !== "" && status === true){
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+                url: "/functions/PHP/process.php",
                 type: "POST",
                 data:  new FormData(this),
                 contentType: false,
@@ -173,7 +173,7 @@ $(document).ready(function(){
                             $("#brand_view").fadeIn(1500).show();
                             getBrand();
                         })
-                        $("#btn_update_brand").html("<img src='https://nidrip.mraalionline.com/cms/assets/images/loader.gif' width='20'/> &nbsp; Updating Brand..");
+                        $("#btn_update_brand").html("<img src='/assets/images/loader.gif' width='20'/> &nbsp; Updating Brand..");
                     }else{
                         $("#umsg").html("<span class='alert alert-danger alert-block'>"+data+"</span>");
                     }
@@ -181,7 +181,7 @@ $(document).ready(function(){
             })
         }else if(update_brand_image.val() === "" && status === true){
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+                url: "/functions/PHP/process.php",
                 type: "POST",
                 data: $("#update_brand_form").serialize(),
                 success: function(data){
@@ -191,7 +191,7 @@ $(document).ready(function(){
                             $("#brand_view").fadeIn(1500).show();
                             getBrand();
                         })
-                        $("#btn_update_brand").html("<img src='https://nidrip.mraalionline.com/cms/assets/images/loader.gif' width='20'/> &nbsp; Updating Brand..");
+                        $("#btn_update_brand").html("<img src='/assets/images/loader.gif' width='20'/> &nbsp; Updating Brand..");
                     }else{
                         $("#umsg").html("<span class='alert alert-danger alert-block'>"+data+"</span>");
                     }
@@ -205,7 +205,7 @@ $(document).ready(function(){
         var did = $(this).attr("did");
         if(confirm("Do you want to delete BRAND?")){
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+                url: "/functions/PHP/process.php",
                 method: "POST",
                 data: {deleteBrand:1,id:did},
                 success: function(data){
@@ -250,7 +250,7 @@ $(document).ready(function(){
 
         if (status) {
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+                url: "/functions/PHP/process.php",
                 type: "POST",
                 data: new FormData(this),
                 contentType: false,
@@ -271,7 +271,7 @@ $(document).ready(function(){
                             $("#banner_view").fadeIn(1500).show();
                             getBanner();
                         })
-                        $("#btn_banner").html("<img src='https://nidrip.mraalionline.com/cms/assets/images/loader.gif' width='20'/> &nbsp; Adding Banner..");
+                        $("#btn_banner").html("<img src='/assets/images/loader.gif' width='20'/> &nbsp; Adding Banner..");
                     } else {
                         $("#msg").html("<span class='alert alert-danger alert-block'>" + data + "</span>");
                         $("#banner_form").trigger("reset");
@@ -285,7 +285,7 @@ $(document).ready(function(){
     getBanner();
     function getBanner() {
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             data: { viewBanner: 1 },
             success: function (data) {
@@ -324,7 +324,7 @@ $(document).ready(function(){
 
         if(status){
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+                url: "/functions/PHP/process.php",
                 type: "POST",
                 data:  new FormData(this),
                 contentType: false,
@@ -345,7 +345,7 @@ $(document).ready(function(){
                             $("#catalogue_view").fadeIn(1500).show();
                             getCatalogue();
                         })
-                        $("#btn_catalogue").html("<img src='https://nidrip.mraalionline.com/cms/assets/images/loader.gif' width='20'/> &nbsp; Adding Catalogue..");
+                        $("#btn_catalogue").html("<img src='/assets/images/loader.gif' width='20'/> &nbsp; Adding Catalogue..");
                     }else{
                         $("#msg").html("<span class='alert alert-danger alert-block'>"+data+"</span>");
                         $("#catalogue_form").trigger("reset"); 
@@ -359,7 +359,7 @@ $(document).ready(function(){
     countCatalogue();
     function countCatalogue(){
         $.ajax({
-            url : "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url : "/functions/PHP/process.php",
             method : "POST",
             data : {count_catalogue:1},
             success : function(data){
@@ -372,7 +372,7 @@ $(document).ready(function(){
     optionCatalogue();
     function optionCatalogue(){
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             data: {fetchCatalogue:1},
             success: function(data){
@@ -388,7 +388,7 @@ $(document).ready(function(){
     getCatalogue();
     function getCatalogue(){
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             data: {viewCatalogue:1},
             success: function(data){
@@ -401,7 +401,7 @@ $(document).ready(function(){
     $("body").delegate(".update_catalogue","click",function(){
         var uid = $(this).attr("uid");
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             dataType: "json",
             data: {updateCatalogue:1,id:uid},
@@ -428,7 +428,7 @@ $(document).ready(function(){
 
         if(update_catalogue_name !== "" && status === true){
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+                url: "/functions/PHP/process.php",
                 type: "POST",
                 data:  new FormData(this),
                 contentType: false,
@@ -444,7 +444,7 @@ $(document).ready(function(){
                             $("#catalogue_view").fadeIn(1500).show();
                             getCatalogue();
                         })
-                        $("#btn_update_catalogue").html("<img src='https://nidrip.mraalionline.com/cms/assets/images/loader.gif' width='20'/> &nbsp; Updating Catalogue..");
+                        $("#btn_update_catalogue").html("<img src='/assets/images/loader.gif' width='20'/> &nbsp; Updating Catalogue..");
                     }else{
                         $("#umsg").html("<span class='alert alert-danger alert-block'>"+data+"</span>");
                     }
@@ -452,7 +452,7 @@ $(document).ready(function(){
             })
         }else if(update_catalogue_image.val() === "" && status === true){
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+                url: "/functions/PHP/process.php",
                 type: "POST",
                 data: $("#update_catalogue_form").serialize(),
                 success: function(data){
@@ -462,7 +462,7 @@ $(document).ready(function(){
                             $("#catalogue_view").fadeIn(1500).show();
                             getCatalogue();
                         })
-                        $("#btn_update_catalogue").html("<img src='https://nidrip.mraalionline.com/cms/assets/images/loader.gif' width='20'/> &nbsp; Updating Catalogue..");
+                        $("#btn_update_catalogue").html("<img src='/assets/images/loader.gif' width='20'/> &nbsp; Updating Catalogue..");
                     }else{
                         $("#umsg").html("<span class='alert alert-danger alert-block'>"+data+"</span>");
                     }
@@ -476,7 +476,7 @@ $(document).ready(function(){
         var did = $(this).attr("did");
         if(confirm("Do you want to delete Catalogue?")){
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+                url: "/functions/PHP/process.php",
                 method: "POST",
                 data: {deleteCatalogue:1,id:did},
                 success: function(data){
@@ -533,7 +533,7 @@ $(document).ready(function(){
 
         if(status){
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+                url: "/functions/PHP/process.php",
                 type: "POST",
                 data: $("#category_form").serialize(),
                 success: function(data){
@@ -542,7 +542,7 @@ $(document).ready(function(){
                         $(".category_name").css("border-color","#DD4B39");
                         $(".category_name_error").html("<span class='text-danger' style='color: #DD4B39; font-size: 1.3em;'>Category already exists! </span>");
                     }else if(data == "Category Added!"){
-                        $("#btn_category").html("<img src='https://nidrip.mraalionline.com/cms/assets/images/loader.gif' width='20'/> &nbsp; Adding Category..");
+                        $("#btn_category").html("<img src='/assets/images/loader.gif' width='20'/> &nbsp; Adding Category..");
                         $("#msg").html("<div class='alert alert-success'>"+data+"</div>").fadeToggle(2000,function(){ 
                             $("#category_form").trigger("reset");
                             $("#category_view").fadeIn(1500).show();
@@ -561,7 +561,7 @@ $(document).ready(function(){
     countCategory();
     function countCategory(){
         $.ajax({
-            url : "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url : "/functions/PHP/process.php",
             method : "POST",
             data : {count_category:1},
             success : function(data){
@@ -574,7 +574,7 @@ $(document).ready(function(){
     optionCategory();
     function optionCategory(){
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             data: {fetchCategory:1},
             success: function(data){
@@ -590,7 +590,7 @@ $(document).ready(function(){
     getCategory();
     function getCategory(){
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             data: {viewCategory:1},
             success: function(data){
@@ -603,7 +603,7 @@ $(document).ready(function(){
     $("body").delegate(".update_catalogue","click",function(){
         var uid = $(this).attr("uid");
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             dataType: "json",
             data: {updateCatalogue:1,id:uid},
@@ -627,7 +627,7 @@ $(document).ready(function(){
 
         if(status){
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+                url: "/functions/PHP/process.php",
                 type: "POST",
                 data: $("#update_category_form").serialize(),
                 success: function(data){
@@ -637,7 +637,7 @@ $(document).ready(function(){
                             $("#category_view").fadeIn(1500).show();
                             getCategory();
                         })
-                        $("#btn_update_category").html("<img src='https://nidrip.mraalionline.com/cms/assets/images/loader.gif' width='20'/> &nbsp; Updating Category..");
+                        $("#btn_update_category").html("<img src='/assets/images/loader.gif' width='20'/> &nbsp; Updating Category..");
                     }else{
                         $("#umsg").html("<span class='alert alert-danger alert-block'>"+data+"</span>");
                     }
@@ -651,7 +651,7 @@ $(document).ready(function(){
         var did = $(this).attr("did");
         if(confirm("Do you want to delete Category?")){
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+                url: "/functions/PHP/process.php",
                 method: "POST",
                 data: {deleteCategory:1,id:did},
                 success: function(data){
@@ -701,7 +701,7 @@ $(document).ready(function(){
 
         if(status){
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+                url: "/functions/PHP/process.php",
                 type: "POST",
                 data: $("#sub_category_form").serialize(),
                 success: function(data){
@@ -710,7 +710,7 @@ $(document).ready(function(){
                         $(".sub_category_name").css("border-color","#DD4B39");
                         $(".sub_category_name_error").html("<span class='text-danger' style='color: #DD4B39; font-size: 1.3em;'>Sub Category already exists! </span>");
                     }else if(data == "Sub Category Added!"){
-                        $("#btn_sub_category").html("<img src='https://nidrip.mraalionline.com/cms/assets/images/loader.gif' width='20'/> &nbsp; Adding Sub Category..");
+                        $("#btn_sub_category").html("<img src='/assets/images/loader.gif' width='20'/> &nbsp; Adding Sub Category..");
                         $("#msg").html("<div class='alert alert-success'>"+data+"</div>").fadeToggle(2000,function(){ 
                             $("#sub_category_form").trigger("reset");
                             $("#sub_category_view").fadeIn(1500).show();
@@ -729,7 +729,7 @@ $(document).ready(function(){
     countSubCategory();
     function countSubCategory(){
         $.ajax({
-            url : "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url : "/functions/PHP/process.php",
             method : "POST",
             data : {count_sub_category:1},
             success : function(data){
@@ -742,7 +742,7 @@ $(document).ready(function(){
     optionSubCategory();
     function optionSubCategory(){
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             data: {fetchSubCategory:1},
             success: function(data){
@@ -758,7 +758,7 @@ $(document).ready(function(){
     getSubCategory();
     function getSubCategory(){
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             data: {viewSubCategory:1},
             success: function(data){
@@ -771,7 +771,7 @@ $(document).ready(function(){
     $("body").delegate(".update_sub_category","click",function(){
         var uid = $(this).attr("uid");
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             dataType: "json",
             data: {updateSubCategory:1,id:uid},
@@ -803,7 +803,7 @@ $(document).ready(function(){
 
         if(status){
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+                url: "/functions/PHP/process.php",
                 type: "POST",
                 data: $("#update_sub_category_form").serialize(),
                 success: function(data){
@@ -813,7 +813,7 @@ $(document).ready(function(){
                             $("#sub_category_view").fadeIn(1500).show();
                             getSubCategory();
                         })
-                        $("#btn_update_sub_category").html("<img src='https://nidrip.mraalionline.com/cms/assets/images/loader.gif' width='20'/> &nbsp; Updating Sub Category..");
+                        $("#btn_update_sub_category").html("<img src='/assets/images/loader.gif' width='20'/> &nbsp; Updating Sub Category..");
                     }else{
                         $("#umsg").html("<span class='alert alert-danger alert-block'>"+data+"</span>");
                     }
@@ -827,7 +827,7 @@ $(document).ready(function(){
         var did = $(this).attr("did");
         if(confirm("Do you want to delete Sub Category?")){
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+                url: "/functions/PHP/process.php",
                 method: "POST",
                 data: {deleteSubCategory:1,id:did},
                 success: function(data){
@@ -880,7 +880,7 @@ $(document).ready(function(){
 
         if(status){
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+                url: "/functions/PHP/process.php",
                 type: "POST",
                 data: $("#unit_form").serialize(),
                 success: function(data){
@@ -889,7 +889,7 @@ $(document).ready(function(){
                         $(".unit_name").css("border-color","#DD4B39");
                         $(".unit_name_error").html("<span class='text-danger' style='color: #DD4B39; font-size: 1.3em;'>Unit already exists! </span>");
                     }else if(data == "Unit Added!"){
-                        $("#btn_unit").html("<img src='https://nidrip.mraalionline.com/cms/assets/images/loader.gif' width='20'/> &nbsp; Adding Unit..");
+                        $("#btn_unit").html("<img src='/assets/images/loader.gif' width='20'/> &nbsp; Adding Unit..");
                         $("#msg").html("<div class='alert alert-success'>"+data+"</div>").fadeToggle(2000,function(){ 
                             $("#unit_form").trigger("reset");
                             $("#unit_view").fadeIn(1500).show();
@@ -908,7 +908,7 @@ $(document).ready(function(){
     countUnit();
     function countUnit(){
         $.ajax({
-            url : "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url : "/functions/PHP/process.php",
             method : "POST",
             data : {count_unit:1},
             success : function(data){
@@ -921,7 +921,7 @@ $(document).ready(function(){
     optionUnit();
     function optionUnit(){
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             data: {fetchUnit:1},
             success: function(data){
@@ -937,7 +937,7 @@ $(document).ready(function(){
     getUnit();
     function getUnit(){
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             data: {viewUnit:1},
             success: function(data){
@@ -950,7 +950,7 @@ $(document).ready(function(){
     $("body").delegate(".update_unit","click",function(){
         var uid = $(this).attr("uid");
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             dataType: "json",
             data: {updateUnit:1,id:uid},
@@ -974,7 +974,7 @@ $(document).ready(function(){
 
         if(status){
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+                url: "/functions/PHP/process.php",
                 type: "POST",
                 data: $("#update_unit_form").serialize(),
                 success: function(data){
@@ -984,8 +984,8 @@ $(document).ready(function(){
                             $("#unit_view").fadeIn(1500).show();
                             getUnit();
                         })
-                        $("#btn_update_unit").html("<img src='https://nidrip.mraalionline.com/cms/assets/images/loader.gif' width='20'/> &nbsp; Updating Unit..");
-                      			window.location.href='https://nidrip.mraalionline.com/cms/admin/add-unit/?aut#';
+                        $("#btn_update_unit").html("<img src='/assets/images/loader.gif' width='20'/> &nbsp; Updating Unit..");
+                      			window.location.href='/admin/add-unit/?aut#';
                     }else{
                         $("#umsg").html("<span class='alert alert-danger alert-block'>"+data+"</span>");
                     }
@@ -999,7 +999,7 @@ $(document).ready(function(){
         var did = $(this).attr("did");
         if(confirm("Do you want to delete Unit?")){
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+                url: "/functions/PHP/process.php",
                 method: "POST",
                 data: {deleteUnit:1,id:did},
                 success: function(data){
@@ -1108,7 +1108,7 @@ $(document).ready(function(){
 
         if(status){
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+                url: "/functions/PHP/process.php",
                 type: "POST",
                 data:  new FormData(this),
                 contentType: false,
@@ -1121,9 +1121,9 @@ $(document).ready(function(){
                         //$(".product_video").css("border-color","#DD4B39");
                         //$(".product_video_error").html("<span class='text-danger' style='color: #DD4B39; font-size: 1.3em;'>Video Invalid Format! </span>");
                     }else if(data == "Product Added!"){
-                        $("#btn_product").html("<img src='https://nidrip.mraalionline.com/cms/assets/images/loader.gif' width='20'/> &nbsp; Adding Product..");
+                        $("#btn_product").html("<img src='/assets/images/loader.gif' width='20'/> &nbsp; Adding Product..");
                         $("#msg").html("<div class='alert alert-success'>"+data+"</div>").fadeToggle(2000,function(){ 
-                            setTimeout('window.location.href = "https://nidrip.mraalionline.com/cms/admin/view-product/?vp#";',2000);
+                            setTimeout('window.location.href = "/admin/view-product/?vp#";',2000);
                         })
                     }else if(data == "Product already exists!"){
                         $(".product_name").css("border-color","#DD4B39");
@@ -1142,7 +1142,7 @@ $(document).ready(function(){
     countProduct();
     function countProduct(){
         $.ajax({
-            url : "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url : "/functions/PHP/process.php",
             method : "POST",
             data : {count_product:1},
             success : function(data){
@@ -1155,7 +1155,7 @@ $(document).ready(function(){
     optionProduct();
     function optionProduct(){
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             data: {fetchProduct:1},
             success: function(data){
@@ -1170,7 +1170,7 @@ $(document).ready(function(){
     $("body").delegate(".update_product","click",function(){
         var uid = $(this).attr("uid");
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             dataType: "json",
             data: {updateProduct:1,id:uid},
@@ -1193,7 +1193,7 @@ $(document).ready(function(){
     getProduct();
     function getProduct(){
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             data: {viewProduct:1},
             success: function(data){
@@ -1247,14 +1247,14 @@ $(document).ready(function(){
         }
         if(status){
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php", 
+                url: "/functions/PHP/process.php", 
                 type: "POST",
                 data: $("#update_product_form").serialize(),
                 success: function(data){
                     if(data == "Updated"){
                         $("#umsg").html("<span class='alert alert-success alert-block'>"+data+"</span>");
-                        $("#btn_update_product").html("<img src='https://nidrip.mraalionline.com/cms/assets/images/loader.gif' width='20'/> &nbsp; Updating..");
-                        setTimeout('window.location.href = "https://nidrip.mraalionline.com/cms/admin/view-product/?vp#";',2000);
+                        $("#btn_update_product").html("<img src='/assets/images/loader.gif' width='20'/> &nbsp; Updating..");
+                        setTimeout('window.location.href = "/admin/view-product/?vp#";',2000);
                     }else{
                         $("#umsg").html("<span class='alert alert-danger alert-block'>"+data+"</span>");
                     }
@@ -1268,7 +1268,7 @@ $(document).ready(function(){
         var did = $(this).attr("did");
         if(confirm("Do you want to delete Product?")){
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+                url: "/functions/PHP/process.php",
                 method: "POST",
                 data: {deleteProduct:1,id:did},
                 success: function(data){
@@ -1312,7 +1312,7 @@ $(document).ready(function(){
 
         if(status){
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+                url: "/functions/PHP/process.php",
                 type: "POST",
                 data:  new FormData(this),
                 contentType: false,
@@ -1329,7 +1329,7 @@ $(document).ready(function(){
                             $("#image_view").fadeIn(1500).show();
                             getImage();
                         })
-                        $("#btn_image").html("<img src='https://nidrip.mraalionline.com/cms/assets/images/loader.gif' width='20'/> &nbsp; Adding Image..");
+                        $("#btn_image").html("<img src='/assets/images/loader.gif' width='20'/> &nbsp; Adding Image..");
                     }else{
                         $("#msg").html("<span class='alert alert-danger alert-block'>"+data+"</span>");
                         $("#image_form").trigger("reset"); 
@@ -1344,7 +1344,7 @@ $(document).ready(function(){
     getImage();
     function getImage(){
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             data: {viewProductImage:1},
             success: function(data){
@@ -1363,7 +1363,7 @@ $(document).ready(function(){
     countOrderCart();
     function countOrderCart(){
         $.ajax({
-            url : "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url : "/functions/PHP/process.php",
             method : "POST",
             data : {count_order_cart:1},
             success : function(data){
@@ -1375,7 +1375,7 @@ $(document).ready(function(){
     countOrderProcessed();
     function countOrderProcessed(){
         $.ajax({
-            url : "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url : "/functions/PHP/process.php",
             method : "POST",
             data : {count_order_processed:1},
             success : function(data){
@@ -1388,7 +1388,7 @@ $(document).ready(function(){
     countOrderProcessing();
     function countOrderProcessing(){
         $.ajax({
-            url : "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url : "/functions/PHP/process.php",
             method : "POST",
             data : {count_order_processing:1},
             success : function(data){
@@ -1406,7 +1406,7 @@ $(document).ready(function(){
     getOrderCart();
     function getOrderCart(){
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             data: {view_cart:1},
             success: function(data){
@@ -1419,7 +1419,7 @@ $(document).ready(function(){
     getOrderProcesing();
     function getOrderProcesing(){
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             data: {view_order_processing:1},
             success: function(data){
@@ -1432,7 +1432,7 @@ $(document).ready(function(){
     getOrderProcesed();
     function getOrderProcesed(){
         $.ajax({
-            url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+            url: "/functions/PHP/process.php",
             method: "POST",
             data: {view_order_processed:1},
             success: function(data){

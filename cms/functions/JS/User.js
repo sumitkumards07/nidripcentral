@@ -40,7 +40,7 @@ $(document).ready(function(){
 
         if(status){
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+                url: "/functions/PHP/process.php",
                 method: "POST",
                 data: $("#login_form").serialize(),
                 success: function(data){
@@ -60,12 +60,12 @@ $(document).ready(function(){
                         $(".user_password_error").html("<small class='form-text text-danger' style='color: #DD4B39;'>Password doesn't match! </small>");          
                     }else if(data == "Admin Logged In Successfully!"){
                         $("#msg").html("<div class='alert alert-success'> Redirecting.. </div>");
-                        $("#btn_login").html("<img src='https://nidrip.mraalionline.com/cms/assets/img/loading.gif' width='20'/> &nbsp; Signing in..");
-                        setTimeout('window.location.href = "https://nidrip.mraalionline.com/cms/admin/temp/?_rdct=Welcome";', 2000);          
+                        $("#btn_login").html("<img src='/assets/img/loading.gif' width='20'/> &nbsp; Signing in..");
+                        setTimeout('window.location.href = "/admin/temp/?_rdct=Welcome";', 2000);          
                     }else if(data == "Super Admin Logged In Successfully!"){
                         $("#msg").html("<div class='alert alert-success'> Redirecting.. </div>");
-                        $("#btn_login").html("<img src='https://nidrip.mraalionline.com/cms/assets/img/loading.gif' width='20'/> &nbsp; Signing in..");
-                        setTimeout('window.location.href = "https://nidrip.mraalionline.com/cms/admin/temp/?_rdct=Welcome";', 2000);          
+                        $("#btn_login").html("<img src='/assets/img/loading.gif' width='20'/> &nbsp; Signing in..");
+                        setTimeout('window.location.href = "/admin/temp/?_rdct=Welcome";', 2000);          
                     }
                 }
             })
@@ -220,7 +220,7 @@ $(document).ready(function(){
 
         if(status){
             $.ajax({
-                url: "https://nidrip.mraalionline.com/cms/functions/PHP/process.php",
+                url: "/functions/PHP/process.php",
                 type: "POST",
                 data:  new FormData(this),
                 contentType: false,
@@ -240,8 +240,8 @@ $(document).ready(function(){
                         $("#reg_email_error").html("<small class='form-text text-danger' style='color: #DD4B39;'>User already exists! </small>"); 
                     }else if(data =="Registered Successfully!"){
                         $("#msg").html("<div class='alert alert-primary alert-block'> Redirecting.. </div>");
-                        $("#btn_register").html("<img src='https://nidrip.mraalionline.com/cms/assets/img/loading.gif' width='20'/> &nbsp; Registering..");
-                        setTimeout('window.location.href = "https://nidrip.mraalionline.com/cms/?login";',2000);          
+                        $("#btn_register").html("<img src='/assets/img/loading.gif' width='20'/> &nbsp; Registering..");
+                        setTimeout('window.location.href = "/?login";',2000);          
                     }else{
                         $("#msg").html("<div class='alert alert-danger'> Something went wrong! </div>");
                     }
