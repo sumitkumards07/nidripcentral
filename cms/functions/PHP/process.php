@@ -931,7 +931,7 @@ include_once("manage.php");
 
 //View Order Cart
     if(isset($_POST["view_cart"])){ $n=1;
-        $obj = mysqli_query($conn, "SELECT p.product_id,p.product_name,p.product_image,p.product_price,c.id,c.p_id,c.date,c.user_id,c.qty,c.ship,c.mail,c.coupon,c.cdiscount,c.status,u.user_name FROM aalierp_product p, aalierp_cart c, aalierp_user u WHERE p.product_id=c.p_id AND c.user_id=u.user_id AND c.status='Chosen'");
+        $obj = mysqli_query($conn, "SELECT p.product_id,p.product_name,p.product_image,p.product_price,c.id,c.p_id,c.date,c.user_id,c.qty,c.ship,c.status,u.user_name FROM aalierp_product p, aalierp_cart c, aalierp_user u WHERE p.product_id=c.p_id AND c.user_id=u.user_id AND c.status='Chosen'");
         while($obj && ($row = mysqli_fetch_array($obj))){ ?>
             <tr>
                 <td><?php echo $n; ?></td>
@@ -944,7 +944,7 @@ include_once("manage.php");
     }
 //View Order Processing
     if(isset($_POST["view_order_processing"])){ $n=1;
-        $obj = mysqli_query($conn, "SELECT p.product_id,p.product_name,p.product_image,p.product_price,c.id,c.p_id,c.date,c.user_id,c.qty,c.ship,c.mail,c.coupon,c.cdiscount,c.status,u.user_name FROM aalierp_product p, aalierp_cart c, aalierp_user u WHERE p.product_id=c.p_id AND c.user_id=u.user_id AND c.status='Processing'");
+        $obj = mysqli_query($conn, "SELECT p.product_id,p.product_name,p.product_image,p.product_price,c.id,c.p_id,c.date,c.user_id,c.qty,c.ship,c.status,u.user_name FROM aalierp_product p, aalierp_cart c, aalierp_user u WHERE p.product_id=c.p_id AND c.user_id=u.user_id AND c.status='Processing'");
         while($obj && ($row = mysqli_fetch_array($obj))){ ?>
             <tr>
                 <td><?php echo $n; ?></td>
@@ -957,7 +957,7 @@ include_once("manage.php");
     }
 //View Order Processed
     if(isset($_POST["view_order_processed"])){ $n=1;
-        $obj = mysqli_query($conn, "SELECT p.product_id,p.product_name,p.product_image,p.product_price,c.id,c.p_id,c.date,c.user_id,c.qty,c.ship,c.mail,c.coupon,c.cdiscount,c.status,u.user_name FROM aalierp_product p, aalierp_cart c, aalierp_user u WHERE p.product_id=c.p_id AND c.user_id=u.user_id AND c.status='Processed'");
+        $obj = mysqli_query($conn, "SELECT p.product_id,p.product_name,p.product_image,p.product_price,c.id,c.p_id,c.date,c.user_id,c.qty,c.ship,c.status,u.user_name FROM aalierp_product p, aalierp_cart c, aalierp_user u WHERE p.product_id=c.p_id AND c.user_id=u.user_id AND c.status='Processed'");
         while($obj && ($row = mysqli_fetch_array($obj))){ ?>
             <tr>
                 <td><?php echo $n; ?></td>
