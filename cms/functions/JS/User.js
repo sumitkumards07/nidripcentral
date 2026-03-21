@@ -61,11 +61,11 @@ $(document).ready(function(){
                     }else if(data.includes("Admin Logged In Successfully!")){
                         $("#msg").html("<div class='alert alert-success'> Redirecting.. </div>");
                         $("#btn_login").html("<img src='/assets/img/loading.gif' width='20'/> &nbsp; Signing in..");
-                        setTimeout('window.location.href = "/admin/temp/?_rdct=Welcome";', 2000);          
+                        setTimeout('window.location.href = "/admin/dashboard/?-";', 10);          
                     }else if(data.includes("Super Admin Logged In Successfully!")){
                         $("#msg").html("<div class='alert alert-success'> Redirecting.. </div>");
                         $("#btn_login").html("<img src='/assets/img/loading.gif' width='20'/> &nbsp; Signing in..");
-                        setTimeout('window.location.href = "/admin/temp/?_rdct=Welcome";', 2000);          
+                        setTimeout('window.location.href = "/admin/dashboard/?-";', 10);          
                     }
                 }
             })
