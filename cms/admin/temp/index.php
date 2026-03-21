@@ -14,8 +14,7 @@
         <?php include($AaliLINK_IN."/functions/HTML/login-css.php"); ?>
     </head>
     <body>
-        <div class="loader"></div>
-        <div id="app">
+<div id="app">
             <div class="alert alert-primary alert-block text-center"><img src="<?php $AaliLINK; ?>/assets/img/loading.gif" /> Redirecting..</div>
             <?php
 				if(isset($_GET["_rdct"])){

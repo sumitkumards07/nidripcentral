@@ -14,8 +14,7 @@
     </head>
     
     <body>
-        <div class="loader"></div>
-        <div id="app">
+<div id="app">
             <div class="main-wrapper main-wrapper-1">
                 <div class="navbar-bg"></div>
                 <?php include($AaliLINK_IN."/functions/HTML/nav.php"); ?>

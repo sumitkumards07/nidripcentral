@@ -10,8 +10,7 @@
     </head>
     
     <body>
-        <div class="loader"></div>
-        <div id="app">
+<div id="app">
             <?php include($AaliLINK_IN."/functions/HTML/register.php"); ?>
             
         </div>

@@ -10,8 +10,7 @@
     </head>
     
     <body>
-        <div class="loader"></div>
-        <div id="app">
+<div id="app">
             <?php include($AaliLINK_IN."/functions/HTML/login.php"); ?>
         </div>
         <?php include($AaliLINK_IN."/functions/HTML/js.php"); ?>
