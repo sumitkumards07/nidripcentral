@@ -933,12 +933,23 @@ include_once("manage.php");
     if(isset($_POST["view_cart"])){ $n=1;
         $obj = mysqli_query($conn, "SELECT p.product_id,p.product_name,p.product_image,p.product_price,c.id,c.p_id,c.date,c.user_id,c.qty,c.ship,c.status,u.user_name FROM aalierp_product p, aalierp_cart c, aalierp_user u WHERE p.product_id=c.p_id AND c.user_id=u.user_id AND c.status='Chosen'");
         while($obj && ($row = mysqli_fetch_array($obj))){ ?>
-            <tr>
-                <td><?php echo $n; ?></td>
-                <td><?php echo $row["date"]; ?></td>
-                <td><?php echo $row["product_name"]; ?></td>
-                <td><?php echo $cur."".$row["product_price"]; ?></td>
-                <td><?php echo $row["user_name"]; ?></td>
+            <tr style="border-bottom: 1px solid #f0f0f0;">
+                <td style="padding:15px 20px;"><?php echo $n; ?></td>
+                <td style="padding:15px 20px; color:#666; font-size:13px;"><?php echo date('d M, Y', strtotime($row["date"])); ?></td>
+                <td style="padding:15px 20px;">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <img src="../../uploads/products/<?php echo $row['product_image']; ?>" style="width:40px; height:40px; border-radius:8px; object-fit:cover; background:#f5f5f5;">
+                        <span style="font-weight:600; color:#333;"><?php echo $row["product_name"]; ?></span>
+                    </div>
+                </td>
+                <td style="padding:15px 20px; font-weight:700; color:var(--c1);"><?php echo $cur."".number_format($row["product_price"]); ?></td>
+                <td style="padding:15px 20px; color:#444;"><?php echo $row["user_name"]; ?></td>
+                <td style="padding:15px 20px;">
+                    <span class="badge" style="background:rgba(255, 171, 0, 0.1); color:#ffab00; padding:6px 12px; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase;">Waiting</span>
+                </td>
+                <td style="padding:15px 20px;">
+                    <button class="btn btn-sm" style="background:#f8f9fa; border:1px solid #ddd; border-radius:6px; cursor:pointer;" onclick="viewOrder(<?php echo $row['id']; ?>)">View</button>
+                </td>
             </tr>
         <?php $n++; } 
     }
@@ -946,12 +957,23 @@ include_once("manage.php");
     if(isset($_POST["view_order_processing"])){ $n=1;
         $obj = mysqli_query($conn, "SELECT p.product_id,p.product_name,p.product_image,p.product_price,c.id,c.p_id,c.date,c.user_id,c.qty,c.ship,c.status,u.user_name FROM aalierp_product p, aalierp_cart c, aalierp_user u WHERE p.product_id=c.p_id AND c.user_id=u.user_id AND c.status='Processing'");
         while($obj && ($row = mysqli_fetch_array($obj))){ ?>
-            <tr>
-                <td><?php echo $n; ?></td>
-                <td><?php echo $row["date"]; ?></td>
-                <td><?php echo $row["product_name"]; ?></td>
-                <td><?php echo $cur."".$row["product_price"]; ?></td>
-                <td><?php echo $row["user_name"]; ?></td>
+            <tr style="border-bottom: 1px solid #f0f0f0;">
+                <td style="padding:15px 20px;"><?php echo $n; ?></td>
+                <td style="padding:15px 20px; color:#666; font-size:13px;"><?php echo date('d M, Y', strtotime($row["date"])); ?></td>
+                <td style="padding:15px 20px;">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <img src="../../uploads/products/<?php echo $row['product_image']; ?>" style="width:40px; height:40px; border-radius:8px; object-fit:cover; background:#f5f5f5;">
+                        <span style="font-weight:600; color:#333;"><?php echo $row["product_name"]; ?></span>
+                    </div>
+                </td>
+                <td style="padding:15px 20px; font-weight:700; color:var(--c1);"><?php echo $cur."".number_format($row["product_price"]); ?></td>
+                <td style="padding:15px 20px; color:#444;"><?php echo $row["user_name"]; ?></td>
+                <td style="padding:15px 20px;">
+                    <span class="badge" style="background:rgba(255, 43, 138, 0.1); color:#ff2b8a; padding:6px 12px; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase;">Processing</span>
+                </td>
+                <td style="padding:15px 20px;">
+                    <button class="btn btn-sm" style="background:#f8f9fa; border:1px solid #ddd; border-radius:6px; cursor:pointer;" onclick="viewOrder(<?php echo $row['id']; ?>)">Update</button>
+                </td>
             </tr>
         <?php $n++; } 
     }
@@ -959,12 +981,23 @@ include_once("manage.php");
     if(isset($_POST["view_order_processed"])){ $n=1;
         $obj = mysqli_query($conn, "SELECT p.product_id,p.product_name,p.product_image,p.product_price,c.id,c.p_id,c.date,c.user_id,c.qty,c.ship,c.status,u.user_name FROM aalierp_product p, aalierp_cart c, aalierp_user u WHERE p.product_id=c.p_id AND c.user_id=u.user_id AND c.status='Processed'");
         while($obj && ($row = mysqli_fetch_array($obj))){ ?>
-            <tr>
-                <td><?php echo $n; ?></td>
-                <td><?php echo $row["date"]; ?></td>
-                <td><?php echo $row["product_name"]; ?></td>
-                <td><?php echo $cur."".$row["product_price"]; ?></td>
-                <td><?php echo $row["user_name"]; ?></td>
+            <tr style="border-bottom: 1px solid #f0f0f0;">
+                <td style="padding:15px 20px;"><?php echo $n; ?></td>
+                <td style="padding:15px 20px; color:#666; font-size:13px;"><?php echo date('d M, Y', strtotime($row["date"])); ?></td>
+                <td style="padding:15px 20px;">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <img src="../../uploads/products/<?php echo $row['product_image']; ?>" style="width:40px; height:40px; border-radius:8px; object-fit:cover; background:#f5f5f5;">
+                        <span style="font-weight:600; color:#333;"><?php echo $row["product_name"]; ?></span>
+                    </div>
+                </td>
+                <td style="padding:15px 20px; font-weight:700; color:var(--c1);"><?php echo $cur."".number_format($row["product_price"]); ?></td>
+                <td style="padding:15px 20px; color:#444;"><?php echo $row["user_name"]; ?></td>
+                <td style="padding:15px 20px;">
+                    <span class="badge" style="background:rgba(110, 226, 142, 0.1); color:#6ee28e; padding:6px 12px; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase;">Completed</span>
+                </td>
+                <td style="padding:15px 20px;">
+                    <button class="btn btn-sm" style="background:#6ee28e22; border:1px solid #6ee28e; color:#2da44e; border-radius:6px; cursor:pointer;" disabled>Closed</button>
+                </td>
             </tr>
         <?php $n++; } 
     }
