@@ -10,8 +10,8 @@
     </div>
     <div class="meta">
       <div class="label">Total Orders</div>
-      <div class="value">2,450</div>
-      <div class="small">18% increase from last month</div>
+      <div class="value"><%= stats.total_orders %></div>
+      <div class="small">Live aggregate count</div>
     </div>
   </div>
 
@@ -28,8 +28,8 @@
     </div>
     <div class="meta">
       <div class="label">Pending Orders</div>
-      <div class="value">132</div>
-      <div class="small">6% increase from last month</div>
+      <div class="value"><%= stats.pending_orders %></div>
+      <div class="small">Awaiting shipment</div>
     </div>
   </div>
 
@@ -45,8 +45,8 @@
     </div>
     <div class="meta">
       <div class="label">Total Customers</div>
-      <div class="value">1,548</div>
-      <div class="small">25% increase from last month</div>
+      <div class="value"><%= stats.total_customers %></div>
+      <div class="small">Registered accounts</div>
     </div>
   </div>
 
@@ -60,8 +60,8 @@
     </div>
     <div class="meta">
       <div class="label">Return / Refund Requests</div>
-      <div class="value">14</div>
-      <div class="small">8% increase from last month</div>
+      <div class="value"><%= stats.refunds %></div>
+      <div class="small">Awaiting processor</div>
     </div>
   </div>
 </section>
@@ -102,55 +102,19 @@
     <div class="card orders">
       <h3>Orders Overview</h3>
       <ul>
-        <li>
-          <div class="order-item">
-            <div class="order-title">New order #1832412</div>
-            <small>22 Dec 7:20 PM</small>
-          </div>
-          <div class="order-status processing">Processing</div>
-        </li>
-        <li>
-          <div class="order-item">
-            <div class="order-title">New order #1832411</div>
-            <small>22 Dec 6:50 PM</small>
-          </div>
-          <div class="order-status shipped">Shipped</div>
-        </li>
-        <li>
-          <div class="order-item">
-            <div class="order-title">New order #1832409</div>
-            <small>22 Dec 6:10 PM</small>
-          </div>
-          <div class="order-status delivered">Delivered</div>
-        </li>
-        <li>
-          <div class="order-item">
-            <div class="order-title">Return requested #1832401</div>
-            <small>21 Dec 3:30 PM</small>
-          </div>
-          <div class="order-status refunded">Refunded</div>
-        </li>
-        <li>
-          <div class="order-item">
-            <div class="order-title">Payment received #1832400</div>
-            <small>21 Dec 2:10 PM</small>
-          </div>
-          <div class="order-status paid">Paid</div>
-        </li>
-        <li>
-          <div class="order-item">
-            <div class="order-title">New order #1832398</div>
-            <small>20 Dec 8:45 PM</small>
-          </div>
-          <div class="order-status processing">Processing</div>
-        </li>
-        <li>
-          <div class="order-item">
-            <div class="order-title">New order #1832396</div>
-            <small>20 Dec 6:22 PM</small>
-          </div>
-          <div class="order-status shipped">Shipped</div>
-        </li>
+        <% if (recent_orders && recent_orders.length > 0) { %>
+            <% recent_orders.forEach(order => { %>
+            <li>
+            <div class="order-item">
+                <div class="order-title">Order #<%= order.id %> - <%= order.product_name.substring(0,25) %>...</div>
+                <small><%= new Date(order.date).toLocaleDateString() %></small>
+            </div>
+            <div class="order-status <%= order.status ? order.status.toLowerCase() : 'processing' %>"><%= order.status || 'Pending' %></div>
+            </li>
+            <% }) %>
+        <% } else { %>
+            <li>No recent activity found.</li>
+        <% } %>
       </ul>
     </div>
   </aside>

@@ -629,8 +629,31 @@ app.post("/reset-password", async (req, res) => {
 // ─── ADMIN PANEL ROUTES (Protected by requireAdmin) ───
 // Blanket admin guard for all admin-area paths
 app.use(['/dashboard', '/products', '/orders', '/stocks', '/reviews', '/tickets', '/settings', '/users'], requireAdmin);
+app.get("/dashboard", async (req, res) => {
+    try {
+        const [[{ total_orders }]] = await db.query("SELECT COUNT(*) AS total_orders FROM aalierp_cart");
+        const [[{ pending_orders }]] = await db.query("SELECT COUNT(*) AS pending_orders FROM aalierp_cart WHERE status = 'Pending'");
+        const [[{ total_customers }]] = await db.query("SELECT COUNT(*) AS total_customers FROM aalierp_user");
+        const [[{ refunds }]] = await db.query("SELECT COUNT(*) AS refunds FROM aalierp_cart WHERE status = 'Refunded'");
+        
+        const [recent_orders] = await db.query("SELECT c.id, c.date, c.status, p.product_name FROM aalierp_cart c JOIN aalierp_product p ON c.p_id = p.product_id ORDER BY c.id DESC LIMIT 5");
 
-app.get("/dashboard", (req, res) => { res.render("dashboard", { userId: req.session.user, activePage: "dashboard" }); });
+        res.render("dashboard", {
+            userId: req.session.user,
+            activePage: "dashboard",
+            stats: {
+                total_orders: total_orders || 0,
+                pending_orders: pending_orders || 0,
+                total_customers: total_customers || 0,
+                refunds: refunds || 0
+            },
+            recent_orders: recent_orders || []
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Database Error");
+    }
+});
 // Products
 app.get("/products", async (req, res) => {
     try { const [products] = await db.query("SELECT * FROM aalierp_product ORDER BY product_id DESC");
