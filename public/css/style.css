@@ -1,3 +1,4 @@
+/* ================= VARIABLES ================= */
 :root {
   --c1: #fd215e;
   --c2: #fd229b;
@@ -70,12 +71,7 @@ html {
   color: #fff;
   display: flex;
   flex-direction: column;
-
-  position: fixed;     /* make it fixed on the left */
-  top: 0;              /* start from top */
-  left: 0;             /* stick to left */
-  height: 100vh;       /* full viewport height */
-  overflow-y: auto;    /* vertical scroll if content overflows */
+  min-height: 100vh;
 }
 
 .brand {
@@ -139,6 +135,7 @@ html {
 
 .upgrade-wrapper {
   margin-top: auto;
+  padding-top: 32px;
 }
 
 .upgrade {
@@ -160,57 +157,23 @@ html {
 }
 
 .sidebar-foot {
-  margin-top: 10px;
   text-align: center;
   font-size: 12px;
   opacity: 0.7;
+  margin-top: 24px;
 }
 
 /* ================= MAIN CONTENT ================= */
 .main {
-  margin-left: 280px;     /* same as sidebar width */
-  margin-top: 100px;      /* enough to clear fixed header */
+  flex: 1;
   padding: 24px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 /* ================= HEADER ================= */
 .header {
-  position: fixed;        /* fixed at top */
-  top: 0;
-  left: 280px;            /* leave sidebar space */
-  right: 0;
-  z-index: 100;
-  background: #fff;
-  padding: 16px 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
-  display: flex;
-  flex-direction: column;
-}
-
-.breadcrumbs {
-  margin-bottom: 8px;
-}
-
-.header-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.logout-btn {
-  padding: 10px 16px;
-  border: none;
-  border-radius: 8px;
-  background: #fd215e;
-  color: #fff;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.logout-btn:hover {
-  background: #fd229b;
+  margin-bottom: 24px;
 }
 
 .breadcrumbs {
