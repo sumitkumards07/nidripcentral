@@ -898,6 +898,16 @@ app.use((err, req, res, next) => {
   res.status(500).render("error", { title: "Server Error", message: "Something went wrong on our end. Please try again later.", code: 500 });
 });
 
+// KEEP-ALIVE PING: Prevent Render from sleeping
+const https = require('https');
+setInterval(() => {
+    https.get('https://nidripcentral.onrender.com', (res) => {
+        console.log(`[Keep-Alive] Pinged server, status: ${res.statusCode}`);
+    }).on('error', (err) => {
+        console.log(`[Keep-Alive] Ping failed: ${err.message}`);
+    });
+}, 10 * 60 * 1000); // Ping every 10 minutes
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`✅ Server running on http://localhost:${PORT} [${process.env.NODE_ENV || 'development'}]`);
