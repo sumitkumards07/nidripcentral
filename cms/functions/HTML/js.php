@@ -26,8 +26,8 @@
 
 <?php echo "<script src='$AaliLINK/assets/js/aos.js'></script>"; ?>
 
-<?php echo "<script src='$AaliLINK/functions/JS/User.js'></script>"; ?>
-<?php echo "<script src='$AaliLINK/functions/JS/Main.js'></script>"; ?>
+<?php echo "<script src='$AaliLINK/functions/JS/User.js?v=3'></script>"; ?>
+<?php echo "<script src='$AaliLINK/functions/JS/Main.js?v=3'></script>"; ?>
 
 
 <script>
