@@ -292,6 +292,33 @@ app.get("/shop", async (req, res) => {
     }
 });
 
+// PRODUCT DETAIL PAGE (CUSTOMER)
+app.get("/product/:id", async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const [rows] = await db.query(
+            `SELECT p.*, c.category_name, u.unit_name 
+             FROM aalierp_product p 
+             LEFT JOIN aalierp_category c ON p.category_id = c.category_id 
+             LEFT JOIN aalierp_unit u ON p.unit_id = u.unit_id 
+             WHERE p.product_id = ? AND p.product_status = 'Active'`,
+            [productId]
+        );
+
+        if (rows.length === 0) {
+            return res.redirect("/home");
+        }
+
+        res.render("product_detail", { 
+            product: rows[0], 
+            csrfToken: req.csrfToken ? req.csrfToken() : '' 
+        });
+    } catch (err) {
+        console.error("❌ Product Route Error:", err);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
 // STRIPE PAYMENT INTENT
 app.post("/create-payment-intent", async (req, res) => {
     const { amount } = req.body;

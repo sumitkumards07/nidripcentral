@@ -54,16 +54,18 @@
           <% products.forEach(prod => { %>
             <div class="shop-product-card">
               <div class="shop-product-img-wrapper">
-                <% if (prod.product_image && prod.product_image !== 'null') { %>
-                  <img src="/images/<%= prod.product_image %>" alt="<%= prod.product_name %>" class="shop-product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                  <div style="display: none; height: 100%; align-items: center; justify-content: center; background: #EAEAEA;">
-                    <i class="fa-solid fa-box product-placeholder-icon"></i>
-                  </div>
-                <% } else { %>
-                  <div style="height: 100%; display: flex; align-items: center; justify-content: center; background: #EAEAEA;">
-                    <i class="fa-solid fa-box product-placeholder-icon"></i>
-                  </div>
-                <% } %>
+                <a href="/product/<%= prod.product_id %>" style="display: block; width: 100%; height: 100%;">
+                  <% if (prod.product_image && prod.product_image !== 'null') { %>
+                    <img src="/uploads/<%= prod.product_image %>" alt="<%= prod.product_name %>" class="shop-product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div style="display: none; height: 100%; align-items: center; justify-content: center; background: #EAEAEA;">
+                      <i class="fa-solid fa-box product-placeholder-icon"></i>
+                    </div>
+                  <% } else { %>
+                    <div style="height: 100%; display: flex; align-items: center; justify-content: center; background: #EAEAEA;">
+                      <i class="fa-solid fa-box product-placeholder-icon"></i>
+                    </div>
+                  <% } %>
+                </a>
                 <form action="/wishlist/toggle" method="POST" style="position: absolute; top: 10px; right: 10px; margin: 0;">
                   <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                   <input type="hidden" name="product_id" value="<%= prod.product_id %>">
@@ -74,7 +76,9 @@
               </div>
               
               <div class="shop-product-details">
-                <h4 class="shop-product-title"><%= prod.product_name %></h4>
+                <a href="/product/<%= prod.product_id %>" style="text-decoration: none; color: inherit;">
+                  <h4 class="shop-product-title"><%= prod.product_name %></h4>
+                </a>
                 
                 <!-- Star Rating -->
                 <div class="shop-product-rating">
