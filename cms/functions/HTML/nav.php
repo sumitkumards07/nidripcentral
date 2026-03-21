@@ -1,171 +1,70 @@
-<nav class="navbar navbar-expand-lg main-navbar sticky">
-    <div class="form-inline mr-auto">
-        <ul class="navbar-nav mr-3">
-            <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg collapse-btn"> <i data-feather="align-justify"></i></a></li>
-            <li><a href="#" class="nav-link nav-link-lg fullscreen-btn">
-                <i data-feather="maximize"></i>
-              </a></li>
-            <li>
-              <form class="form-inline mr-auto">
-                <div class="search-element">
-                  <input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="200">
-                  <button class="btn" type="submit">
-                    <i class="fas fa-search"></i>
-                  </button>
-                </div>
-              </form>
-            </li>
-        </ul>
-    </div>
-    <ul class="navbar-nav navbar-right">
-        <li class="dropdown dropdown-list-toggle">
-            <a href="#" data-toggle="dropdown" class="nav-link nav-link-lg message-toggle"><i data-feather="mail"></i>
-                <span class="badge headerBadge1"> 0 </span> 
-            </a>
-            <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
-              <div class="dropdown-header">
-                Messages
-                <div class="float-right">
-                  <a href="#">Mark All As Read</a>
-                </div>
-              </div>
-              <div class="dropdown-list-content dropdown-list-message">
-                
-              </div>
-              <div class="dropdown-footer text-center">
-                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
-              </div>
-            </div>
-        </li>
-        <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
-              class="nav-link notification-toggle nav-link-lg"><i data-feather="bell" class="bell"></i>
-            </a>
-            <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
-              <div class="dropdown-header">
-                Notifications
-                <div class="float-right">
-                  <a href="#">Mark All As Read</a>
-                </div>
-              </div>
-              <div class="dropdown-list-content dropdown-list-icons">
-                
-              </div>
-              <div class="dropdown-footer text-center">
-                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
-              </div>
-            </div>
-        </li>
-        <li class="dropdown">
-            <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user"> 
-                <img alt="image" src="<?php echo $AaliLINK; ?>/assets/img/users/user-1.png" class="user-img-radious-style"> 
-                <span class="d-sm-none d-lg-inline-block"></span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right pullDown">
-              <div class="dropdown-title">Hello <?php echo $_SESSION["user_name"]; ?>!</div>
-              <a href="#" class="dropdown-item has-icon"> <i class="far fa-user"></i> Profile</a> 
-              <a href="#" class="dropdown-item has-icon"> <i class="fas fa-bolt"></i> Activities</a> 
-              <a href="" class="dropdown-item has-icon"> <i class="fas fa-cog"></i>  Settings </a>
-              <div class="dropdown-divider"></div>
-              <a href="<?php echo $AaliLINK; ?>/config/logout.php" class="dropdown-item has-icon text-danger"> <i class="fas fa-sign-out-alt"></i>
-                Logout
-              </a>
-            </div>
-        </li>
-    </ul>
-</nav>
+<input type="checkbox" id="sidebar-toggle" hidden>
+<label for="sidebar-toggle" class="overlay"></label>
 
-<div class="main-sidebar sidebar-style-2">
-    <aside id="sidebar-wrapper">
-        <div class="sidebar-brand" style="background: linear-gradient(to bottom, #ff2b8a, #6ee28e);">
-            <a href="<?php echo $AaliLINK; ?>/admin/dashboard/?-"> 
-                <img alt="<?php echo $company_name; ?>" src="<?php echo $AaliLINK; ?>/uploads/logos/<?php echo $company_logo; ?>" class="header-logo img-fluid" style="height:100%;" />
+<div class="app">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand">
+            <a href="<?php echo $AaliLINK; ?>/admin/dashboard/?-">
+                <img src="<?php echo $AaliLINK; ?>/uploads/logos/<?php echo $company_logo; ?>" alt="<?php echo $company_name; ?>" class="brand-logo" style="height:60px;width:auto;">
             </a>
         </div>
-        <ul class="sidebar-menu">
-            <li class="dropdown <?php if(isset($_GET["-"])){echo "active";} ?>">
-                <a class="nav-link" href="<?php echo $AaliLINK; ?>/admin/dashboard/?-"><i data-feather="monitor"></i><span>Dashboard</span></a>
-            </li>
-            <li class="dropdown <?php if(isset($_GET["vo"]) || isset($_GET["po"]) || isset($_GET["op"]) || isset($_GET["od"]) || isset($_GET["oc"]) || isset($_GET["or"])){echo "active";} ?>">
-                <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="clipboard"></i><span>Orders</span></a>
-                <ul class="dropdown-menu">
-                    <li class="<?php if(isset($_GET["vo"])){echo "active";} ?>"><a class="nav-link" href="<?php echo $AaliLINK; ?>/admin/view-orders/?vo#">View Orders</a></li>
-                    <li class="<?php if(isset($_GET["po"])){echo "active";} ?>"><a class="nav-link" href="<?php echo $AaliLINK; ?>/admin/pending-orders/?po#">Pending Orders</a></li>
-                    <li class="<?php if(isset($_GET["op"])){echo "active";} ?>"><a class="nav-link" href="<?php echo $AaliLINK; ?>/admin/orders-in-process/?op#">Orders In Process</a></li>
-                    <li class="<?php if(isset($_GET["od"])){echo "active";} ?>"><a class="nav-link" href="<?php echo $AaliLINK; ?>/admin/orders-delivered/?od#">Orders Delivered</a></li>
-                    <li class="<?php if(isset($_GET["oc"])){echo "active";} ?>"><a class="nav-link" href="<?php echo $AaliLINK; ?>/admin/orders-cancelled/?oc#">Orders Cancelled</a></li>
-                    <li class="<?php if(isset($_GET["or"])){echo "active";} ?>"><a class="nav-link" href="<?php echo $AaliLINK; ?>/admin/orders-rejected/?or#">Orders Rejected</a></li>
-                </ul>
-            </li>
-            <li class="dropdown <?php if(isset($_GET["ap"]) || isset($_GET["vp"]) || isset($_GET["ai"])){echo "active";} ?>">
-                <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="shopping-cart"></i><span>Products</span></a>
-                <ul class="dropdown-menu">
-                    <li class=" <?php if(isset($_GET["ap"])){echo "active";} ?>"><a class="nav-link" href="<?php echo $AaliLINK; ?>/admin/add-product/?ap#">Add Product</a></li>
-                    <li class=" <?php if(isset($_GET["ai"])){echo "active";} ?>"><a class="nav-link" href="<?php echo $AaliLINK; ?>/admin/add-image/?ai#">Add Product Images</a></li>
-                    <li class=" <?php if(isset($_GET["vp"])){echo "active";} ?>"><a class="nav-link" href="<?php echo $AaliLINK; ?>/admin/view-product/?vp#">View Products</a></li>
-                </ul>
-            </li>
-            <li class="dropdown <?php if(isset($_GET["act"]) || isset($_GET["aut"])){echo "active";} ?>">
-                <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="copy"></i><span>Settings</span></a>
-                <ul class="dropdown-menu">
-                    <!--<li class=" <?php if(isset($_GET["ac"])){echo "active";} ?>"><a class="nav-link" href="<?php echo $AaliLINK; ?>/admin/add-catalogue/?act#">Add Catalogue</a></li>-->
-                    <li class=" <?php if(isset($_GET["ab"])){echo "active";} ?>"><a class="nav-link" href="<?php echo $AaliLINK; ?>/admin/add-brand/?ab#">Add Brand</a></li>
-                    <li class=" <?php if(isset($_GET["ac"])){echo "active";} ?>"><a class="nav-link" href="<?php echo $AaliLINK; ?>/admin/add-category/?ac#">Add Categories</a></li>
-                    <li class=" <?php if(isset($_GET["asc"])){echo "active";} ?>"><a class="nav-link" href="<?php echo $AaliLINK; ?>/admin/add-sub-category/?asc#">Add Sub Category</a></li>
-                    <li class=" <?php if(isset($_GET["aut"])){echo "active";} ?>"><a class="nav-link" href="<?php echo $AaliLINK; ?>/admin/add-unit/?aut#">Add Unit</a></li>
-                </ul>
-            </li>
-            <li class="dropdown <?php if(isset($_GET["pg"])){echo "active";} ?>">
-                <a class="nav-link" href="<?php echo $AaliLINK; ?>/admin/gateway/?pg"><i data-feather="feather"></i><span>Payment Gateway</span></a>
-            </li>
-            <li class="dropdown <?php if(isset($_GET["ad"]) || isset($_GET["ed"])){echo "active";} ?>">
-                <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="briefcase"></i><span>Accounts</span></a>
-                <ul class="dropdown-menu">
-                    <li class="<?php if(isset($_GET["ad"])){echo "active";} ?>"><a class="nav-link" href="<?php echo $AaliLINK; ?>/admin/accounts-detail/?ad#">Accounts Detail</a></li>
-                    <li class="<?php if(isset($_GET["ed"])){echo "active";} ?>"><a class="nav-link" href="<?php echo $AaliLINK; ?>/admin/expenses-detail/?ed#">Expenses Detail</a></li>
-                </ul>
-            </li>
-            <li class="dropdown <?php if(isset($_GET["deposit"])){echo "active";} ?>">
-                <a class="nav-link" href="<?php echo $AaliLINK; ?>/admin/deposit/?deposit"><i data-feather="credit-card"></i><span>Manage Deposits</span></a>
-            </li>
-            <li class="dropdown <?php if(isset($_GET["pr"]) || isset($_GET["sr"]) || isset($_GET["orp"]) || isset($_GET["rr"]) || isset($_GET["er"]) || isset($_GET["urp"])){echo "active";} ?>">
-                <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="layout"></i><span>Reports</span></a>
-                <ul class="dropdown-menu">
-                    <li class="<?php if(isset($_GET["pr"])){echo "active";} ?>"><a class="nav-link " href="#">Products Report</a></li>
-                    <li class="<?php if(isset($_GET["sr"])){echo "active";} ?>"><a class="nav-link " href="#">Sales Report</a></li>
-                    <li class="<?php if(isset($_GET["orp"])){echo "active";} ?>"><a class="nav-link " href="#">Orders Report</a></li>
-                    <li class="<?php if(isset($_GET["rr"])){echo "active";} ?>"><a class="nav-link " href="#">Revenue Report</a></li>
-                    <li class="<?php if(isset($_GET["er"])){echo "active";} ?>"><a class="nav-link " href="#">Expenses Report</a></li>
-                    <li class="<?php if(isset($_GET["urp"])){echo "active";} ?>"><a class="nav-link " href="#">Customers Report</a></li>
-                </ul>
-            </li>
-            <li class="dropdown <?php if(isset($_GET["pr"]) || isset($_GET["sr"]) || isset($_GET["orp"]) || isset($_GET["rr"]) || isset($_GET["er"]) || isset($_GET["urp"])){echo "active";} ?>">
-                <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="shopping-bag"></i><span>Stock Management</span></a>
-                <ul class="dropdown-menu">
-                    <li class="<?php if(isset($_GET["pr"])){echo "active";} ?>"><a class="nav-link " href="#">Add Purchases</a></li>
-                    <li class="<?php if(isset($_GET["sr"])){echo "active";} ?>"><a class="nav-link " href="#">Stock Available</a></li>
-                    <li class="<?php if(isset($_GET["orp"])){echo "active";} ?>"><a class="nav-link " href="#">Purchases Returns</a></li>
-                    <li class="<?php if(isset($_GET["rr"])){echo "active";} ?>"><a class="nav-link " href="#">Sales Returns</a></li>
-                    <li class="<?php if(isset($_GET["er"])){echo "active";} ?>"><a class="nav-link " href="#">Stock Damaged</a></li>
-                    <li class="<?php if(isset($_GET["urp"])){echo "active";} ?>"><a class="nav-link " href="#">Stock Misplaced</a></li>
-                </ul>
-            </li>
-            <li class="dropdown <?php if(isset($_GET["ud"])){echo "active";} ?>">
-                <a class="nav-link" href="#"><i data-feather="truck"></i><span>Shipment </span></a>
-            </li>
-            <li class="dropdown <?php if(isset($_GET["ud"])){echo "active";} ?>">
-                <a class="nav-link" href="<?php echo $AaliLINK; ?>/admin/users/?ud"><i data-feather="users"></i><span>Customers </span></a>
-            </li>
-            <li class="dropdown <?php if(isset($_GET["lu"])){echo "active";} ?>">
-                <a class="nav-link" href="<?php echo $AaliLINK; ?>/admin/logs/?lu#"><i data-feather="grid"></i><span>Users Logs Detail</span></a>
-            </li>
-            <li class="menu-header">Web Contents</li>
-            <li class="dropdown <?php if(isset($_GET["content"]) || isset($_GET["banner"])){echo "active";} ?>">
-                <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="globe"></i><span><?php echo $company_name; ?></span></a>
-                <ul class="dropdown-menu">
-                    <li class="<?php if(isset($_GET["content"])){echo "active";} ?>"><a class="nav-link" href="<?php echo $AaliLINK; ?>/admin/content/?content">Web Contents</a></li>
-                    <li class="<?php if(isset($_GET["banner"])){echo "active";} ?>"><a class="nav-link" href="<?php echo $AaliLINK; ?>/admin/banner/?banner">Main Banner</a></li>
-                </ul>
-            </li>
-        </ul>
+
+        <nav class="nav">
+            <a href="<?php echo $AaliLINK; ?>/admin/dashboard/?-" class="nav-item <?php if(isset($_GET["-"])){echo "active";} ?>" style="text-decoration:none;">
+                <span class="ico-box"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+                <span class="label">Dashboard</span>
+            </a>
+            <a href="<?php echo $AaliLINK; ?>/admin/view-orders/?vo#" class="nav-item <?php if(isset($_GET["vo"]) || isset($_GET["po"]) || isset($_GET["op"]) || isset($_GET["od"]) || isset($_GET["oc"]) || isset($_GET["or"])){echo "active";} ?>" style="text-decoration:none;">
+                <span class="ico-box"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg></span>
+                <span class="label">Orders</span>
+            </a>
+            <a href="<?php echo $AaliLINK; ?>/admin/users/?ud" class="nav-item <?php if(isset($_GET["ud"])){echo "active";} ?>" style="text-decoration:none;">
+                <span class="ico-box"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+                <span class="label">Customer</span>
+            </a>
+            <a href="<?php echo $AaliLINK; ?>/admin/view-product/?vp#" class="nav-item <?php if(isset($_GET["ap"]) || isset($_GET["vp"]) || isset($_GET["ai"])){echo "active";} ?>" style="text-decoration:none;">
+                <span class="ico-box"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span>
+                <span class="label">Products</span>
+            </a>
+            <a href="<?php echo $AaliLINK; ?>/admin/add-category/?ac" class="nav-item <?php if(isset($_GET["ac"]) || isset($_GET["ab"]) || isset($_GET["asc"]) || isset($_GET["aut"])){echo "active";} ?>" style="text-decoration:none;">
+                <span class="ico-box"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></span>
+                <span class="label">Settings</span>
+            </a>
+            <a href="<?php echo $AaliLINK; ?>/admin/accounts-detail/?ad#" class="nav-item <?php if(isset($_GET["ad"]) || isset($_GET["ed"])){echo "active";} ?>" style="text-decoration:none;">
+                <span class="ico-box"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg></span>
+                <span class="label">Accounts</span>
+            </a>
+            <a href="<?php echo $AaliLINK; ?>/admin/content/?content" class="nav-item <?php if(isset($_GET["content"]) || isset($_GET["banner"])){echo "active";} ?>" style="text-decoration:none;">
+                <span class="ico-box"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg></span>
+                <span class="label">Marketing</span>
+            </a>
+            <a href="<?php echo $AaliLINK; ?>/admin/gateway/?pg" class="nav-item <?php if(isset($_GET["pg"])){echo "active";} ?>" style="text-decoration:none;">
+                <span class="ico-box"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="10" y1="10" y2="10"/></svg></span>
+                <span class="label">Gateway</span>
+            </a>
+        </nav>
+
+        <div class="upgrade-wrapper">
+            <a href="<?php echo $AaliLINK; ?>/config/logout.php" class="upgrade" style="display:block;text-align:center;text-decoration:none;">Logout</a>
+        </div>
+        <div class="sidebar-foot">© <?php echo $company_name; ?></div>
     </aside>
-</div>
+
+    <!-- MAIN -->
+    <main class="main">
+        <header class="header">
+            <div class="breadcrumbs">Admin / <strong>Panel</strong></div>
+            <div class="header-row">
+                <label for="sidebar-toggle" class="hamburger"><span></span><span></span><span></span></label>
+                <h1>Dashboard</h1>
+                <div class="header-controls">
+                    <div class="search">
+                        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        <input type="text" placeholder="Search" aria-label="Search">
+                    </div>
+                    <button class="notif" aria-label="Notifications"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></button>
+                    <span style="font-size:14px;font-weight:600;color:var(--c1);">Hello, <?php echo isset($_SESSION["user_name"]) ? $_SESSION["user_name"] : "Admin"; ?></span>
+                </div>
+            </div>
+        </header>

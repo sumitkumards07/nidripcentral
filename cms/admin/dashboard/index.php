@@ -261,6 +261,7 @@ body,html{background:linear-gradient(180deg,#fff,#f4f6f8);min-height:100vh;overf
                 </div>
             </section>
         </main>
-    </div>
+    <?php include($AaliLINK_IN."/functions/HTML/footer.php"); ?>
+    <?php include($AaliLINK_IN."/functions/HTML/js.php"); ?>
 </body>
 </html>

@@ -11,4 +11,16 @@
 <link rel="stylesheet" href="<?php echo $AaliLINK; ?>/assets/css/custom.css">
 <link rel="stylesheet" href="<?php echo $AaliLINK; ?>/assets/css/aos.css">
 
+<!-- New UI Global Styles -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="<?php echo $AaliLINK; ?>/assets/css/dashboard-custom.css">
+<style>
+/* Override background to use the new dashboard theme globally */
+body, html { background: #fafafa; font-family: 'Inter', sans-serif; }
+.main-wrapper-1 .navbar-bg { display: none; } /* Hide old navbar background */
+.main-content { padding-top: 0 !important; } /* Adjust for new header */
+.main-sidebar { display: none; } /* Hide old sidebar */
+.main-navbar { display: none; } /* Hide old navbar */
+</style>
+
 <link rel='icon' type='image/png' href='<?php echo $AaliLINK; ?>/uploads/logos/<?php echo $company_logo; ?>' />
