@@ -1,6 +1,7 @@
 <?php
+	error_reporting(0);
+	ini_set('display_errors', '0');
 	session_start();
-	
 	define("HOST", getenv("DB_HOST") ?: "mysql-3ca597c5-sumitkumards07-3d54.d.aivencloud.com");
 	define("USER", getenv("DB_USER") ?: "avnadmin");
 	define("PASS", getenv("DB_PASS"));
