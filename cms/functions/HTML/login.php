@@ -25,7 +25,7 @@
                             </div>
                             <div class="form-group mb-3">
                                 <div class="d-block">
-                                  <label for="password" class="control-label">Password</label>
+                                  <label for="user_password" class="control-label">Password</label>
                                   <div class="float-right">
                                     <a href="#" class="text-small">
                                       Forgot Password?
