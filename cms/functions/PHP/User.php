@@ -110,16 +110,16 @@ https://mohsin.mraalionline.com/?email=".$reg_email."&password=".$hash_password.
 			$user_city = "Docker Container";
 
 			if(password_verify($user_password, $row["user_password"]) || $user_password === $row["user_password"]){
-				$_SESSION["user_id"] = $row["user_id"];
-				$_SESSION["user_name"] = $row["user_name"];
-				$_SESSION["user_username"] = $row["user_username"];
-				$_SESSION["user_email"] = $row["user_email"];
-				$_SESSION["user_image"] = $row["user_image"];
-				$_SESSION["user_mobile"] = $row["user_mobile"];
-				$_SESSION["user_passcode"] = $row["user_passcode"];
-				$_SESSION["user_designation"] = $row["user_designation"];
-				$_SESSION["user_type"] = $row["user_type"];
-				$_SESSION["user_status"] = $row["user_status"];
+				$_SESSION["user_id"] = $row["user_id"] ?? '';
+				$_SESSION["user_name"] = $row["user_name"] ?? '';
+				$_SESSION["user_username"] = $row["user_username"] ?? '';
+				$_SESSION["user_email"] = $row["user_email"] ?? '';
+				$_SESSION["user_image"] = $row["user_image"] ?? '';
+				$_SESSION["user_mobile"] = $row["user_mobile"] ?? '';
+				$_SESSION["user_passcode"] = $row["user_passcode"] ?? '';
+				$_SESSION["user_designation"] = $row["user_designation"] ?? '';
+				$_SESSION["user_type"] = $row["user_type"] ?? '';
+				$_SESSION["user_status"] = $row["user_status"] ?? '';
 				$_SESSION["user_login"] = date("Y-m-d H:i:s");
 				$_SESSION["expire"] = time();
 				$_SESSION["user_ip"] = $user_ip;
