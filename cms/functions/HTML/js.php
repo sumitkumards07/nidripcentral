@@ -1,5 +1,5 @@
-<?php echo "<script src='$AaliLINK/assets/js/app.min.js'></script>"; ?>
 <?php echo "<script src='$AaliLINK/assets/bundles/apexcharts/apexcharts.min.js'></script>"; ?>
+<?php echo "<script src='$AaliLINK/assets/js/app.min.js'></script>"; ?>
 
 <?php echo "<script src='$AaliLINK/assets/bundles/chartjs/chart.min.js'></script>"; ?>
 
