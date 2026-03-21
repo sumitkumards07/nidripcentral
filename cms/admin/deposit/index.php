@@ -63,7 +63,7 @@
         $amt=0; $amt=$_POST["user_package_wallet"]-$ded;
         $added=0; $added = $ded+$scash;
         $minus=0; $minus=$user_package_wallet-$_POST["user_package_wallet"];
-        $usssr = mysqli_query($conn, "SELECT * FROM aalierp_user WHERE user_id='".$_POST["user_name"]."'"); $uss = mysqli_fetch_assoc($usssr);
+        $usssr = mysqli_query($conn, "SELECT * FROM aalierp_user WHERE user_id='".$_POST["user_name"]."'"); $uss = $usssr ? mysqli_fetch_assoc($usssr) : [];
         $uwth = 0; $uwth = $amt+$uss["user_cash_wallet"];
         
         if($_POST["user_name"]=="0" || $_POST["user_package_wallet"]==""){echo "<div class='alert alert-warning alert-block'>Fill in all fields..!</div>";}else{
@@ -84,7 +84,7 @@
                                                 <!--<select class="form-control select2" id="user_id" name="user_name">
                                                     <option value="0">Select User</option>
                                                     <?php $vwuser = mysqli_query($conn, "SELECT * FROM aalierp_user WHERE user_type='User' OR user_type='Investor' AND user_status='Approved'");
-                                                        while($uvr = mysqli_fetch_array($vwuser)){ ?>
+                                                        while($vwuser && $uvr = mysqli_fetch_array($vwuser)){ ?>
                                                         <option value="<?php echo $uvr["user_id"]; ?>"><?php echo $cin."".$uvr["user_id"]." [".$uvr["user_name"]."]"; ?></option>
                                                     <?php } ?>
                                                 </select>
@@ -128,7 +128,7 @@
 
 <?php $n=1;
 	$depquer = mysqli_query($conn,"SELECT d.dep_id,d.dep_date,d.user_id,d.dep_deduct,d.dep_amount,d.dep_slip,d.dep_reason,d.dep_status,u.user_name FROM aalierp_deposit d, aalierp_user u WHERE d.user_id=u.user_id AND d.dep_status='Pending' ORDER BY d.dep_id DESC");
-	while($rec = mysqli_fetch_array($depquer)){ ?>
+	while($depquer && $rec = mysqli_fetch_array($depquer)){ ?>
         <tr>
             <td><?php echo $n; ?></td>
         	<td><?php echo $rec["dep_date"]; ?></td>
@@ -182,8 +182,8 @@
                     							    <tbody>
 <?php $n=1;
 	$depquery = mysqli_query($conn,"SELECT * FROM aalierp_deposit WHERE dep_status='Approved' ORDER BY dep_id DESC");
-	while($rac = mysqli_fetch_array($depquery)){ 
-	    $viewus = mysqli_query($conn, "SELECT * FROM aalierp_user WHERE user_id='".$rac["user_id"]."'"); $uss = mysqli_fetch_assoc($viewus); 
+	while($depquery && $rac = mysqli_fetch_array($depquery)){ 
+	    $viewus = mysqli_query($conn, "SELECT * FROM aalierp_user WHERE user_id='".$rac["user_id"]."'"); $uss = $viewus ? mysqli_fetch_assoc($viewus) : []; 
    
 ?>
         <tr>
@@ -228,9 +228,9 @@
 <?php 
     if(isset($_GET["approve"]) && isset($_GET["p_id"])){ 
         $viewusr = mysqli_query($conn, "SELECT * FROM aalierp_user WHERE user_id='".$_GET["approve"]."'"); 
-        $usr = mysqli_fetch_assoc($viewusr); 
+        $usr = $viewusr ? mysqli_fetch_assoc($viewusr) : []; 
         $viewpro = mysqli_query($conn, "SELECT * FROM aalierp_product WHERE product_name='".$_GET["p_id"]."'"); 
-        $prr = mysqli_fetch_assoc($viewpro);
+        $prr = $viewpro ? mysqli_fetch_assoc($viewpro) : [];
         mysqli_query($conn,"UPDATE aalierp_deposit SET dep_status='Approved' WHERE dep_status='Pending' AND user_id='".$usr["user_id"]."'");
         mysqli_query($conn,"UPDATE aalierp_cart SET status='Processed' WHERE status='Processing' AND p_id='".$prr["product_id"]."' AND user_id='".$usr["user_id"]."'");
         echo "<script>window.location.href = '../deposit/?deposit&msg';</script>";

@@ -8,7 +8,7 @@
                             <span class="font-weight-bold mb-0">
 <?php 
     $count_day = mysqli_query($conn, "SELECT * FROM aalierp_login_detail"); $day=0;
-    while($cd = mysqli_fetch_array($count_day)){
+    while($count_day && $cd = mysqli_fetch_array($count_day)){
         $today = date("d", strtotime(date("Y-m-d")));
         $lday = date("d", strtotime(date($cd["login_date"])));
         if($lday == $today){ $day = $day + 1; }
@@ -30,7 +30,7 @@
                             <span class="font-weight-bold mb-0">
 <?php 
     $count_month = mysqli_query($conn, "SELECT * FROM aalierp_login_detail"); $month=0;
-    while($cm = mysqli_fetch_array($count_month)){
+    while($count_month && $cm = mysqli_fetch_array($count_month)){
         $tomonth = date("m", strtotime(date("Y-m-d")));
         $cmonth = date("m", strtotime(date($cm["login_date"])));
         if($cmonth == $tomonth){ $month = $month + 1; }
@@ -52,7 +52,7 @@
                             <span class="font-weight-bold mb-0">
 <?php 
     $count_year = mysqli_query($conn, "SELECT * FROM aalierp_login_detail"); $year=0;
-    while($cy = mysqli_fetch_array($count_year)){
+    while($count_year && $cy = mysqli_fetch_array($count_year)){
         $toyear = date("y", strtotime(date("Y-m-d")));
         $cyear = date("y", strtotime(date($cy["login_date"])));
         if($cyear == $toyear){ $year = $year + 1; }
@@ -74,7 +74,7 @@
                             <span class="font-weight-bold mb-0">
 <?php 
     $count_total = mysqli_query($conn, "SELECT COUNT(login_date) AS tot FROM aalierp_login_detail"); 
-    $tot = mysqli_fetch_assoc($count_total);
+    $tot = $count_total ? mysqli_fetch_assoc($count_total) : [];
     echo $tot["tot"];
 ?>
                             </span>
@@ -107,7 +107,7 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-<?php $n=1; $view_logs = mysqli_query($conn, "SELECT * FROM aalierp_login_detail ORDER BY id DESC"); while($log = mysqli_fetch_assoc($view_logs)){ ?>
+<?php $n=1; $view_logs = mysqli_query($conn, "SELECT * FROM aalierp_login_detail ORDER BY id DESC"); while($view_logs && $log = mysqli_fetch_assoc($view_logs)){ ?>
                             <tr>
                                 <td><?php echo $n; ?></td>
                                 <td><?php echo $log["login_name"]; ?></td>

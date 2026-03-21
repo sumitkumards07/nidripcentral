@@ -9,7 +9,11 @@
         if($_POST["subcategory_name"]==""){
             echo "<div class='alert alert-warning alert-block text-danger'>Add Sub Category Name</div>";
         }else{
-            mysqli_query($conn, "INSERT INTO aalierp_subcategory (subcategory_name,catalogue_id,created_on,created_by) VALUES ('".$_POST["subcategory_name"]."','".$_POST["catalogue_id"]."','".$_POST["created_on"]."','".$_POST["created_by"]."')");
+            $stmt = $conn->prepare("INSERT INTO aalierp_subcategory (subcategory_name,catalogue_id,created_on,created_by) VALUES (?,?,?,?)");
+            if($stmt) {
+                $stmt->bind_param("ssss", $_POST["subcategory_name"], $_POST["catalogue_id"], $_POST["created_on"], $_POST["created_by"]);
+                $stmt->execute();
+            }
             echo "<script>window.location.href='../add-sub-category/?asc';</script>";
         }
     }

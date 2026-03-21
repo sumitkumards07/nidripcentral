@@ -34,7 +34,7 @@
                                             
 <?php if(isset($_GET["slip"])){
 	$depquer = mysqli_query($conn,"SELECT dep_slip FROM aalierp_deposit WHERE dep_id='".$_GET["slip"]."'");
-	$rec = mysqli_fetch_array($depquer); ?>
+	$rec = $depquer ? mysqli_fetch_array($depquer) : []; ?>
 		                                    <img src="../../<?php echo $rec["dep_slip"]; ?>" class="img-fluid w-100" />
 <?php } ?>
         							            

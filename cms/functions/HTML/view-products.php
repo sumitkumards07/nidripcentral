@@ -16,12 +16,12 @@
                                 }
                                 $product_query = mysqli_query($conn, "SELECT user_id FROM aalierp_product WHERE product_id = '$product_id'");
                                 if(mysqli_num_rows($product_query) == 0){die("Product not found!");}
-                                $product = mysqli_fetch_assoc($product_query); $assigned_users = [];
+                                $product = $product_query ? mysqli_fetch_assoc($product_query) : []; $assigned_users = [];
                                 if(!empty($product["user_id"])) {$assigned_users = array_map('intval', explode(",", $product["user_id"]));}
                             ?>
                             <form method="POST">
                                 <?php $users_query = mysqli_query($conn, "SELECT user_id, user_name FROM aalierp_user WHERE user_type = 'admin' AND user_status = 'Approved'");
-                                    while($user = mysqli_fetch_assoc($users_query)) {$checked = in_array((int)$user["user_id"], $assigned_users) ? "checked" : "";
+                                    while($users_query && $user = mysqli_fetch_assoc($users_query)) {$checked = in_array((int)$user["user_id"], $assigned_users) ? "checked" : "";
                                 ?>
                                 <input type="checkbox" name="user_id[]" value="<?php echo $user["user_id"]; ?>" <?php echo $checked; ?> style="width:15px;height:15px;"> 
                                 <?php echo htmlspecialchars($user["user_name"]); ?>

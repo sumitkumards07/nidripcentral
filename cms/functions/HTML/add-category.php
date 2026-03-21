@@ -49,12 +49,12 @@
                         }
                         $category_query = mysqli_query($conn, "SELECT user_id FROM aalierp_category WHERE category_id = '$category_id'");
                         if(mysqli_num_rows($category_query) == 0){die("Category not found!");}
-                        $category = mysqli_fetch_assoc($category_query); $assigned_users = [];
+                        $category = $category_query ? mysqli_fetch_assoc($category_query) : []; $assigned_users = [];
                         if(!empty($category["user_id"])) {$assigned_users = array_map('intval', explode(",", $category["user_id"]));}
                     ?>
                     <form method="POST">
                     <?php $users_query = mysqli_query($conn, "SELECT user_id, user_name FROM aalierp_user WHERE user_type = 'Admin' AND user_status = 'Approved'");
-                        while($user = mysqli_fetch_assoc($users_query)) { $checked = in_array((int)$user["user_id"], $assigned_users) ? "checked" : "";
+                        while($users_query && $user = mysqli_fetch_assoc($users_query)) { $checked = in_array((int)$user["user_id"], $assigned_users) ? "checked" : "";
                     ?>
                     <input type="checkbox"  name="user_id[]"  value="<?php echo $user["user_id"]; ?>" <?php echo $checked; ?> style="width:15px;height:15px;"> <?php echo htmlspecialchars($user["user_name"]); ?>
                     <?php } ?>

@@ -42,7 +42,7 @@ include_once("manage.php");
 //Count Users..
 	if (isset($_POST["countUsers"])) {
 		$query = mysqli_query($conn,"SELECT COUNT(*) AS count_user FROM aalierp_user WHERE user_type='Admin'");
-		$row = mysqli_fetch_array($query);
+		$row = $query ? mysqli_fetch_array($query) : [];
 		echo $row["count_user"];
 		exit();
 	}
@@ -50,7 +50,7 @@ include_once("manage.php");
 //View Users
 	if(isset($_POST["viewUsers"])){ $n=1;
 		$obj = mysqli_query($conn, "SELECT * FROM aalierp_user");
-		while($row = mysqli_fetch_array($obj)){ if($row["user_type"] == "Admin"){ ?>
+		while($obj && $row = mysqli_fetch_array($obj)){ if($row["user_type"] == "Admin"){ ?>
 			<tr>
 				<td><?php echo $n; ?></td>
 				<td><img src="<?php echo $AaliLINK; ?>/uploads/users/<?php echo $row['user_image']; ?>" width="30" height="30" /></td>
@@ -115,7 +115,7 @@ include_once("manage.php");
 //Count Brand..
 	if (isset($_POST["count_brand"])) {
 		$query = mysqli_query($conn,"SELECT COUNT(*) AS count_brand FROM aalierp_brand");
-		$row = mysqli_fetch_array($query);
+		$row = $query ? mysqli_fetch_array($query) : [];
 		echo $row["count_brand"];
 		exit();
 	}
@@ -123,7 +123,7 @@ include_once("manage.php");
 //View Brand
 	if(isset($_POST["viewBrand"])){ $n=1;
 		$obj = mysqli_query($conn, "SELECT * FROM aalierp_brand");
-		while($row = mysqli_fetch_array($obj)){ ?>
+		while($obj && $row = mysqli_fetch_array($obj)){ ?>
 			<tr>
 				<td><?php echo $n; ?></td>
 				<td><?php echo $row["brand_name"]; ?></td>
@@ -224,7 +224,7 @@ include_once("manage.php");
 //View Banner
 	if(isset($_POST["viewBanner"])){ $n=1;
 		$obj = mysqli_query($conn, "SELECT * FROM aalierp_banner");
-		while($row = mysqli_fetch_array($obj)){ ?>
+		while($obj && $row = mysqli_fetch_array($obj)){ ?>
 			<tr>
 				<td><?php echo $n; ?></td>
 				<td><?php echo $row["banner_size"]; ?></td>
@@ -294,7 +294,7 @@ include_once("manage.php");
 //Count Catalogue..
 	if (isset($_POST["count_catalogue"])) {
 		$query = mysqli_query($conn,"SELECT COUNT(*) AS count_catalogue FROM aalierp_catalogue");
-		$row = mysqli_fetch_array($query);
+		$row = $query ? mysqli_fetch_array($query) : [];
 		echo $row["count_catalogue"];
 		exit();
 	}
@@ -302,7 +302,7 @@ include_once("manage.php");
 //View Catalogue
 	if(isset($_POST["viewCatalogue"])){ $n=1;
 		$obj = mysqli_query($conn, "SELECT * FROM aalierp_catalogue");
-		while($row = mysqli_fetch_array($obj)){ ?>
+		while($obj && $row = mysqli_fetch_array($obj)){ ?>
 			<tr>
 			    <td><input type="checkbox" class="form-control" style="width:15px;height:15px;" /></td>
 				<td><?php echo $n; ?></td>
@@ -405,7 +405,7 @@ include_once("manage.php");
 //Count Category..
     if (isset($_POST["count_category"])) {
         $query = mysqli_query($conn,"SELECT COUNT(*) AS count_category FROM aalierp_category");
-        $row = mysqli_fetch_array($query);
+        $row = $query ? mysqli_fetch_array($query) : [];
         echo $row["count_category"];
         exit();
     }
@@ -413,7 +413,7 @@ include_once("manage.php");
 //View Category
     if(isset($_POST["viewCategory"])){ $n=1;
         $obj = mysqli_query($conn, "SELECT * FROM aalierp_category");
-        while($row = mysqli_fetch_array($obj)){ if($row["user_id"] == $_SESSION["user_id"] || $_SESSION["user_type"] == "Super"){ ?>
+        while($obj && $row = mysqli_fetch_array($obj)){ if($row["user_id"] == $_SESSION["user_id"] || $_SESSION["user_type"] == "Super"){ ?>
             <tr>
                 <td><?php echo $n; ?></td>
                 <td><?php echo $row["category_name"]; ?></td>
@@ -505,7 +505,7 @@ include_once("manage.php");
 //Count Sub Category..
     if (isset($_POST["count_subcategory"])) {
         $query = mysqli_query($conn,"SELECT COUNT(*) AS count_subcategory FROM aalierp_subcategory");
-        $row = mysqli_fetch_array($query);
+        $row = $query ? mysqli_fetch_array($query) : [];
         echo $row["count_subcategory"];
         exit();
     }
@@ -513,7 +513,7 @@ include_once("manage.php");
 //View Sub Category
     if(isset($_POST["viewSubCategory"])){ $n=1;
         $obj = mysqli_query($conn, "SELECT s.subcategory_id,s.subcategory_name,s.catalogue_id,s.subcategory_status,c.catalogue_name FROM aalierp_subcategory s, aalierp_catalogue c WHERE s.catalogue_id=c.catalogue_id");
-        while($row = mysqli_fetch_array($obj)){ ?>
+        while($obj && $row = mysqli_fetch_array($obj)){ ?>
             <tr>
                 <td><?php echo $n; ?></td>
                 <td><?php echo $row["subcategory_name"]; ?></td>
@@ -609,7 +609,7 @@ include_once("manage.php");
 //Count Unit..
     if (isset($_POST["count_unit"])) {
         $query = mysqli_query($conn,"SELECT COUNT(*) AS count_unit FROM aalierp_unit");
-        $row = mysqli_fetch_array($query);
+        $row = $query ? mysqli_fetch_array($query) : [];
         echo $row["count_unit"];
         exit();
     }
@@ -617,7 +617,7 @@ include_once("manage.php");
 //View Unit
     if(isset($_POST["viewUnit"])){ $n=1;
         $obj = mysqli_query($conn, "SELECT * FROM aalierp_unit");
-        while($row = mysqli_fetch_array($obj)){ ?>
+        while($obj && $row = mysqli_fetch_array($obj)){ ?>
             <tr>
                 <td><?php echo $n; ?></td>
                 <td><?php echo $row["unit_name"]; ?></td>
@@ -723,7 +723,7 @@ include_once("manage.php");
 //Count Products..
     if (isset($_POST["count_product"])) {
         $query = mysqli_query($conn,"SELECT COUNT(*) AS count_product FROM aalierp_product");
-        $row = mysqli_fetch_array($query);
+        $row = $query ? mysqli_fetch_array($query) : [];
         echo $row["count_product"];
         exit();
     }
@@ -731,7 +731,7 @@ include_once("manage.php");
 //View Product...
     if(isset($_POST["viewProduct"])){ $n=1;
         $obj = mysqli_query($conn, "SELECT * FROM aalierp_product ORDER BY product_id DESC");
-        while($row = mysqli_fetch_array($obj)){ if($row["user_id"] == $_SESSION["user_id"] || $_SESSION["user_type"] == "Super"){ ?>
+        while($obj && $row = mysqli_fetch_array($obj)){ if($row["user_id"] == $_SESSION["user_id"] || $_SESSION["user_type"] == "Super"){ ?>
             <tr>
 			    <td><input type="checkbox" class="form-control" style="width:15px;height:15px;" /></td>
                 <td><?php echo $n; ?></td>
@@ -847,7 +847,7 @@ include_once("manage.php");
 //View Product Images...
     if(isset($_POST["viewProductImage"])){ $n=1;
         $obj = mysqli_query($conn, "SELECT i.image_id,i.product_id,i.product_image,p.product_name,p.product_status FROM aalierp_image i, aalierp_product p WHERE i.product_id=p.product_id ORDER BY image_id DESC");
-        while($row = mysqli_fetch_array($obj)){ ?>
+        while($obj && $row = mysqli_fetch_array($obj)){ ?>
             <tr>
                 <td><?php echo $n; ?></td>
                 <td><?php echo $row["product_name"]; ?></td>
@@ -904,21 +904,21 @@ include_once("manage.php");
 //Count Order Cart..
     if (isset($_POST["count_order_cart"])) {
         $query = mysqli_query($conn,"SELECT COUNT(*) AS count_order_cart FROM aalierp_cart WHERE status='Chosen'");
-        $row = mysqli_fetch_array($query);
+        $row = $query ? mysqli_fetch_array($query) : [];
         echo $row["count_order_cart"];
         exit();
     }
 //Count Order Processing..
     if (isset($_POST["count_order_processing"])) {
         $query = mysqli_query($conn,"SELECT COUNT(*) AS count_order_processing FROM aalierp_cart WHERE status='Processing'");
-        $row = mysqli_fetch_array($query);
+        $row = $query ? mysqli_fetch_array($query) : [];
         echo $row["count_order_processing"];
         exit();
     }
 //Count Order Processed..
     if (isset($_POST["count_order_processed"])) {
         $query = mysqli_query($conn,"SELECT COUNT(*) AS count_order_processed FROM aalierp_cart WHERE status='Processed'");
-        $row = mysqli_fetch_array($query);
+        $row = $query ? mysqli_fetch_array($query) : [];
         echo $row["count_order_processed"];
         exit();
     }
@@ -932,7 +932,7 @@ include_once("manage.php");
 //View Order Cart
     if(isset($_POST["view_cart"])){ $n=1;
         $obj = mysqli_query($conn, "SELECT p.product_id,p.product_name,p.product_image,p.product_price,c.id,c.p_id,c.date,c.user_id,c.qty,c.ship,c.mail,c.coupon,c.cdiscount,c.status,u.user_name FROM aalierp_product p, aalierp_cart c, aalierp_user u WHERE p.product_id=c.p_id AND c.user_id=u.user_id AND c.status='Chosen'");
-        while($row = mysqli_fetch_array($obj)){ ?>
+        while($obj && $row = mysqli_fetch_array($obj)){ ?>
             <tr>
                 <td><?php echo $n; ?></td>
                 <td><?php echo $row["date"]; ?></td>
@@ -945,7 +945,7 @@ include_once("manage.php");
 //View Order Processing
     if(isset($_POST["view_order_processing"])){ $n=1;
         $obj = mysqli_query($conn, "SELECT p.product_id,p.product_name,p.product_image,p.product_price,c.id,c.p_id,c.date,c.user_id,c.qty,c.ship,c.mail,c.coupon,c.cdiscount,c.status,u.user_name FROM aalierp_product p, aalierp_cart c, aalierp_user u WHERE p.product_id=c.p_id AND c.user_id=u.user_id AND c.status='Processing'");
-        while($row = mysqli_fetch_array($obj)){ ?>
+        while($obj && $row = mysqli_fetch_array($obj)){ ?>
             <tr>
                 <td><?php echo $n; ?></td>
                 <td><?php echo $row["date"]; ?></td>
@@ -958,7 +958,7 @@ include_once("manage.php");
 //View Order Processed
     if(isset($_POST["view_order_processed"])){ $n=1;
         $obj = mysqli_query($conn, "SELECT p.product_id,p.product_name,p.product_image,p.product_price,c.id,c.p_id,c.date,c.user_id,c.qty,c.ship,c.mail,c.coupon,c.cdiscount,c.status,u.user_name FROM aalierp_product p, aalierp_cart c, aalierp_user u WHERE p.product_id=c.p_id AND c.user_id=u.user_id AND c.status='Processed'");
-        while($row = mysqli_fetch_array($obj)){ ?>
+        while($obj && $row = mysqli_fetch_array($obj)){ ?>
             <tr>
                 <td><?php echo $n; ?></td>
                 <td><?php echo $row["date"]; ?></td>

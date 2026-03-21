@@ -31,7 +31,7 @@
             if($updatequ){echo "<script>window.location.href = '../gateway/?gateway';</script>";}
         }
         if(isset($_GET["u"])){
-            $slectq = mysqli_query($conn,"SELECT * FROM aalierp_gateway WHERE gate_id='".$_GET["u"]."'"); $rec = mysqli_fetch_assoc($slectq); ?>
+            $slectq = mysqli_query($conn,"SELECT * FROM aalierp_gateway WHERE gate_id='".$_GET["u"]."'"); $rec = $slectq ? mysqli_fetch_assoc($slectq) : []; ?>
                                     <div class="card">
                                         <div class="card-header">
                                             <h4>Update Payment Gateway</h4>
@@ -135,7 +135,7 @@
                     							                    </thead>
                     							                    <tbody>
 <?php 
-    $view = mysqli_query($conn,"SELECT * FROM aalierp_gateway"); $n=1; while($row = mysqli_fetch_array($view)){ ?>
+    $view = mysqli_query($conn,"SELECT * FROM aalierp_gateway"); $n=1; while($view && $row = mysqli_fetch_array($view)){ ?>
                                                                         <tr>
                                                                             <td><?php echo $n; ?></td>
                                                                             <td><?php echo $row["gate_title"]; ?></td>

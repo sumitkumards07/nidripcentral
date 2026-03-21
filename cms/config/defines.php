@@ -16,7 +16,7 @@
 	$AaliLINK_IN = rtrim($_SERVER['DOCUMENT_ROOT'], '/');
 	
 	$gc_query = mysqli_query($conn, "SELECT * FROM `aalierp_contents` ORDER BY company_id DESC LIMIT 1");
-	$row = mysqli_fetch_assoc($gc_query);
+	$row = $gc_query ? mysqli_fetch_assoc($gc_query) : [];
 	$company_id = $row['company_id'];$company_name = $row['company_name']; $company_salogan = $row['company_salogan']; 
     $company_mobile = $row['company_mobile']; $company_email = $row['company_email'];$company_web = $row['company_web']; 
     $company_phone = $row['company_phone']; $company_address = $row['company_address']; $company_city = $row['company_city']; 

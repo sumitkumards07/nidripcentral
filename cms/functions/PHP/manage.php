@@ -143,23 +143,39 @@ class Manage{
 
 
 //Update Record..
-	public function update_record($table,$where,$fields){
+	public function update_record($table, $where, $fields){
 		$sql = "";
 		$condition = "";
-		foreach ($where as $key => $value) {
-			// id = '5' AND m_name = 'something'
-			$condition .= $key . "='" . $value . "' AND ";
-		}
-		$condition = substr($condition, 0, -5);
+		$params = [];
+		$types = "";
+
+		// Build SET fields dynamically
 		foreach ($fields as $key => $value) {
-			//UPDATE table SET m_name = '' , qty = '' WHERE id = '';
-			$sql .= $key . "='".$value."', ";
+			$sql .= $key . "=?, ";
+			$params[] = $value;
+			// Simplistic type mapping wrapper (assuming strings for all arrays to prevent int casting errors)
+			$types .= "s"; 
 		}
-		$sql = substr($sql, 0,-2);
-		$sql = "UPDATE ".$table." SET ".$sql." WHERE ".$condition;
-		if(mysqli_query($this->con,$sql)){
-			return "Updated";
+		$sql = substr($sql, 0, -2); // Remove trailing comma and space
+
+		// Build WHERE conditions dynamically
+		foreach ($where as $key => $value) {
+			$condition .= $key . "=? AND ";
+			$params[] = $value;
+			$types .= "s";
 		}
+		$condition = substr($condition, 0, -5); // Remove trailing AND
+
+		$query = "UPDATE ".$table." SET ".$sql." WHERE ".$condition;
+		
+		$stmt = $this->con->prepare($query);
+		if($stmt) {
+			$stmt->bind_param($types, ...$params);
+			if($stmt->execute()){
+				return "Updated";
+			}
+		}
+		return "something went wrong";
 	}
 
 
