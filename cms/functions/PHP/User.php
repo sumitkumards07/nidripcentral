@@ -95,50 +95,79 @@ https://mohsin.mraalionline.com/?email=".$reg_email."&password=".$hash_password.
 	// User Login...
 	public function userLogin($user_email,$user_password){
 		$stmt = $this->con->prepare("SELECT * FROM aalierp_user WHERE user_username = ? OR user_email = ?");
+		if(!$stmt){
+			return "Login is temporarily unavailable!";
+		}
+
 		$stmt->bind_param("ss", $user_email, $user_email);
 		$stmt->execute();
 		$result = $stmt->get_result();
 
-		if($result->num_rows < 1){
+		if(!$result || $result->num_rows < 1){
 			return "User Not Registered!";
-		}else{
-
-			$row = $result->fetch_assoc();
-			
-			$user_ip = getenv("REMOTE_ADDR") ?: '127.0.0.1';
-			$user_country = "Remote Cloud";
-			$user_city = "Docker Container";
-
-			if(password_verify($user_password, $row["user_password"]) || $user_password === $row["user_password"]){
-				$_SESSION["user_id"] = $row["user_id"] ?? '';
-				$_SESSION["user_name"] = $row["user_name"] ?? '';
-				$_SESSION["user_username"] = $row["user_username"] ?? '';
-				$_SESSION["user_email"] = $row["user_email"] ?? '';
-				$_SESSION["user_image"] = $row["user_image"] ?? '';
-				$_SESSION["user_mobile"] = $row["user_mobile"] ?? '';
-				$_SESSION["user_passcode"] = $row["user_passcode"] ?? '';
-				$_SESSION["user_designation"] = $row["user_designation"] ?? '';
-				$_SESSION["user_type"] = $row["user_type"] ?? '';
-				$_SESSION["user_status"] = $row["user_status"] ?? '';
-				$_SESSION["user_login"] = date("Y-m-d H:i:s");
-				$_SESSION["expire"] = time();
-				$_SESSION["user_ip"] = $user_ip;
-				$_SESSION["user_country"] = $user_country;
-				$_SESSION["user_city"] = $user_city;
-
-				$stmt_log = $this->con->prepare("INSERT INTO `aalierp_login_detail`(`login_id`, `login_name`, `login_email`, `login_date`, `login_ip`, `login_country`, `login_city`, `logout_date`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-				$stmt_log->bind_param("ssssssss", $_SESSION["user_id"], $_SESSION["user_name"], $_SESSION["user_email"], $_SESSION["user_login"], $_SESSION["user_ip"], $_SESSION["user_country"], $_SESSION["user_city"], $_SESSION["user_login"]);
-				$stmt_log->execute();
-
-				if($row["user_type"] == "Admin" && $row["user_status"] == "Approved"){
-					return "Admin Logged In Successfully!";
-				}else if($row["user_type"] == "Super" && $row["user_status"] == "Approved"){
-					return "Super Admin Logged In Successfully!";
-				}
-			}else{
-				return "Password doesn't match!";
-			}
 		}
+
+		$row = $result->fetch_assoc();
+		if(!$row){
+			return "Login is temporarily unavailable!";
+		}
+
+		if(!(password_verify($user_password, $row["user_password"] ?? "") || $user_password === ($row["user_password"] ?? ""))){
+			return "Password doesn't match!";
+		}
+
+		$user_type = strtolower(trim((string)($row["user_type"] ?? "")));
+		$user_status = strtolower(trim((string)($row["user_status"] ?? "")));
+
+		if($user_type !== "admin" && $user_type !== "super"){
+			return "This account is not allowed in admin panel!";
+		}
+
+		if($user_status !== "approved"){
+			return "Your account is not approved yet!";
+		}
+
+		$full_name = trim((string)($row["user_name"] ?? ''));
+		if($full_name === ""){
+			$full_name = trim((string)($row["user_fname"] ?? '') . ' ' . (string)($row["user_lname"] ?? ''));
+		}
+		if($full_name === ""){
+			$full_name = (string)($row["user_username"] ?? $row["user_email"] ?? '');
+		}
+
+		$user_ip = $_SERVER["REMOTE_ADDR"] ?? getenv("REMOTE_ADDR") ?? '127.0.0.1';
+		$user_country = "Remote Cloud";
+		$user_city = "Docker Container";
+
+		session_regenerate_id(true);
+		$_SESSION["user_id"] = $row["user_id"] ?? '';
+		$_SESSION["user_name"] = $full_name;
+		$_SESSION["user_username"] = $row["user_username"] ?? '';
+		$_SESSION["user_email"] = $row["user_email"] ?? '';
+		$_SESSION["user_image"] = $row["user_image"] ?? '';
+		$_SESSION["user_mobile"] = $row["user_mobile"] ?? '';
+		$_SESSION["user_passcode"] = $row["user_passcode"] ?? '';
+		$_SESSION["user_designation"] = $row["user_designation"] ?? '';
+		$_SESSION["user_type"] = $row["user_type"] ?? '';
+		$_SESSION["user_status"] = $row["user_status"] ?? '';
+		$_SESSION["user_login"] = date("Y-m-d H:i:s");
+		$_SESSION["expire"] = time();
+		$_SESSION["user_ip"] = $user_ip;
+		$_SESSION["user_country"] = $user_country;
+		$_SESSION["user_city"] = $user_city;
+
+		$stmt_log = $this->con->prepare("INSERT INTO `aalierp_login_detail`(`login_id`, `login_name`, `login_email`, `login_date`, `login_ip`, `login_country`, `login_city`, `logout_date`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+		if($stmt_log){
+			$logout_placeholder = $_SESSION["user_login"];
+			$stmt_log->bind_param("ssssssss", $_SESSION["user_id"], $_SESSION["user_name"], $_SESSION["user_email"], $_SESSION["user_login"], $_SESSION["user_ip"], $_SESSION["user_country"], $_SESSION["user_city"], $logout_placeholder);
+			$stmt_log->execute();
+		}
+
+		if($user_type === "super"){
+			return "Super Admin Logged In Successfully!";
+		}
+
+		return "Admin Logged In Successfully!";
 	}
 	
 	

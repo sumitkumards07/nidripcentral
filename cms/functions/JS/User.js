@@ -4,7 +4,7 @@ $(document).ready(function(){
     $("#login_form").on("submit",function(){        
         var user_email = $("#user_email");
         var user_password = $("#user_password");
-        var status = false;
+        var status = true;
 
         if(user_email.val() === ""){
             $("#user_email").css("border-color","#DD4B39");
@@ -19,7 +19,6 @@ $(document).ready(function(){
             $(".user_email").css("background-color","#B6E5B1");
             $(".user_email").css("color","#19940C");
             $(".user_email_error").html("<small class='form-text text-success' style='color: #19940C;'>Seems Good</small>");
-            status = true;
         }
 
         if(user_password.val() === ""){
@@ -35,7 +34,6 @@ $(document).ready(function(){
             $(".user_password").css("background-color","#B6E5B1");
             $(".user_password").css("color","#19940C");
             $(".user_password_error").html("<small class='form-text text-success' style='color: #19940C;'>Seems Good</small>");
-            status = true;
         }
 
         if(status){
@@ -44,13 +42,14 @@ $(document).ready(function(){
                 method: "POST",
                 data: $("#login_form").serialize(),
                 success: function(data){
+                    data = (data || "").trim();
                     if(data.includes("User Not Registered!")){
                         $("#msg").html("<div class='alert alert-info alert-block'>User Not Registered!</div>");                                    
                         $("#user_email").css("border-color","#DD4B39");
                         $(".user_email").css("border-color","#DD4B39");
                         $(".user_email").css("background-color","#F5B7B1");
                         $(".user_email").css("color","#DD4B39");
-                        $("#user_email_error").html("<small class='form-text text-danger' style='color: #DD4B39;'>User Email Not Registered! </small>"); 
+                        $(".user_email_error").html("<small class='form-text text-danger' style='color: #DD4B39;'>User Email Not Registered! </small>"); 
                     }else if(data.includes("Password doesn't match!")){
                         $("#msg").html("<div class='alert alert-danger'>Password doesn't match!</div>");
                         $("#user_password").css("border-color","#DD4B39");
@@ -58,15 +57,26 @@ $(document).ready(function(){
                         $(".user_password").css("background-color","#F5B7B1");
                         $(".user_password").css("color","#DD4B39");
                         $(".user_password_error").html("<small class='form-text text-danger' style='color: #DD4B39;'>Password doesn't match! </small>");          
+                    }else if(data.includes("This account is not allowed in admin panel!")){
+                        $("#msg").html("<div class='alert alert-warning'>This account is not allowed in admin panel.</div>");
+                    }else if(data.includes("Your account is not approved yet!")){
+                        $("#msg").html("<div class='alert alert-warning'>Your account is not approved yet.</div>");
+                    }else if(data.includes("Login is temporarily unavailable!")){
+                        $("#msg").html("<div class='alert alert-danger'>Login is temporarily unavailable. Try again later.</div>");
                     }else if(data.includes("Admin Logged In Successfully!")){
                         $("#msg").html("<div class='alert alert-success'> Redirecting.. </div>");
-                        $("#btn_login").html("<img src='/assets/img/loading.gif' width='20'/> &nbsp; Signing in..");
-                        setTimeout('window.location.href = "/admin/dashboard/?-";', 10);          
+                        $("#btn_login").val("Signing in...");
+                        setTimeout(function(){ window.location.href = "/admin/dashboard/?-"; }, 100);          
                     }else if(data.includes("Super Admin Logged In Successfully!")){
                         $("#msg").html("<div class='alert alert-success'> Redirecting.. </div>");
-                        $("#btn_login").html("<img src='/assets/img/loading.gif' width='20'/> &nbsp; Signing in..");
-                        setTimeout('window.location.href = "/admin/dashboard/?-";', 10);          
+                        $("#btn_login").val("Signing in...");
+                        setTimeout(function(){ window.location.href = "/admin/dashboard/?-"; }, 100);          
+                    }else{
+                        $("#msg").html("<div class='alert alert-danger'>Login failed. Please verify your admin account status.</div>");
                     }
+                },
+                error: function(){
+                    $("#msg").html("<div class='alert alert-danger'>Login request failed. Please try again.</div>");
                 }
             })
         }
