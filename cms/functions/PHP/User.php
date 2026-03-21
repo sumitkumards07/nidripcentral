@@ -105,11 +105,9 @@ https://mohsin.mraalionline.com/?email=".$reg_email."&password=".$hash_password.
 
 			$row = $result->fetch_assoc();
 			
-			$user_ip = getenv("REMOTE_ADDR");
-		    $ipdat = 'http://ip-api.com/php/'.$user_ip;
-			$ress = @unserialize(file_get_contents($ipdat));
-			$user_country = $ress["country"];
-			$user_city = $ress["city"];
+			$user_ip = getenv("REMOTE_ADDR") ?: '127.0.0.1';
+			$user_country = "Remote Cloud";
+			$user_city = "Docker Container";
 
 			if(password_verify($user_password, $row["user_password"])){
 				$_SESSION["user_id"] = $row["user_id"];
