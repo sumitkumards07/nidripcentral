@@ -1,0 +1,4 @@
+[20-Jun-2022 15:21:44 UTC] PHP Notice:  Undefined index: user_name in /home/pipsalai/cms.mptc.mraalionline.com/functions/HTML/nav.php on line 62
+[05-Jul-2022 08:32:09 UTC] PHP Notice:  Undefined index: user_name in /home/pipsalai/cms.mptc.mraalionline.com/functions/HTML/nav.php on line 62
+[17-Feb-2026 03:51:58 UTC] PHP Warning:  Undefined variable $user_image in /home/dotitnaw/maktab.mraalionline.com/cms/functions/HTML/nav.php on line 60
+[20-Feb-2026 11:03:52 UTC] PHP Warning:  Undefined variable $user_image in /home/dotitnaw/mohsin.mraalionline.com/cms/functions/HTML/nav.php on line 60

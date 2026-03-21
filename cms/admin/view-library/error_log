@@ -1,0 +1,2 @@
+[04-Jul-2022 04:41:36 UTC] PHP Notice:  Undefined index: user_name in /home/pipsalai/cms.mptc.mraalionline.com/functions/HTML/nav.php on line 62
+[04-Jul-2022 04:41:36 UTC] PHP Notice:  Undefined index: user_name in /home/pipsalai/cms.mptc.mraalionline.com/admin/view-library/index.php on line 95

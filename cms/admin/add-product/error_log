@@ -1,0 +1,4 @@
+[16-Feb-2026 13:09:52 UTC] PHP Warning:  Undefined variable $user_image in /home/dotitnaw/maktab.mraalionline.com/cms/functions/HTML/nav.php on line 60
+[16-Feb-2026 13:10:06 UTC] PHP Warning:  Undefined variable $user_image in /home/dotitnaw/maktab.mraalionline.com/cms/functions/HTML/nav.php on line 60
+[16-Feb-2026 13:53:34 UTC] PHP Warning:  Undefined variable $user_image in /home/dotitnaw/maktab.mraalionline.com/cms/functions/HTML/nav.php on line 60
+[20-Feb-2026 12:32:20 UTC] PHP Warning:  Undefined array key "user_name" in /home/dotitnaw/mohsin.mraalionline.com/cms/functions/HTML/nav.php on line 64
