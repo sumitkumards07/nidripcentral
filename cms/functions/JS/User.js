@@ -44,25 +44,25 @@ $(document).ready(function(){
                 method: "POST",
                 data: $("#login_form").serialize(),
                 success: function(data){
-                    if(data == "User Not Registered!"){
-                        $("#msg").html("<div class='alert alert-info alert-block'>"+data+"</div>");                                    
+                    if(data.includes("User Not Registered!")){
+                        $("#msg").html("<div class='alert alert-info alert-block'>User Not Registered!</div>");                                    
                         $("#user_email").css("border-color","#DD4B39");
                         $(".user_email").css("border-color","#DD4B39");
                         $(".user_email").css("background-color","#F5B7B1");
                         $(".user_email").css("color","#DD4B39");
                         $("#user_email_error").html("<small class='form-text text-danger' style='color: #DD4B39;'>User Email Not Registered! </small>"); 
-                    }else if(data == "Password doesn't match!"){
-                        $("#msg").html("<div class='alert alert-danger'>"+data+"</div>");
+                    }else if(data.includes("Password doesn't match!")){
+                        $("#msg").html("<div class='alert alert-danger'>Password doesn't match!</div>");
                         $("#user_password").css("border-color","#DD4B39");
                         $(".user_password").css("border-color","#DD4B39");
                         $(".user_password").css("background-color","#F5B7B1");
                         $(".user_password").css("color","#DD4B39");
                         $(".user_password_error").html("<small class='form-text text-danger' style='color: #DD4B39;'>Password doesn't match! </small>");          
-                    }else if(data == "Admin Logged In Successfully!"){
+                    }else if(data.includes("Admin Logged In Successfully!")){
                         $("#msg").html("<div class='alert alert-success'> Redirecting.. </div>");
                         $("#btn_login").html("<img src='/assets/img/loading.gif' width='20'/> &nbsp; Signing in..");
                         setTimeout('window.location.href = "/admin/temp/?_rdct=Welcome";', 2000);          
-                    }else if(data == "Super Admin Logged In Successfully!"){
+                    }else if(data.includes("Super Admin Logged In Successfully!")){
                         $("#msg").html("<div class='alert alert-success'> Redirecting.. </div>");
                         $("#btn_login").html("<img src='/assets/img/loading.gif' width='20'/> &nbsp; Signing in..");
                         setTimeout('window.location.href = "/admin/temp/?_rdct=Welcome";', 2000);          
