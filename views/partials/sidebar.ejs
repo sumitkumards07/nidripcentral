@@ -1,0 +1,43 @@
+<aside class="sidebar">
+    <div class="brand"><img src="/images/logo.png" alt="NI DRIP Central" class="brand-logo"></div>
+    <nav class="nav">
+        <a href="/dashboard" class="nav-item <%= activePage === 'dashboard' ? 'active' : '' %>" style="text-decoration: none;">
+            <span class="ico-box"><i class="fa fa-dashboard" style="font-size:1.2em;"></i></span>
+            <span class="label">Dashboard</span>
+        </a>
+        <a href="/orders" class="nav-item <%= activePage === 'orders' ? 'active' : '' %>" style="text-decoration: none;">
+            <span class="ico-box"><i class="fa fa-truck" style="font-size:1.2em;"></i></span>
+            <span class="label">Manage Orders</span>
+        </a>
+        <a href="/products" class="nav-item <%= activePage === 'products' ? 'active' : '' %>" style="text-decoration: none;">
+            <span class="ico-box"><i class="fa fa-dolly" style="font-size:1.2em;"></i></span>
+            <span class="label">Manage Products</span>
+        </a>
+        <a href="/users" class="nav-item <%= activePage === 'users' ? 'active' : '' %>" style="text-decoration: none;">
+            <span class="ico-box"><i class="fa fa-users" style="font-size:1.2em;"></i></span>
+            <span class="label">Manage Customer</span>
+        </a>
+        <a href="/stocks" class="nav-item <%= activePage === 'stocks' ? 'active' : '' %>" style="text-decoration: none;">
+            <span class="ico-box"><i class="fa fa-hdd" style="font-size:1.2em;"></i></span>
+            <span class="label">Manage Stock</span>
+        </a>
+        <a href="/reviews" class="nav-item <%= activePage === 'reviews' ? 'active' : '' %>" style="text-decoration: none;">
+            <span class="ico-box"><i class="fa fa-hand-paper" style="font-size:1.2em;"></i></span>
+            <span class="label">Manage Reviews</span>
+        </a>
+        <a href="/tickets" class="nav-item <%= activePage === 'tickets' ? 'active' : '' %>" style="text-decoration: none;">
+            <span class="ico-box"><i class="fa fa-headphones" style="font-size:1.2em;"></i></span>
+            <span class="label">Manage Tickets</span>
+        </a>
+        <a href="/settings" class="nav-item <%= activePage === 'settings' ? 'active' : '' %>" style="text-decoration: none;">
+            <span class="ico-box"><i class="fa fa-gear" style="font-size:1.2em;"></i></span>
+            <span class="label">Settings</span>
+        </a>
+    </nav>
+
+    <div class="upgrade-wrapper">
+        <button class="upgrade">Upgrade To Pro</button>
+    </div>
+
+    <div class="sidebar-foot">© NI DRIP</div>
+</aside>

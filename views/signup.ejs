@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NI DRIP - Sign Up</title>
+  <link rel="stylesheet" href="/css/modern.css">
+</head>
+<body>
+  <div class="mobile-frame">
+    <div class="auth-bg">
+      <!-- Header -->
+      <button class="login-back-btn" onclick="window.location.href='/auth-choice'"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="#1B1B1B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      
+      <h1 class="login-header-title">Sign Up</h1>
+<form action="/signup" method="POST" class="signup-form-container">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <div class="login-form-group">
+    <div class="login-input-wrapper">
+      <label class="login-label">Full Name</label>
+      <input type="text" name="user_name" class="login-input" placeholder="Text your name" required>
+    </div>
+    <div class="login-input-wrapper">
+      <label class="login-label">Email</label>
+      <input type="email" name="user_email" class="login-input" placeholder="Text your email" required>
+    </div>
+    <div class="login-input-wrapper">
+      <label class="login-label">Password</label>
+      <input type="password" name="user_password" class="login-input" placeholder="Text your password" required>
+    </div>
+  </div>
+
+  <div class="login-form-group" style="gap: 24px;">
+    <button type="submit" class="auth-btn-primary" style="width: 100%;">Confirm</button>
+    
+    <div class="divider-auth">
+      <div class="divider-line"></div>
+      <span class="divider-text">Or</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <button class="btn-social-auth" type="button" onclick="window.location.href='/auth/google'" style="width: 100%; border-radius: 16px;">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20">
+      Continue with Google
+    </button>
+  </div>
+
+  <p class="register-text">
+    Already have an account? <a href="/login" class="register-link" style="color: #FD22C3;">Log In</a>
+  </p>
+</form>
+
+      <!-- Home Indicator -->
+      <div style="width: 134px; height: 5px; background: #000000; border-radius: 100px; margin: auto auto 10px; opacity: 0.1;"></div>
+    </div>
+  </div>
+</body>
+</html>

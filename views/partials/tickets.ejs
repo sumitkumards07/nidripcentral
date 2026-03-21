@@ -1,0 +1,61 @@
+<section class="cards">
+    <div class="card stat">
+        <div class="icon" style="background:#e22504;"><i class="fa fa-clipboard" style="font-size:2.0em;"></i></div>
+        <div class="meta"><div class="label">Total Tickets</div><div class="value">0</div></div>
+    </div>
+    <div class="card stat">
+        <div class="icon" style="background:#e22504;"><i class="fa fa-thumbs-up" style="font-size:2.0em;"></i></div>
+        <div class="meta"><div class="label">Tickets In Reviews</div><div class="value">0</div></div>
+    </div>
+    <div class="card stat">
+        <div class="icon" style="background:#e22504;"><i class="fa fa-thumb-down" style="font-size:2.0em;"></i></div>
+        <div class="meta"><div class="label">Tickets Resolved</div><div class="value">0</div></div>
+    </div>
+    <div class="card stat">
+        <div class="icon" style="background:#e22504;"><i class="fa fa-comment" style="font-size:2.0em;"></i></div>
+        <div class="meta"><div class="label">Total Happy Clients</div><div class="value">0</div></div>
+    </div>
+</section>
+
+<div class="table-container" style="border-top: 2px solid #e22504; overflow: visible;">
+    <table class="orders-table">
+        <thead>
+            <tr>
+                <th>Ticket ID</th>
+                <th>Date</th>
+                <th>User Name</th>
+                <th>Product</th>
+                <th>Comment</th>
+                <th>Status</th>
+                <th>Quick Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .action-cell {position: relative;}
+    .dropdown {position: relative; display: inline-block; }
+    .action-btn {background: none;border: none;font-size: 18px;cursor: pointer;padding: 6px 10px;border-radius: 6px;transition: background 0.2s ease;}
+    .action-btn:hover {background: rgba(0, 0, 0, 0.05);}
+    .dropdown-menu {
+        position: absolute;bottom: 110%;right: 0;background: rgba(120, 120, 120, 0.3);backdrop-filter: blur(8px);-webkit-backdrop-filter: blur(8px);
+        border-radius: 12px;min-width: 250px;padding: 8px 0;box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);opacity: 0;visibility: hidden;
+        transform: translateY(10px);transition: 0.2s ease;z-index: 100;
+    }
+    .dropdown-menu a {display: block;padding: 10px 16px; font-size: 12px; color: #222;text-decoration: none;transition: background 0.2s ease;}
+    .dropdown-menu a:hover {background: rgba(0, 0, 0, 0.08);}
+    .dropdown-menu .danger {color: #e63946;}
+    .dropdown.active .dropdown-menu { opacity: 1;visibility: visible;transform: translateY(0);}
+</style>
+
+<script>
+    document.addEventListener("click", function (e) { const dropdowns = document.querySelectorAll(".dropdown");
+        dropdowns.forEach(drop => {
+            if (drop.contains(e.target)) { drop.classList.toggle("active"); } else { drop.classList.remove("active"); }
+        });
+    });
+</script>

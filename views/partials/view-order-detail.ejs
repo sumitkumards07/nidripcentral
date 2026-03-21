@@ -1,0 +1,54 @@
+<div class="order-card" style="max-width: 800px; margin: 30px auto; padding: 25px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); background-color: #fff; border-top: 4px solid #fd215e;">
+    <h2 style="margin-bottom: 20px; color: #333;">Order Details - #<%= order.id %></h2>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+        <div style="flex: 1 1 300px;">
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="font-weight: bold; padding: 8px;">Customer</td>
+                    <td style="padding: 8px;"><%= order.user_name || "Guest" %></td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding: 8px;">Email</td>
+                    <td style="padding: 8px;"><%= order.user_email || "-" %></td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding: 8px;">Mobile</td>
+                    <td style="padding: 8px;"><%= order.user_mobile || "-" %></td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding: 8px;">Product Name</td>
+                    <td style="padding: 8px;"><%= order.product_name %></td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding: 8px;">Product Price</td>
+                    <td style="padding: 8px;">$<%= order.product_price %></td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding: 8px;">Quantity</td>
+                    <td style="padding: 8px;"><%= order.qty %></td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding: 8px;">Total Price</td>
+                    <td style="padding: 8px;"><%= (order.product_price * order.qty).toFixed(2) %></td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; padding: 8px;">Status</td>
+                    <td style="padding: 8px;">
+                        <% if(order.status === "Pending") { %><span class="badge badge-pending">Pending</span>
+                        <% } else if(order.status === "Placed") { %><span class="badge badge-placed">Placed</span>
+                        <% } else if(order.status === "Processing") { %><span class="badge badge-processing">Processing</span>
+                        <% } else if(order.status === "Delivered") { %><span class="badge badge-delivered">Delivered</span>
+                        <% } else if(order.status === "Returned") { %><span class="badge badge-returned">Returned</span>
+                        <% } else if(order.status === "Cancelled") { %><span class="badge badge-cancelled">Cancelled</span><% } %>
+                    </td>
+                </tr>
+                <tr style="margin-top:15px;">
+                    <td colspan="2" style="font-weight: bold; padding: 8px;">
+                        <a href="/orders" style="width: 100%;padding: 10px 20px; background-color: #fd215e; color: #fff; border-radius: 6px; text-decoration: none; font-weight: 500;">Back to Orders</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

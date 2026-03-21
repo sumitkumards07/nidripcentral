@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NI DRIP - Log In</title>
+  <link rel="stylesheet" href="/css/modern.css">
+</head>
+<body>
+  <div class="mobile-frame">
+    <div class="auth-bg">
+
+
+      <!-- Header -->
+      <button class="login-back-btn" onclick="window.location.href='/auth-choice'"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="#1B1B1B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      
+
+      <h1 class="login-header-title">Log In</h1>
+
+      <form action="/login" method="POST" class="login-form-container">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <!-- Form Fields -->
+        <div class="login-form-group">
+          <div class="login-input-wrapper">
+            <label class="login-label">Email</label>
+            <input type="text" name="identifier" class="login-input" placeholder="Text your email" required>
+          </div>
+          <div class="login-input-wrapper">
+            <label class="login-label">Password</label>
+            <input type="password" name="user_password" class="login-input" placeholder="Text your password" required>
+          </div>
+        </div>
+
+        <!-- Checkbox Row -->
+        <div class="login-checkbox-row">
+          <input type="checkbox" class="login-checkbox" id="remember">
+          <label for="remember" class="login-checkbox-label">Remember me</label>
+          <a href="/forgot-password" class="login-forgot-link">Forgot password?</a>
+        </div>
+
+        <% if (message) { %>
+          <p style="color: red; font-size: 12px; margin-top: -10px; width: 100%; text-align: center;"><%= message %></p>
+        <% } %>
+
+        <!-- Buttons -->
+        <div class="login-form-group" style="gap: 28px;">
+          <button type="submit" class="auth-btn-primary" style="width: 100%;">Log In</button>
+          
+          <div class="divider-auth">
+            <div class="divider-line"></div>
+            <span class="divider-text">Or</span>
+            <div class="divider-line"></div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
+            <button class="btn-social-auth" type="button" onclick="window.location.href='/auth/google'" style="width: 100%; border-radius: 16px;">
+              <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20">
+              Continue with Google
+            </button>
+            <button class="btn-social-auth" type="button" style="width: 100%; border-radius: 16px;">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg" width="20">
+              Continue with Facebook
+            </button>
+          </div>
+        </div>
+
+        <p class="register-text">
+          Don't have an account? <a href="/signup" class="register-link">Register</a>
+        </p>
+      </form>
+
+      <!-- Gradient Next Button (Alternative CTA as per design) -->
+      <!-- <button class="btn-next-gradient">Log in</button> -->
+
+      <!-- Home Indicator -->
+      <div style="width: 134px; height: 5px; background: #000000; border-radius: 100px; position: absolute; bottom: 8px; left: calc(50% - 67px); opacity: 0.1;"></div>
+    </div>
+  </div>
+</body>
+</html>

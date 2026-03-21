@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NI DRIP - Shop</title>
+  <link rel="stylesheet" href="/css/modern.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body style="background-color: #f5f5f5; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+  <div class="mobile-frame">
+    <div class="shop-layout" style="background: #fff; height: 100%; display: flex; flex-direction: column; overflow: hidden; position: relative;">
+      
+      <!-- Top Navigation / Header -->
+      <header class="shop-header">
+        <button class="shop-back-btn" onclick="history.back()">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div class="shop-header-pill"></div>
+        
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <a href="/profile" class="profile-btn" style="width: 36px; height: 36px; border-radius: 50%; background: #F8F8F8; display: flex; align-items: center; justify-content: center; text-decoration: none; color: #1B1B1B;">
+            <i class="fa-regular fa-user" style="font-size: 16px;"></i>
+          </a>
+
+          <a href="/cart-view" class="shop-cart-btn" style="text-decoration: none; color: #1B1B1B; display: inline-flex; align-items: center; justify-content: center; position: relative;">
+            <i class="fa-solid fa-cart-shopping" style="font-size: 20px;"></i>
+            <% if (locals.cartCount && locals.cartCount > 0) { %>
+              <span class="shop-cart-badge" style="position: absolute; top: -8px; right: -8px;"><%= locals.cartCount %></span>
+            <% } %>
+          </a>
+        </div>
+      </header>
+
+      <!-- Category Filter Strip -->
+      <div class="category-filter-strip">
+        <a href="/shop" class="filter-pill <%= !activeCategoryId ? 'active' : '' %>">All Products</a>
+        <% categories.forEach(cat => { %>
+          <a href="/shop?category_id=<%= cat.category_id %>" class="filter-pill <%= activeCategoryId == cat.category_id ? 'active' : '' %>">
+            <%= cat.category_name %>
+          </a>
+        <% }) %>
+      </div>
+
+      <!-- Scrollable Content -->
+      <div class="shop-scroll-content">
+        <!-- Content Status -->
+        <div class="shop-status-text">
+          <%= products.length %> products available
+        </div>
+
+        <!-- Product Grid -->
+        <div class="shop-product-grid">
+          <% products.forEach(prod => { %>
+            <div class="shop-product-card">
+              <div class="shop-product-img-wrapper">
+                <% if (prod.product_image && prod.product_image !== 'null') { %>
+                  <img src="/images/<%= prod.product_image %>" alt="<%= prod.product_name %>" class="shop-product-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <div style="display: none; height: 100%; align-items: center; justify-content: center; background: #EAEAEA;">
+                    <i class="fa-solid fa-box product-placeholder-icon"></i>
+                  </div>
+                <% } else { %>
+                  <div style="height: 100%; display: flex; align-items: center; justify-content: center; background: #EAEAEA;">
+                    <i class="fa-solid fa-box product-placeholder-icon"></i>
+                  </div>
+                <% } %>
+                <form action="/wishlist/toggle" method="POST" style="position: absolute; top: 10px; right: 10px; margin: 0;">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                  <input type="hidden" name="product_id" value="<%= prod.product_id %>">
+                  <button type="submit" class="shop-fav-btn">
+                    <i class="fa-regular fa-heart"></i>
+                  </button>
+                </form>
+              </div>
+              
+              <div class="shop-product-details">
+                <h4 class="shop-product-title"><%= prod.product_name %></h4>
+                
+                <!-- Star Rating -->
+                <div class="shop-product-rating">
+                  <i class="fa-solid fa-star star-icon"></i>
+                  <span class="rating-score">4.5</span>
+                  <span class="rating-count">(<%= Math.floor(Math.random() * 150) + 50 %>)</span>
+                </div>
+                
+                <div class="shop-product-price">£<%= prod.product_price %></div>
+                
+                <form action="/cart/add" method="POST" style="margin-top: auto; width: 100%;">
+                  <input type="hidden" name="product_id" value="<%= prod.product_id %>">
+                  <button type="submit" class="shop-add-cart-btn" style="margin-top: 0;">Add to Cart</button>
+                </form>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+
+      <!-- Floating Chat Button -->
+      <div class="shop-floating-chat-btn">
+        <i class="fa-regular fa-comment"></i>
+      </div>
+
+    </div>
+
+    <!-- Home Indicator -->
+    <div style="position: absolute; bottom: 8px; left: calc(50% - 67px); width: 134px; height: 5px; background: #000000; border-radius: 100px; opacity: 0.1; z-index: 999;"></div>
+    
+  </div>
+</body>
+</html>

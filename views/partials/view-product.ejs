@@ -1,0 +1,181 @@
+<div class="page-container">
+    <div class="card">
+        <h2 class="page-title">View Product [<%= product.product_name %>]</h2>
+            <div class="section">
+                <h4 class="section-title">Product Image</h4>
+                <div class="form-grid">
+                    <% if(product.product_image) { %>
+                        <img src="<%= product.product_image %>" alt="Product Image" style="width: 100%;">
+                    <% } else { %>
+                        <img src="/images/no-image.png" alt="No Image">
+                    <% } %>
+                </div>
+            </div>
+            <div class="section">
+                <h4 class="section-title">Product Detail</h4>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <span><%= product.product_name %></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Product Category</label>
+                        <span><%= product.category_name %></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Product Sub Category</label>
+                        <span><%= product.subcategory_name %></span>
+                    </div>
+                </div>
+            </div>
+            <div class="section">
+                <h4 class="section-title">Pricing</h4>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Product New Price</label>
+                        <span><%= product.product_price %></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Product Old Price</label>
+                        <span><%= product.product_old_price %></span>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <span><%= product.product_status %></span>
+                    </div>
+                </div>
+            </div>
+            <!-- Product Details -->
+            <div class="section">
+                <h4 class="section-title">Product Details</h4>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label>Product Description</label>
+                        <textarea rows="4"><%= product.product_desc %></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-wrapper">
+                <a href="/products" style="text-decoration: none;text-align: center;color: #bd04e2;">Back to products</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<style>
+/* Full width page */
+.page-container {
+    width: 100%;
+    padding: 30px 40px;
+    box-sizing: border-box;
+}
+
+/* Card */
+.card {
+    width: 100%;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+    border-top: 4px solid #bd04e2;
+    border-bottom: 1px solid #bd04e2;
+}
+
+/* Titles */
+.page-title {
+    margin-bottom: 30px;
+    font-weight: 600;
+    color: #333;
+}
+
+.section {
+    margin-bottom: 35px;
+}
+
+.section-title {
+    margin-bottom: 15px;
+    color: #bd04e2;
+}
+
+/* Grid Layout */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+/* Tablet */
+@media (max-width: 1100px) {
+    .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Form elements */
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.full-width {
+    grid-column: span 3;
+}
+
+@media (max-width: 1100px) {
+    .full-width {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 600px) {
+    .full-width {
+        grid-column: span 1;
+    }
+}
+
+label {
+    font-size: 14px;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+input, textarea, select {
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #fd215e;
+    box-shadow: 0 0 0 2px rgba(253,33,94,0.1);
+}
+
+/* Button */
+.btn-wrapper {
+    text-align: right;
+}
+
+.btn-primary {
+    padding: 10px 25px;
+    background-color: #fd215e;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    opacity: 0.9;
+}
+</style>

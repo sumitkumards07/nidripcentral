@@ -1,0 +1,38 @@
+<div class="order-card" style="max-width: 800px; margin: 30px auto; padding: 25px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); background-color: #fff; border-top: 4px solid #fd215e;">
+    <h2 style="margin-bottom: 20px; color: #333;">Change Order Status - #<%= order.id %></h2>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 20px;">
+        <div style="flex: 1 1 300px;">
+            <table style="width: 100%; border-collapse: collapse;">
+                
+                <form method="POST" action="/orders/change-order-status/<%= order.id %>" style="display:flex; align-items:center; gap:10px;">
+                <tr>
+                    <td colspan="2" style="font-weight: bold; padding: 8px;">Change Current Status</td>
+                </tr>
+                <tr style="margin-top:15px;">
+                    <td colspan="2" style="font-weight: bold; padding: 8px;">
+                        <select name="status" style="width: 100%;padding:6px 10px; border-radius:6px; border:1px solid #ccc; font-weight:500;">
+                            <option value="Pending" <%= order.status === "Pending" ? "selected" : "" %>>Pending</option>
+                            <option value="Placed" <%= order.status === "Placed" ? "selected" : "" %>>Placed</option>
+                            <option value="Processing" <%= order.status === "Processing" ? "selected" : "" %>>Processing</option>
+                            <option value="Delivered" <%= order.status === "Delivered" ? "selected" : "" %>>Delivered</option>
+                            <option value="Returned" <%= order.status === "Returned" ? "selected" : "" %>>Returned</option>
+                            <option value="Cancelled" <%= order.status === "Cancelled" ? "selected" : "" %>>Cancelled</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr style="margin-top:15px;">
+                    <td colspan="2" style="font-weight: bold; padding: 8px;">
+                        <button type="submit" style="width: 100%;padding: 8px 20px; background-color: #fd215e; color: #fff; border-radius: 6px; font-weight:500; border:none;">Update Status</button>
+                    </td>
+                </tr>
+                </form>
+                <tr style="margin-top:15px;">
+                    <td colspan="2" style="font-weight: bold; padding: 8px;">
+                        <a href="/orders" style="width: 100%;padding: 10px 20px; background-color: #fd215e; color: #fff; border-radius: 6px; text-decoration: none; font-weight: 500;">Back to Orders</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

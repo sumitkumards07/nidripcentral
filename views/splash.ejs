@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NI DRIP Central</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(180deg, #FC2153 0%, #0030FD 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .splash-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    .splash-logo {
+      width: 280px;
+      height: auto;
+      filter: drop-shadow(0 4px 20px rgba(0,0,0,0.3));
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="splash-container">
+    <img src="/images/logo.png" alt="NI DRIP Central - Electronics & Appliances" class="splash-logo">
+  </div>
+
+  <script>
+    setTimeout(() => {
+      window.location.href = "/onboarding";
+    }, 2500);
+  </script>
+</body>
+</html>

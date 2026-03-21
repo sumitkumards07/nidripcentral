@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NI DRIP - Checkout</title>
+  <link rel="stylesheet" href="/css/modern.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body style="background-color: #f5f5f5; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+  <div class="mobile-frame">
+    <div class="checkout-layout" style="background: #f8f8f8; height: 100%; display: flex; flex-direction: column; position: relative; overflow: hidden;">
+      
+      <!-- Top Navigation / Header -->
+      <header class="shop-header" style="background: #fff; z-index: 10;">
+        <button class="shop-back-btn" onclick="history.back()">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <span style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 16px; color: #1A1A1A;">Checkout</span>
+        <div style="width: 20px;"></div>
+      </header>
+
+      <!-- Checkout Form -->
+      <form action="/checkout/process" method="POST" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; -ms-overflow-style: none; scrollbar-width: none; margin: 0; padding-bottom: 24px;">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        
+        <!-- Delivery Address Section -->
+        <div style="background: #fff; padding: 24px; margin-bottom: 8px;">
+          <h3 style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 16px; color: #1A1A1A; margin: 0 0 16px 0;">Delivery Address</h3>
+          
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <input type="text" name="full_name" placeholder="Full Name" required class="checkout-input">
+            <input type="text" name="address_1" placeholder="Address Line 1" required class="checkout-input">
+            <input type="text" name="address_2" placeholder="Address Line 2 (Optional)" class="checkout-input">
+            <div style="display: flex; gap: 12px;">
+              <input type="text" name="city" placeholder="City" required class="checkout-input" style="flex: 1;">
+              <input type="text" name="postcode" placeholder="Postcode" required class="checkout-input" style="flex: 1;">
+            </div>
+            <input type="tel" name="phone" placeholder="Phone Number" required class="checkout-input">
+          </div>
+        </div>
+
+        <!-- Payment Method Section -->
+        <div style="background: #fff; padding: 24px; margin-bottom: 8px;">
+          <h3 style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 16px; color: #1A1A1A; margin: 0 0 16px 0;">Payment Method</h3>
+          
+          <div style="display: flex; flex-direction: column; gap: 12px;">
+            <!-- Stripe -->
+            <label class="payment-option selected" id="opt-stripe">
+              <input type="radio" name="payment_method" value="stripe" checked style="display: none;" onchange="updatePaymentUI(this)">
+              <div class="payment-option-header">
+                <div>
+                  <div class="payment-title">Stripe</div>
+                  <div class="payment-desc">Secure card payment via Stripe</div>
+                </div>
+                <i class="fa-solid fa-circle-check check-icon" style="color: #00DB72; font-size: 18px;"></i>
+              </div>
+            </label>
+
+            <!-- Credit/Debit -->
+            <label class="payment-option" id="opt-card">
+              <input type="radio" name="payment_method" value="card" style="display: none;" onchange="updatePaymentUI(this)">
+              <div class="payment-option-header">
+                <div>
+                  <div class="payment-title">Credit/Debit Card</div>
+                  <div class="payment-desc">Visa, Mastercard, Amex</div>
+                </div>
+                <div class="radio-circle"></div>
+              </div>
+            </label>
+
+            <!-- PayPal -->
+            <label class="payment-option" id="opt-paypal">
+              <input type="radio" name="payment_method" value="paypal" style="display: none;" onchange="updatePaymentUI(this)">
+              <div class="payment-option-header">
+                <div>
+                  <div class="payment-title">PayPal</div>
+                  <div class="payment-desc">Pay with your PayPal account</div>
+                </div>
+                <div class="radio-circle"></div>
+              </div>
+            </label>
+
+            <!-- Bank Transfer -->
+            <label class="payment-option" id="opt-bank">
+              <input type="radio" name="payment_method" value="bank" style="display: none;" onchange="updatePaymentUI(this)">
+              <div class="payment-option-header">
+                <div>
+                  <div class="payment-title">Bank Transfer</div>
+                  <div class="payment-desc">Direct bank transfer</div>
+                </div>
+                <div class="radio-circle"></div>
+              </div>
+            </label>
+          </div>
+
+          <!-- Fake Card Details Block (Only shows if Stripe/Card active) -->
+          <div id="stripe-details-container" style="background: #fcfcfc; border: 1px solid #EBEBEB; border-radius: 12px; padding: 16px; margin-top: 16px;">
+            <div style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px; color: #1A1A1A; margin-bottom: 12px;">Card Details</div>
+            <!-- Mock Stripe Input -->
+            <div style="height: 44px; background: #fff; border: 1px solid #ccc; border-radius: 8px; display: flex; align-items: center; padding: 0 12px; color: #aaa; margin-bottom: 12px;">
+              <i class="fa-regular fa-credit-card" style="margin-right: 8px;"></i> Card number        MM/YY   CVC
+            </div>
+            
+            <button type="button" disabled style="width: 100%; background: #00DB72; color: #fff; padding: 12px; border: none; border-radius: 8px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px; opacity: 0.9;">
+              Pay £<%= total.toFixed(2) %> with Stripe
+            </button>
+            <div style="text-align: center; font-family: 'Inter', sans-serif; font-size: 11px; color: #888; margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 4px;">
+              Powered by <span style="font-weight: 600; color: #635bff;">Stripe</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Summary Section -->
+        <div style="background: #fff; padding: 24px; margin-bottom: 8px;">
+          <h3 style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 16px; color: #1A1A1A; margin: 0 0 16px 0;">Order Summary</h3>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px dashed #EAEAEA; padding-bottom: 16px;">
+            <span style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #666;">Total Amount</span>
+            <span style="font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: 600; color: #1A1A1A;">£<%= total.toFixed(2) %></span>
+          </div>
+
+          <!-- Accepted Payments -->
+          <div style="margin-top: 16px;">
+             <div style="font-family: 'Poppins', sans-serif; font-size: 12px; color: #888; margin-bottom: 8px; text-transform: uppercase; font-weight: 500;">We Accept</div>
+             <div style="display: flex; gap: 8px; align-items: center;">
+               <div class="cc-badge">Visa</div>
+               <div class="cc-badge">Mastercard</div>
+               <div class="cc-badge">Amex</div>
+               <div class="cc-badge">PayPal</div>
+             </div>
+          </div>
+        </div>
+
+        <!-- Sticky Footer -->
+        <div class="checkout-footer" style="padding: 16px 24px 34px 24px; background: #fff; box-shadow: 0 -4px 12px rgba(0,0,0,0.02); z-index: 10; margin-top: auto;">
+          <button type="submit" class="shop-add-cart-btn" style="width: 100%; font-size: 15px; padding: 14px 0; border-radius: 12px; margin-bottom: 12px;">Place Order - £<%= total.toFixed(2) %></button>
+          <div style="text-align: center; font-family: 'Poppins', sans-serif; font-size: 11px; color: #666; display: flex; align-items: center; justify-content: center; gap: 6px;">
+            <i class="fa-solid fa-lock" style="color: #888;"></i> Your payment information is secure and encrypted
+          </div>
+        </div>
+      </form>
+
+    </div>
+
+    <!-- Home Indicator -->
+    <div style="position: absolute; bottom: 8px; left: calc(50% - 67px); width: 134px; height: 5px; background: #000000; border-radius: 100px; opacity: 0.1; z-index: 999; pointer-events: none;"></div>
+    
+  </div>
+
+  <script>
+    function updatePaymentUI(selectedInput) {
+      // Remove 'selected' class and check-icon from all options
+      document.querySelectorAll('.payment-option').forEach(el => {
+        el.classList.remove('selected');
+        const iconDiv = el.querySelector('.check-icon, .radio-circle');
+        if (iconDiv.classList.contains('fa-circle-check')) {
+          el.querySelector('.payment-option-header').innerHTML = el.querySelector('.payment-option-header').innerHTML.replace(/<i[^>]+>/, '<div class="radio-circle"></div>');
+        }
+      });
+
+      // Add 'selected' class and check-icon to clicked option
+      const selectedLabel = selectedInput.closest('.payment-option');
+      selectedLabel.classList.add('selected');
+      const radioCircle = selectedLabel.querySelector('.radio-circle');
+      if (radioCircle) {
+        radioCircle.outerHTML = '<i class="fa-solid fa-circle-check check-icon" style="color: #00DB72; font-size: 18px;"></i>';
+      }
+
+      // Show/Hide Stripe block
+      const stripeBlock = document.getElementById('stripe-details-container');
+      if (selectedInput.value === 'stripe' || selectedInput.value === 'card') {
+        stripeBlock.style.display = 'block';
+      } else {
+        stripeBlock.style.display = 'none';
+      }
+    }
+  </script>
+
+  <style>
+    form::-webkit-scrollbar { display: none; }
+    .checkout-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid #EBEBEB;
+      border-radius: 12px;
+      background: #F8F8F8;
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      color: #1A1A1A;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .checkout-input:focus { border-color: #000; background: #fff; }
+    
+    .payment-option {
+      border: 1px solid #EBEBEB;
+      border-radius: 12px;
+      padding: 14px 16px;
+      background: #fff;
+      cursor: pointer;
+      display: block;
+      transition: border-color 0.2s;
+    }
+    .payment-option.selected {
+      border-color: #00DB72;
+      background: #F5FCF8;
+    }
+    .payment-option-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .payment-title { font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #1A1A1A; margin-bottom: 2px; }
+    .payment-desc { font-family: 'Poppins', sans-serif; font-size: 12px; color: #888; }
+    .radio-circle { width: 16px; height: 16px; border: 2px solid #ddd; border-radius: 50%; box-sizing: border-box; }
+    
+    .cc-badge {
+      padding: 4px 8px;
+      background: #F1F1F1;
+      border-radius: 4px;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      color: #555;
+      font-weight: 500;
+    }
+  </style>
+</body>
+</html>

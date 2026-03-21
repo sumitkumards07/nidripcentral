@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NI DRIP - Order Success</title>
+  <link rel="stylesheet" href="/css/modern.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+</head>
+<body style="background-color: #00DB72; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden;">
+  <div class="mobile-frame" style="background-color: #00DB72;">
+    <div style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; padding: 24px; text-align: center;">
+      
+      <!-- Success Icon -->
+      <div style="width: 100px; height: 100px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 32px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);">
+        <i class="fa-solid fa-check" style="color: #fff; font-size: 48px;"></i>
+      </div>
+
+      <!-- Success Text -->
+      <h1 style="color: #fff; font-family: 'Poppins', sans-serif; font-size: 28px; font-weight: 700; margin: 0 0 16px 0;">Order Placed!</h1>
+      <p style="color: rgba(255, 255, 255, 0.9); font-family: 'Poppins', sans-serif; font-size: 16px; margin: 0 0 48px 0; line-height: 1.5;">
+        Thank you for your purchase.<br>Your order is being processed and will be delivered fast!
+      </p>
+
+      <!-- Return Button -->
+      <a href="/home" style="display: inline-block; background: #fff; color: #00DB72; text-decoration: none; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 16px; padding: 16px 48px; border-radius: 30px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); width: 100%; box-sizing: border-box;">Back to Home</a>
+
+      <!-- Home Indicator -->
+      <div style="position: absolute; bottom: 8px; left: calc(50% - 67px); width: 134px; height: 5px; background: #ffffff; border-radius: 100px; opacity: 0.3; z-index: 999;"></div>
+    </div>
+  </div>
+
+  <script>
+    // Trigger flying confetti on load
+    window.onload = function() {
+      var duration = 3 * 1000;
+      var animationEnd = Date.now() + duration;
+      var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0, colors: ['#ffffff', '#ffeb3b', '#ff4081'] };
+
+      function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      var interval = setInterval(function() {
+        var timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          return clearInterval(interval);
+        }
+
+        var particleCount = 50 * (timeLeft / duration);
+        // since particles fall down, start a bit higher than random
+        confetti({
+          ...defaults, particleCount,
+          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+        });
+        confetti({
+          ...defaults, particleCount,
+          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+        });
+      }, 250);
+    };
+  </script>
+</body>
+</html>

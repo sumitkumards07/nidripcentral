@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NI DRIP - Verify OTP</title>
+  <link rel="stylesheet" href="/css/modern.css">
+  <style>
+    .otp-inputs {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 30px;
+    }
+    .otp-field {
+      width: 58px;
+      height: 58px;
+      border: none;
+      border-bottom: 2px solid var(--text-gray);
+      background: transparent;
+      text-align: center;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+    .otp-field:focus {
+      outline: none;
+      border-bottom-color: var(--primary-pink);
+    }
+  </style>
+</head>
+<body>
+  <div class="mobile-frame">
+    <div class="auth-bg">
+      <!-- Header -->
+      <button class="login-back-btn" onclick="history.back()"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="#1B1B1B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      
+      <h1 class="login-header-title">Verify OTP</h1>
+
+      <div class="verify-otp-container">
+        <p style="text-align: left; color: #4B4B4B; font-size: 14px; font-family: 'Poppins'; margin-bottom: 0;">
+          A code has been sent to your phone/email. Please enter it below.
+        </p>
+
+        <form action="/verify-otp" method="POST" style="width: 100%; display: flex; flex-direction: column; gap: 40px;">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <div class="otp-inputs">
+            <input type="text" name="otp_1" maxlength="1" class="otp-field" required>
+            <input type="text" name="otp_2" maxlength="1" class="otp-field" required>
+            <input type="text" name="otp_3" maxlength="1" class="otp-field" required>
+            <input type="text" name="otp_4" maxlength="1" class="otp-field" required>
+            <input type="text" name="otp_5" maxlength="1" class="otp-field" required>
+            <input type="text" name="otp_6" maxlength="1" class="otp-field" required>
+          </div>
+
+          <div class="text-center" style="margin-top: -20px;">
+            <p style="color: #8E8E8E; font-size: 14px; font-family: 'Poppins';">Resend in <span style="color: #FD22C3; font-weight: 500;">00:57</span></p>
+          </div>
+
+          <button type="submit" class="auth-btn-primary" style="width: 100%;">Confirm</button>
+        </form>
+      </div>
+
+      <div class="flex-grow"></div>
+      
+      <!-- Home Indicator -->
+      <div style="width: 134px; height: 5px; background: #000000; border-radius: 100px; margin: 0 auto 10px; opacity: 0.1;"></div>
+    </div>
+  </div>
+
+  <script>
+    const fields = document.querySelectorAll('.otp-field');
+    fields.forEach((field, i) => {
+      field.addEventListener('input', (e) => {
+        if (e.target.value.length === 1 && i < fields.length - 1) {
+          fields[i + 1].focus();
+        }
+      });
+      field.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !e.target.value && i > 0) {
+          fields[i - 1].focus();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

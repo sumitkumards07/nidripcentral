@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NI DRIP - Onboarding</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      width: 100vw;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background: linear-gradient(180deg, #FFD6EC 0%, #FFF0F8 50%, #FFF5FB 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .onboarding-wrapper {
+      width: 100%;
+      max-width: 440px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 24px;
+    }
+
+    .spacer-top {
+      flex: 1;
+    }
+
+    .product-showcase {
+      width: calc(100% + 48px);
+      margin: 0 -24px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    }
+
+    .product-showcase img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .content-section {
+      text-align: center;
+      padding: 40px 0;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .onboarding-title {
+      font-size: 30px;
+      font-weight: 600;
+      color: #1B1B1B;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .onboarding-desc {
+      font-size: 16px;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    .btn-get-started {
+      width: 100%;
+      height: 54px;
+      border-radius: 14px;
+      border: none;
+      background: linear-gradient(90deg, #FD215C 0%, #FD22C4 35.58%, #9C8095 70.76%, #29F04A 100%);
+      color: #1B1B1B;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 18px;
+      cursor: pointer;
+      letter-spacing: 0.3px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-get-started:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(253, 33, 92, 0.3);
+    }
+
+    .bottom-spacer {
+      height: 40px;
+    }
+  </style>
+</head>
+<body>
+  <div class="onboarding-wrapper">
+    <div class="spacer-top"></div>
+
+    <!-- Product Showcase Banner -->
+    <div class="product-showcase">
+      <img src="/images/product_showcase.png" alt="NI DRIP Central - Appliances">
+    </div>
+
+    <!-- Content -->
+    <div class="content-section">
+      <h1 class="onboarding-title">Own the trendiest items</h1>
+      <p class="onboarding-desc">Affordable Home Appliances,<br>Delivered Fast Across Belfast</p>
+      <button class="btn-get-started" onclick="window.location.href='/auth-choice'">Get Started</button>
+    </div>
+
+    <div class="bottom-spacer"></div>
+  </div>
+</body>
+</html>

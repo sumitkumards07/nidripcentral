@@ -1,0 +1,199 @@
+<div class="page-container-left">
+    <div class="card">
+        <h2 class="page-title">Update Sub Category</h2>
+        <form action="/products/update-subcategory/<%= scat.subcategory_id %>" method="POST">
+            <div class="section">
+                <div class="form-group">
+                    <label>Sub Category Name</label>
+                    <input type="text" name="subcategory_name"
+                        value="<%= scat.subcategory_name %>" required>
+                </div>
+                <div class="form-group" style="margin-top: 10px;">
+                    <label>Category</label>
+                    <select name="category_id" required>
+                        <option value="">Select Category</option>
+                        <% if(categories && categories.length > 0) { %>
+                            <% categories.forEach(cat => { %>
+                                <option value="<%= cat.category_id %>"
+                                    <%= cat.category_id == scat.category_id ? "selected" : "" %>>
+                                    <%= cat.category_name %>
+                                </option>
+                            <% }) %>
+                        <% } %>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label style="color:#fff;">--</label>
+                    <button type="submit" class="btn-primary"
+                        style="background: #bd04e2;">
+                        Update Sub Category
+                    </button><br>
+                    <a href="/products"
+                        style="text-decoration: none;text-align: center;color: #bd04e2;">
+                        Back to products
+                    </a>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="page-container-right">
+    <div class="card">
+        <h2 class="page-title">All Sub Categories</h2>
+        <div class="section">
+            <table style="width:100%; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th style="text-align:left; padding:8px;width:150px;">Sub Category ID</th>
+                        <th style="text-align:left; padding:8px;width:150px;">Sub Category Name</th>
+                        <th style="text-align:left; padding:8px;width:150px;">Category Name</th>
+                        <th style="text-align:left; padding:8px;width:150px;">Created By</th>
+                        <th style="text-align:left; padding:8px;width:150px;">Created On</th>
+                        <th style="text-align:left; padding:8px;width:150px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(scats && scats.length > 0) { %>
+                        <% scats.forEach(scat => { %>
+                            <tr>
+                                <td style="text-align:left; padding:8px;width:150px;"><%= scat.subcategory_id %></td>
+                                <td style="text-align:left; padding:8px;width:150px;"><%= scat.subcategory_name %></td>
+                                <td style="text-align:left; padding:8px;width:150px;"><%= scat.category_name %></td>
+                                <td style="text-align:left; padding:8px;width:150px;"><%= scat.created_by %></td>
+                                <td style="text-align:left; padding:8px;width:150px;"><%= scat.created_on.toISOString().split('T')[0] %></td>
+                                <td style="text-align:left; padding:8px;width:150px;">
+                                    <div class="dropdown">
+                                        <button class="action-btn">
+                                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a href="/products/update-subcategory/<%= scat.subcategory_id %>"><i class="fa fa-edit"></i> Update Sub Category</a>
+                                            <a href="/products/delete-subcategory/<%= scat.subcategory_id %>" class="danger"><i class="fa fa-trash"></i> Delete Sub Category</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="6" style="text-align:center;">No subcategories found.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    .dropdown { position: relative; display: inline-block;}
+    .action-btn { background: none; border: none; cursor: pointer; font-size: 18px;}
+    .dropdown-menu {
+        position: absolute;bottom: 110%;right: 0;background: rgba(120, 120, 120, 0.3);backdrop-filter: blur(8px);-webkit-backdrop-filter: blur(8px);
+        border-radius: 12px;min-width: 250px;padding: 8px 0;box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);opacity: 0;visibility: hidden;
+        transform: translateY(10px);transition: 0.2s ease;z-index: 100;
+    }
+    .dropdown-menu a {display: block;padding: 10px 16px; font-size: 12px; color: #222;text-decoration: none;transition: background 0.2s ease;}
+    .dropdown-menu a:hover {background: rgba(0, 0, 0, 0.08);}
+    .dropdown-menu .danger {color: #bd04e2;}
+    .dropdown.active .dropdown-menu { opacity: 1;visibility: visible;transform: translateY(0);}
+.page-container-left {
+    width: 30%;
+    padding: 30px 40px;
+    box-sizing: border-box;
+    float: left;
+}
+.page-container-right {
+    width: 70%;
+    padding: 30px 40px;
+    box-sizing: border-box;
+    float: left;
+}
+.card {
+    width: 100%;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+    border-top: 4px solid #bd04e2;
+    border-bottom: 1px solid #bd04e2;
+}
+.page-title {
+    margin-bottom: 30px;
+    font-weight: 600;
+    color: #333;
+}
+.section {
+    margin-bottom: 35px;
+}
+.section-title {
+    margin-bottom: 15px;
+    color: #bd04e2;
+}
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+@media (max-width: 600px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+label {
+    font-size: 14px;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+input {
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+input:focus {
+    outline: none;
+    border-color: #fd215e;
+    box-shadow: 0 0 0 2px rgba(253,33,94,0.1);
+}
+select {
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+select:focus {
+    outline: none;
+    border-color: #fd215e;
+    box-shadow: 0 0 0 2px rgba(253,33,94,0.1);
+}
+.btn-wrapper {
+    text-align: right;
+}
+.btn-primary {
+    padding: 10px 25px;
+    background-color: #fd215e;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+.btn-primary:hover {
+    opacity: 0.9;
+}
+</style>
+
+<script>
+    document.addEventListener("click", function (e) { const dropdowns = document.querySelectorAll(".dropdown");
+        dropdowns.forEach(drop => {
+            if (drop.contains(e.target)) { drop.classList.toggle("active"); } else { drop.classList.remove("active"); }
+        });
+    });
+</script>

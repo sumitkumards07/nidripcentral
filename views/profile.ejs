@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NI DRIP - Profile</title>
+  <link rel="stylesheet" href="/css/modern.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body style="background-color: #f5f5f5; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+  <div class="mobile-frame">
+    <div style="background: #fcfcfc; height: 100%; display: flex; flex-direction: column; position: relative;">
+      
+      <!-- Top Navigation / Header -->
+      <header class="shop-header">
+        <button class="shop-back-btn" onclick="history.back()">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <span style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 16px; color: #1A1A1A;">My Profile</span>
+        <div style="width: 20px;"></div>
+      </header>
+
+      <div style="padding: 24px; flex: 1; overflow-y: auto; -ms-overflow-style: none; scrollbar-width: none;">
+        
+        <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 32px; margin-top: 16px;">
+          <div style="width: 80px; height: 80px; border-radius: 50%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+            <i class="fa-regular fa-user"></i>
+          </div>
+          <h2 style="font-family: 'Poppins', sans-serif; font-size: 20px; font-weight: 600; color: #1A1A1A; margin: 0 0 4px 0;"><%= locals.user ? locals.user.user_name : 'Guest User' %></h2>
+          <p style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #888; margin: 0;"><%= locals.user ? locals.user.user_email : 'Please log in' %></p>
+        </div>
+
+        <div style="background: #fff; border: 1px solid #EBEBEB; border-radius: 16px; padding: 0 16px;">
+          
+          <!-- Default Email View -->
+          <div style="padding: 16px 0; border-bottom: 1px solid #EBEBEB; display: flex; align-items: center; gap: 16px;">
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: #F8F8F8; display: flex; align-items: center; justify-content: center; color: #1A1A1A;">
+              <i class="fa-regular fa-envelope"></i>
+            </div>
+            <div style="flex: 1;">
+              <div style="font-family: 'Poppins', sans-serif; font-size: 12px; color: #888;">Email</div>
+              <div style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #1A1A1A;"><%= locals.user ? locals.user.user_email : 'N/A' %></div>
+            </div>
+          </div>
+
+          <!-- Default Mobile View -->
+          <div style="padding: 16px 0; border-bottom: 1px solid #EBEBEB; display: flex; align-items: center; gap: 16px;">
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: #F8F8F8; display: flex; align-items: center; justify-content: center; color: #1A1A1A;">
+              <i class="fa-solid fa-phone"></i>
+            </div>
+            <div style="flex: 1;">
+              <div style="font-family: 'Poppins', sans-serif; font-size: 12px; color: #888;">Phone Number</div>
+              <div style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #1A1A1A;"><%= locals.user ? locals.user.user_mobile : 'N/A' %></div>
+            </div>
+          </div>
+          
+          <!-- Orders -->
+          <a href="/my-orders" style="padding: 16px 0; display: flex; align-items: center; gap: 16px; cursor: pointer; text-decoration: none; color: inherit;">
+            <div style="width: 40px; height: 40px; border-radius: 50%; background: #F8F8F8; display: flex; align-items: center; justify-content: center; color: #1A1A1A;">
+              <i class="fa-solid fa-box"></i>
+            </div>
+            <div style="flex: 1; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #1A1A1A;">My Orders</div>
+            <i class="fa-solid fa-chevron-right" style="color: #ccc; font-size: 14px;"></i>
+          </a>
+
+        </div>
+
+        <a href="/logout" style="display: block; width: 100%; text-align: center; text-decoration: none; color: #FF2B4D; border: 1px solid #FF2B4D; padding: 14px 0; border-radius: 12px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 15px; margin-top: 32px; transition: all 0.2s ease;">
+          Log Out
+        </a>
+
+      </div>
+
+      <!-- Home Indicator -->
+      <div style="position: absolute; bottom: 8px; left: calc(50% - 67px); width: 134px; height: 5px; background: #000000; border-radius: 100px; opacity: 0.1;"></div>
+    </div>
+  </div>
+  <style>
+    div::-webkit-scrollbar { display: none; }
+  </style>
+</body>
+</html>

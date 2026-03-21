@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NI DRIP - Home</title>
+  <link rel="stylesheet" href="/css/modern.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body style="background-color: #f5f5f5; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+  <div class="mobile-frame">
+    <div class="home-layout" style="background: #fff; min-height: 100%; position: relative;">
+      
+      <!-- Top Navigation / Header -->
+      <header class="home-header">
+        <img src="/images/home_logo.png" alt="Logo" class="home-logo" style="width: 40px; height: 40px; object-fit: contain;">
+        
+        <div style="display: flex; align-items: center; gap: 16px;">
+          <a href="/profile" class="profile-btn" style="width: 36px; height: 36px; border-radius: 50%; background: #F8F8F8; display: flex; align-items: center; justify-content: center; text-decoration: none; color: #1B1B1B;">
+            <i class="fa-regular fa-user" style="font-size: 16px;"></i>
+          </a>
+          
+          <a href="/cart-view" class="home-cart-btn" style="position: relative; text-decoration: none; color: #1B1B1B; display: inline-flex; align-items: center; justify-content: center;">
+            <i class="fa-solid fa-cart-shopping" style="font-size: 20px;"></i>
+            <% if (locals.cartCount && locals.cartCount > 0) { %>
+              <span class="shop-cart-badge" style="position: absolute; top: -8px; right: -8px;"><%= locals.cartCount %></span>
+            <% } %>
+          </a>
+        </div>
+      </header>
+
+      <!-- Search Bar -->
+      <form action="/search" method="GET" class="search-container">
+        <!-- GET requests usually don't need CSRF, but keeping it for consistency if needed or just skipping if csurf only checks POST -->
+        <div class="search-bar-wrapper">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" name="q" class="search-input" placeholder="Search appliances...">
+        </div>
+      </form>
+
+      <!-- Hero Banner -->
+      <div class="hero-banner">
+        <h2 class="hero-title">NI Drip Central Electronics</h2>
+        <p class="hero-subtitle">Delivered Fast Across Belfast</p>
+        <a href="/shop" class="shop-now-btn" style="text-decoration: none; display: inline-block;">Shop Now</a>
+      </div>
+
+      <!-- eBay Rating -->
+      <div class="ebay-rating-bar">
+        <i class="fa-solid fa-star ebay-star"></i>
+        <span>5.0 on <strong>eBay</strong></span>
+      </div>
+
+      <!-- Main Promo Image Placeholder -->
+      <div style="margin: 0 24px 30px; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+         <img src="/images/appliances_promo.png" alt="Appliances" style="width: 100%; display: block; object-fit: contain;">
+      </div>
+
+      <!-- Shop by Category -->
+      <h3 class="section-title">Shop by Category</h3>
+      <div class="category-grid">
+        <% categories.forEach(cat => { %>
+          <a href="/shop?category_id=<%= cat.category_id %>" class="category-card" style="text-decoration: none; color: inherit;">
+            <div class="category-icon-circle">
+              <img src="/images/<%= cat.category_image %>" alt="<%= cat.category_name %>" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%; padding: 4px;">
+            </div>
+            <span class="category-name"><%= cat.category_name %></span>
+            <i class="fa-solid fa-chevron-right category-arrow"></i>
+          </a>
+        <% }) %>
+      </div>
+
+      <!-- Featured Products -->
+      <h3 class="section-title">Featured Products</h3>
+      <div class="product-grid">
+        <% products.forEach(prod => { %>
+          <div class="product-card">
+            <div class="product-image" style="background: #f8f8f8; display: flex; align-items: center; justify-content: center;">
+               <i class="fa-solid fa-box-open" style="font-size: 40px; color: #ddd;"></i>
+            </div>
+            <div class="product-info">
+              <div class="product-name"><%= prod.product_name %></div>
+              <div class="product-price">£<%= prod.product_price %></div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+
+      <!-- Fast Delivery Banner -->
+      <div class="fast-delivery-banner">
+        <div class="fast-delivery-content">
+          <h3 class="fast-delivery-title">Fast Delivery</h3>
+          <p class="fast-delivery-subtitle">Free delivery on orders over £300</p>
+        </div>
+      </div>
+
+      </div>
+
+    </div>
+
+    <!-- Home Indicator -->
+    <div style="position: absolute; bottom: 8px; left: calc(50% - 67px); width: 134px; height: 5px; background: #000000; border-radius: 100px; opacity: 0.1; z-index: 999;"></div>
+  </div>
+</body>
+</html>

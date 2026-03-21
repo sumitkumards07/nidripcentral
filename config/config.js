@@ -1,0 +1,1 @@
+module.exports = { JWT_SECRET: process.env.JWT_SECRET || "01959cd68379790022b3194ace33d57a0600042ba26b7307109c2c9ab33f7c39fdd756ffff0adb45915b9f2df3a3df59" };
