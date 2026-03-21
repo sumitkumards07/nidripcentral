@@ -127,8 +127,7 @@ https://mohsin.mraalionline.com/?email=".$reg_email."&password=".$hash_password.
 				$_SESSION["user_city"] = $user_city;
 
 				$stmt_log = $this->con->prepare("INSERT INTO `aalierp_login_detail`(`login_id`, `login_name`, `login_email`, `login_date`, `login_ip`, `login_country`, `login_city`, `logout_date`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-				$empty_date = '';
-				$stmt_log->bind_param("ssssssss", $_SESSION["user_id"], $_SESSION["user_name"], $_SESSION["user_email"], $_SESSION["user_login"], $_SESSION["user_ip"], $_SESSION["user_country"], $_SESSION["user_city"], $empty_date);
+				$stmt_log->bind_param("ssssssss", $_SESSION["user_id"], $_SESSION["user_name"], $_SESSION["user_email"], $_SESSION["user_login"], $_SESSION["user_ip"], $_SESSION["user_country"], $_SESSION["user_city"], $_SESSION["user_login"]);
 				$stmt_log->execute();
 
 				if($row["user_type"] == "Admin" && $row["user_status"] == "Approved"){
