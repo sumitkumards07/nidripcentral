@@ -5,19 +5,19 @@
     }
 
     // Live SQL Telemetry Execution
-    $count_orders = mysqli_fetch_array(mysqli_query($mysqli, "SELECT COUNT(*) as cc FROM aalierp_cart"));
+    $count_orders = mysqli_fetch_array(mysqli_query($conn, "SELECT COUNT(*) as cc FROM aalierp_cart"));
     $total_orders = $count_orders['cc'];
 
-    $count_pending = mysqli_fetch_array(mysqli_query($mysqli, "SELECT COUNT(*) as cc FROM aalierp_cart WHERE status = 'Pending'"));
+    $count_pending = mysqli_fetch_array(mysqli_query($conn, "SELECT COUNT(*) as cc FROM aalierp_cart WHERE status = 'Pending'"));
     $pending_orders = $count_pending['cc'];
 
-    $count_cust = mysqli_fetch_array(mysqli_query($mysqli, "SELECT COUNT(*) as cc FROM aalierp_user"));
+    $count_cust = mysqli_fetch_array(mysqli_query($conn, "SELECT COUNT(*) as cc FROM aalierp_user"));
     $total_customers = $count_cust['cc'];
 
-    $count_ref = mysqli_fetch_array(mysqli_query($mysqli, "SELECT COUNT(*) as cc FROM aalierp_cart WHERE status = 'Refunded'"));
+    $count_ref = mysqli_fetch_array(mysqli_query($conn, "SELECT COUNT(*) as cc FROM aalierp_cart WHERE status = 'Refunded'"));
     $refunds = $count_ref['cc'];
 
-    $recent_query = mysqli_query($mysqli, "SELECT c.id, c.date, c.status, p.product_name FROM aalierp_cart c JOIN aalierp_product p ON c.p_id = p.product_id ORDER BY c.id DESC LIMIT 5");
+    $recent_query = mysqli_query($conn, "SELECT c.id, c.date, c.status, p.product_name FROM aalierp_cart c JOIN aalierp_product p ON c.p_id = p.product_id ORDER BY c.id DESC LIMIT 5");
 ?>
 <!DOCTYPE html>
 <html lang="en">
