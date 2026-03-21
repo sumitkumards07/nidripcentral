@@ -21,7 +21,7 @@
                             ?>
                             <form method="POST">
                                 <?php $users_query = mysqli_query($conn, "SELECT user_id, user_name FROM aalierp_user WHERE user_type = 'admin' AND user_status = 'Approved'");
-                                    while($users_query && $user = mysqli_fetch_assoc($users_query)) {$checked = in_array((int)$user["user_id"], $assigned_users) ? "checked" : "";
+                                    while($users_query && ($user = mysqli_fetch_assoc($users_query))) {$checked = in_array((int)$user["user_id"], $assigned_users) ? "checked" : "";
                                 ?>
                                 <input type="checkbox" name="user_id[]" value="<?php echo $user["user_id"]; ?>" <?php echo $checked; ?> style="width:15px;height:15px;"> 
                                 <?php echo htmlspecialchars($user["user_name"]); ?>

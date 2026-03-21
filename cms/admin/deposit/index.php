@@ -84,7 +84,7 @@
                                                 <!--<select class="form-control select2" id="user_id" name="user_name">
                                                     <option value="0">Select User</option>
                                                     <?php $vwuser = mysqli_query($conn, "SELECT * FROM aalierp_user WHERE user_type='User' OR user_type='Investor' AND user_status='Approved'");
-                                                        while($vwuser && $uvr = mysqli_fetch_array($vwuser)){ ?>
+                                                        while($vwuser && ($uvr = mysqli_fetch_array($vwuser))){ ?>
                                                         <option value="<?php echo $uvr["user_id"]; ?>"><?php echo $cin."".$uvr["user_id"]." [".$uvr["user_name"]."]"; ?></option>
                                                     <?php } ?>
                                                 </select>
@@ -128,7 +128,7 @@
 
 <?php $n=1;
 	$depquer = mysqli_query($conn,"SELECT d.dep_id,d.dep_date,d.user_id,d.dep_deduct,d.dep_amount,d.dep_slip,d.dep_reason,d.dep_status,u.user_name FROM aalierp_deposit d, aalierp_user u WHERE d.user_id=u.user_id AND d.dep_status='Pending' ORDER BY d.dep_id DESC");
-	while($depquer && $rec = mysqli_fetch_array($depquer)){ ?>
+	while($depquer && ($rec = mysqli_fetch_array($depquer))){ ?>
         <tr>
             <td><?php echo $n; ?></td>
         	<td><?php echo $rec["dep_date"]; ?></td>
@@ -182,7 +182,7 @@
                     							    <tbody>
 <?php $n=1;
 	$depquery = mysqli_query($conn,"SELECT * FROM aalierp_deposit WHERE dep_status='Approved' ORDER BY dep_id DESC");
-	while($depquery && $rac = mysqli_fetch_array($depquery)){ 
+	while($depquery && ($rac = mysqli_fetch_array($depquery))){ 
 	    $viewus = mysqli_query($conn, "SELECT * FROM aalierp_user WHERE user_id='".$rac["user_id"]."'"); $uss = $viewus ? mysqli_fetch_assoc($viewus) : []; 
    
 ?>

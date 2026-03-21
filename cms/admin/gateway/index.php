@@ -135,7 +135,7 @@
                     							                    </thead>
                     							                    <tbody>
 <?php 
-    $view = mysqli_query($conn,"SELECT * FROM aalierp_gateway"); $n=1; while($view && $row = mysqli_fetch_array($view)){ ?>
+    $view = mysqli_query($conn,"SELECT * FROM aalierp_gateway"); $n=1; while($view && ($row = mysqli_fetch_array($view))){ ?>
                                                                         <tr>
                                                                             <td><?php echo $n; ?></td>
                                                                             <td><?php echo $row["gate_title"]; ?></td>
