@@ -1,0 +1,375 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// USERS & AUTH
+// ═══════════════════════════════════════════════════════════════
+
+model User {
+  user_id        Int       @id @default(autoincrement())
+  user_fname     String?   @db.VarChar(100)
+  user_lname     String?   @db.VarChar(100)
+  user_name      String?   @db.VarChar(200)
+  user_username  String?   @db.VarChar(100)
+  user_email     String    @unique @db.VarChar(200)
+  user_password  String    @db.VarChar(255)
+  user_passcode  String?   @db.VarChar(100)
+  user_image     String?   @db.VarChar(500)
+  user_mobile    String?   @db.VarChar(20)
+  user_designation String? @db.VarChar(100)
+  user_type      String    @default("User") @db.VarChar(50)
+  user_status    String    @default("Pending") @db.VarChar(50)
+  user_ip        String?   @db.VarChar(50)
+  user_city      String?   @db.VarChar(100)
+  user_country   String?   @db.VarChar(100)
+
+  cart_items  Cart[]
+  login_logs  LoginDetail[]
+  tickets     Ticket[]
+
+  @@map("aalierp_user")
+}
+
+model LoginDetail {
+  id            Int       @id @default(autoincrement())
+  login_id      String?   @db.VarChar(50)
+  login_name    String?   @db.VarChar(200)
+  login_email   String?   @db.VarChar(200)
+  login_date    DateTime? @db.DateTime(0)
+  login_ip      String?   @db.VarChar(50)
+  login_country String?   @db.VarChar(100)
+  login_city    String?   @db.VarChar(100)
+  logout_date   DateTime? @db.DateTime(0)
+  user          User?     @relation(fields: [login_id], references: [user_id], map: "fk_login_user")
+
+  @@index([login_id])
+  @@map("aalierp_login_detail")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PRODUCT CATALOG
+// ═══════════════════════════════════════════════════════════════
+
+model Product {
+  product_id       Int       @id @default(autoincrement())
+  product_name     String    @db.VarChar(300)
+  product_image    String?   @db.VarChar(500)
+  category_id      Int?
+  subcategory_id   Int?
+  unit_id          Int?
+  catalogue_id     Int?
+  product_price    Decimal   @default(0) @db.Decimal(12, 2)
+  product_old_price Decimal  @default(0) @db.Decimal(12, 2)
+  product_discount Decimal   @default(0) @db.Decimal(12, 2)
+  product_keywords String?   @db.VarChar(500)
+  product_desc     String?   @db.Text
+  product_type     String?   @db.VarChar(100)
+  product_download String?   @db.VarChar(500)
+  product_status   String    @default("Active") @db.VarChar(50)
+  created_on       DateTime? @db.DateTime(0)
+  created_by       String?   @db.VarChar(200)
+  updated_on       DateTime? @db.DateTime(0)
+
+  category    Category?    @relation(fields: [category_id], references: [category_id])
+  subcategory SubCategory? @relation(fields: [subcategory_id], references: [sub_category_id])
+  unit        Unit?        @relation(fields: [unit_id], references: [unit_id])
+  catalogue   Catalogue?   @relation(fields: [catalogue_id], references: [catalogue_id])
+  cart_items  Cart[]
+  images      ProductImage[]
+
+  @@index([category_id])
+  @@index([subcategory_id])
+  @@index([unit_id])
+  @@index([catalogue_id])
+  @@map("aalierp_product")
+}
+
+model ProductImage {
+  image_id      Int       @id @default(autoincrement())
+  product_id    Int
+  product_image String?   @db.VarChar(500)
+  created_on    DateTime? @db.DateTime(0)
+  created_by    String?   @db.VarChar(200)
+
+  product Product @relation(fields: [product_id], references: [product_id], onDelete: Cascade)
+
+  @@index([product_id])
+  @@map("aalierp_image")
+}
+
+model Brand {
+  brand_id    Int       @id @default(autoincrement())
+  brand_name  String    @unique @db.VarChar(200)
+  brand_image String?   @db.VarChar(500)
+  brand_status String?  @default("Active") @db.VarChar(50)
+  created_on  DateTime? @db.DateTime(0)
+  created_by  String?   @db.VarChar(200)
+  updated_on  DateTime? @db.DateTime(0)
+
+  @@map("aalierp_brand")
+}
+
+model Banner {
+  banner_id     Int       @id @default(autoincrement())
+  banner_size   String?   @db.VarChar(200)
+  banner_image  String?   @db.VarChar(500)
+  banner_status String    @default("Active") @db.VarChar(50)
+  created_on    DateTime? @db.DateTime(0)
+  created_by    String?   @db.VarChar(200)
+
+  @@map("aalierp_banner")
+}
+
+model Category {
+  category_id          Int       @id @default(autoincrement())
+  category_name        String    @unique @db.VarChar(200)
+  category_description String?   @db.Text
+  category_status      String?   @default("Active") @db.VarChar(50)
+  created_on           DateTime? @db.DateTime(0)
+  created_by           String?   @db.VarChar(200)
+  updated_on           DateTime? @db.DateTime(0)
+
+  products       Product[]
+  sub_categories SubCategory[]
+
+  @@map("aalierp_category")
+}
+
+model SubCategory {
+  sub_category_id   Int       @id @default(autoincrement())
+  sub_category_name String    @unique @db.VarChar(200)
+  category_id       Int
+  created_on        DateTime? @db.DateTime(0)
+  created_by        String?   @db.VarChar(200)
+  updated_on        DateTime? @db.DateTime(0)
+
+  category Category  @relation(fields: [category_id], references: [category_id])
+  products Product[]
+
+  @@index([category_id])
+  @@map("aalierp_sub_category")
+}
+
+model Unit {
+  unit_id    Int       @id @default(autoincrement())
+  unit_name  String    @unique @db.VarChar(100)
+  created_on DateTime? @db.DateTime(0)
+  created_by String?   @db.VarChar(200)
+  updated_on DateTime? @db.DateTime(0)
+
+  products Product[]
+
+  @@map("aalierp_unit")
+}
+
+model Catalogue {
+  catalogue_id    Int       @id @default(autoincrement())
+  catalogue_name  String    @unique @db.VarChar(200)
+  catalogue_image String?   @db.VarChar(500)
+  created_on      DateTime? @db.DateTime(0)
+  created_by      String?   @db.VarChar(200)
+
+  products Product[]
+
+  @@map("aalierp_catalogue")
+}
+
+model Library {
+  library_id       Int       @id @default(autoincrement())
+  library_name     String    @unique @db.VarChar(300)
+  library_image    String?   @db.VarChar(500)
+  library_keywords String?   @db.VarChar(500)
+  library_desc     String?   @db.Text
+  created_on       DateTime? @db.DateTime(0)
+  created_by       String?   @db.VarChar(200)
+
+  @@map("aalierp_library")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ORDERS & COMMERCE
+// ═══════════════════════════════════════════════════════════════
+
+model Cart {
+  id      Int       @id @default(autoincrement())
+  p_id    Int
+  user_id Int
+  qty     Int       @default(1)
+  ship    String?   @db.VarChar(200)
+  status  String    @default("Chosen") @db.VarChar(50)
+  date    DateTime  @default(now()) @db.DateTime(0)
+
+  product Product @relation(fields: [p_id], references: [product_id])
+  user    User    @relation(fields: [user_id], references: [user_id])
+
+  @@index([p_id])
+  @@index([user_id])
+  @@index([status])
+  @@map("aalierp_cart")
+}
+
+model Coupon {
+  id             Int       @id @default(autoincrement())
+  coupon_code    String?   @db.VarChar(100)
+  coupon_minimum Decimal?  @db.Decimal(12, 2)
+  coupon_discount Decimal? @db.Decimal(12, 2)
+  coupon_valid_from DateTime? @db.DateTime(0)
+  coupon_valid_to   DateTime? @db.DateTime(0)
+  status         String    @default("Active") @db.VarChar(50)
+
+  @@map("aalierp_coupon")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SUPPORT & TICKETS
+// ═══════════════════════════════════════════════════════════════
+
+model Ticket {
+  id         Int       @id @default(autoincrement())
+  user_id    Int?
+  subject    String?   @db.VarChar(300)
+  message    String?   @db.Text
+  priority   String?   @default("Normal") @db.VarChar(50)
+  status     String    @default("Open") @db.VarChar(50)
+  created_on DateTime? @db.DateTime(0)
+
+  user User? @relation(fields: [user_id], references: [user_id])
+
+  @@index([user_id])
+  @@map("aalierp_tickets")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// SALES & REPORTS
+// ═══════════════════════════════════════════════════════════════
+
+model Sales {
+  sales_id   Int       @id @default(autoincrement())
+  user_id    Int?
+  sales_date DateTime? @db.DateTime(0)
+  amount     Decimal?  @db.Decimal(12, 2)
+  status     String?   @db.VarChar(50)
+
+  @@map("aalierp_sales")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// COMPANY SETTINGS
+// ═══════════════════════════════════════════════════════════════
+
+model Contents {
+  company_id       Int     @id @default(autoincrement())
+  company_name     String? @db.VarChar(200)
+  company_salogan  String? @db.VarChar(500)
+  company_mobile   String? @db.VarChar(20)
+  company_email    String? @db.VarChar(200)
+  company_web      String? @db.VarChar(200)
+  company_phone    String? @db.VarChar(20)
+  company_address  String? @db.VarChar(500)
+  company_city     String? @db.VarChar(100)
+  company_country  String? @db.VarChar(100)
+  company_pob      String? @db.VarChar(100)
+  company_logo     String? @db.VarChar(500)
+  company_currency String? @db.VarChar(10)
+
+  @@map("aalierp_contents")
+}
+
+// ═══════════════════════════════════════════════════════════════
+// QUOTATIONS & WORK ORDERS
+// ═══════════════════════════════════════════════════════════════
+
+model Quote {
+  quote_no       Int       @id @default(autoincrement())
+  quote_date     DateTime? @db.DateTime(0)
+  quote_sub_total Decimal? @db.Decimal(12, 2)
+  status         Int?
+  created_on     DateTime? @db.DateTime(0)
+  created_by     String?   @db.VarChar(200)
+
+  details QuoteDetail[]
+
+  @@map("aalierp_quote")
+}
+
+model QuoteDetail {
+  id            Int       @id @default(autoincrement())
+  qd_no         Int
+  qd_item       Int?
+  qd_qty        Decimal?  @db.Decimal(12, 2)
+  qd_unit       Int?
+  qd_discount   Decimal?  @db.Decimal(12, 2)
+  qd_price      Decimal?  @db.Decimal(12, 2)
+  qd_narration  String?   @db.VarChar(500)
+  status        Int?
+
+  quote Quote @relation(fields: [qd_no], references: [quote_no], onDelete: Cascade)
+
+  @@index([qd_no])
+  @@map("aalierp_quote_detail")
+}
+
+model WorkOrder {
+  wc_no        Int       @id @default(autoincrement())
+  wc_date      DateTime? @db.DateTime(0)
+  wc_project   Int?
+  wc_vendor    Int?
+  wc_sub_total Decimal?  @db.Decimal(12, 2)
+  status       Int?
+  created_on   DateTime? @db.DateTime(0)
+  created_by   String?   @db.VarChar(200)
+
+  details WorkOrderDetail[]
+
+  @@map("aalierp_workorder")
+}
+
+model WorkOrderDetail {
+  id            Int       @id @default(autoincrement())
+  wcd_no        Int
+  wcd_act       Int?
+  wcd_qty       Decimal?  @db.Decimal(12, 2)
+  wcd_price     Decimal?  @db.Decimal(12, 2)
+  wcd_narration String?   @db.VarChar(500)
+  status        Int?
+
+  workOrder WorkOrder @relation(fields: [wcd_no], references: [wc_no], onDelete: Cascade)
+
+  @@index([wcd_no])
+  @@map("aalierp_workorder_detail")
+}
+
+model Material {
+  mi_no      Int       @id @default(autoincrement())
+  mi_date    DateTime? @db.DateTime(0)
+  mi_project Int?
+  mi_act     Int?
+  mi_store   Int?
+  status     Int?
+  created_on DateTime? @db.DateTime(0)
+  created_by String?   @db.VarChar(200)
+
+  details MaterialDetail[]
+
+  @@map("aalierp_material")
+}
+
+model MaterialDetail {
+  id            Int       @id @default(autoincrement())
+  mid_no        Int
+  mid_item      Int?
+  mid_qty       Decimal?  @db.Decimal(12, 2)
+  mid_narration String?   @db.VarChar(500)
+  status        Int?
+
+  material Material @relation(fields: [mid_no], references: [mi_no], onDelete: Cascade)
+
+  @@index([mid_no])
+  @@map("aalierp_material_detail")
+}
