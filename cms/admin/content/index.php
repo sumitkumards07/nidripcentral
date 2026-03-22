@@ -1,323 +1,68 @@
 <?php 
     include("../../config/defines.php");
-    if(!isset($_SESSION["user_id"])){
-        header("location:".DOMAIN."");
-    }
+    if(!isset($_SESSION["user_id"])){ header("location:".DOMAIN.""); exit; }
 ?>
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-        <title>System Contents | <?php echo $company_name; ?></title>
-        <?php include($AaliLINK_IN."/functions/HTML/css.php"); ?>
-    </head>
-    
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | <?php echo $company_name; ?></title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="<?php echo $AaliLINK; ?>/uploads/logos/<?php echo $company_logo; ?>">
+    <?php include($AaliLINK_IN."/functions/HTML/css.php"); ?>
+    <style>
+    .page-title{font-size:28px;font-weight:800;color:#1a1a1a;margin-bottom:4px}
+    .page-sub{color:#666;font-size:15px;margin-bottom:28px}
+    .settings-card{background:#fff;border-radius:20px;padding:32px;box-shadow:0 4px 20px rgba(0,0,0,.04);max-width:800px}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    .form-group{display:flex;flex-direction:column;gap:6px}
+    .form-group label{font-size:13px;font-weight:600;color:#555}
+    .form-group input,.form-group textarea{padding:10px 14px;border:1.5px solid #e8e8e8;border-radius:10px;font-size:14px;font-family:inherit;outline:none;background:#fafafa}
+    .form-group input:focus,.form-group textarea:focus{border-color:#fd215e;background:#fff}
+    .form-group.full{grid-column:1/-1}
+    .btn-save{background:linear-gradient(135deg,#fd215e,#fd229b);color:#fff;border:none;padding:14px 40px;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;margin-top:24px;transition:opacity .2s}
+    .btn-save:hover{opacity:.88}
+    .logo-preview{width:80px;height:80px;border-radius:16px;object-fit:cover;border:2px solid #f0f0f0;margin-bottom:12px}
+    @media(max-width:768px){.form-grid{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
 <div id="app">
-            <div class="main-wrapper main-wrapper-1">
-                <div class="navbar-bg"></div>
-                <?php include($AaliLINK_IN."/functions/HTML/nav.php"); ?>
-                <div class="main-content">
-                    <section class="section">
-                        <div class="page-heading" style="margin-bottom: 30px;">
-                            <h2 style="font-size:28px; font-weight:700; color:#1a1a1a; margin-bottom:5px;">System Content</h2>
-                            <p style="color:#666; font-size:14px; margin:0;">Manage global site settings and branding</p>
-                        </div>
-
-                        <div class="row">
-
-                            <div class="col-lg-8">
-                                <div class="card" style="background:#fff; border-radius:20px; box-shadow:0 8px 40px rgba(0,0,0,0.04); border:none; overflow:hidden;">
-                                    <div class="card-body" style="padding:0;">
-                                        <div class="table-responsive">
-                                            <table class="table" style="width:100%; margin:0; border-collapse: collapse;">
-                                                <thead style="background:#fff;">
-                                                    <tr>
-                                                        <th style="padding:20px 25px; font-weight:500; color:#888; border-bottom:1px solid #f4f4f4; font-size:13px; width:30%;">Fields</th>
-                                                        <th style="padding:20px 25px; font-weight:500; color:#888; border-bottom:1px solid #f4f4f4; font-size:13px;">Data</th>
-                                                        <th style="padding:20px 25px; font-weight:500; color:#888; border-bottom:1px solid #f4f4f4; font-size:13px; text-align: right;">Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr style="border-bottom: 1px solid #f8f8f8;">
-                                                        <td style="padding:20px 25px; color:#1a1a1a; font-weight:600;">Title: </td>
-                                                        <td style="padding:20px 25px; color:#666;"><?php echo $company_name; ?></td>
-                                                        <td style="padding:20px 25px; text-align: right;">
-                                                            <a href="?name=<?php echo $company_id; ?>" class="btn" style="background:var(--c1); color:#fff; border-radius:10px; padding:6px 16px; font-size:12px; font-weight:600; text-decoration:none;">Update</a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr style="border-bottom: 1px solid #f8f8f8;">
-                                                        <td style="padding:20px 25px; color:#1a1a1a; font-weight:600;">Logo: </td>
-                                                        <td style="padding:20px 25px;"><img src="<?php echo $AaliLINK; ?>/uploads/logos/<?php echo $company_logo; ?>" style="width:40px; height:40px; border-radius:8px; object-fit:contain; background:#f5f5f5;" /></td>
-                                                        <td style="padding:20px 25px; text-align: right;">
-                                                            <a href="?logo=<?php echo $company_id; ?>" class="btn" style="background:var(--c1); color:#fff; border-radius:10px; padding:6px 16px; font-size:12px; font-weight:600; text-decoration:none;">Update</a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr style="border-bottom: 1px solid #f8f8f8;">
-                                                        <td style="padding:20px 25px; color:#1a1a1a; font-weight:600;">Slogan: </td>
-                                                        <td style="padding:20px 25px; color:#666;"><?php echo $company_salogan; ?></td>
-                                                        <td style="padding:20px 25px; text-align: right;">
-                                                            <a href="?salogan=<?php echo $company_id; ?>" class="btn" style="background:var(--c1); color:#fff; border-radius:10px; padding:6px 16px; font-size:12px; font-weight:600; text-decoration:none;">Update</a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr style="border-bottom: 1px solid #f8f8f8;">
-                                                        <td style="padding:20px 25px; color:#1a1a1a; font-weight:600;">Phone: </td>
-                                                        <td style="padding:20px 25px; color:#666;"><?php echo $company_phone; ?></td>
-                                                        <td style="padding:20px 25px; text-align: right;">
-                                                            <a href="?phone=<?php echo $company_id; ?>" class="btn" style="background:var(--c1); color:#fff; border-radius:10px; padding:6px 16px; font-size:12px; font-weight:600; text-decoration:none;">Update</a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr style="border-bottom: 1px solid #f8f8f8;">
-                                                        <td style="padding:20px 25px; color:#1a1a1a; font-weight:600;">Email: </td>
-                                                        <td style="padding:20px 25px; color:#666;"><?php echo $company_email; ?></td>
-                                                        <td style="padding:20px 25px; text-align: right;">
-                                                            <a href="?email=<?php echo $company_id; ?>" class="btn" style="background:var(--c1); color:#fff; border-radius:10px; padding:6px 16px; font-size:12px; font-weight:600; text-decoration:none;">Update</a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr style="border-bottom: 1px solid #f8f8f8;">
-                                                        <td style="padding:20px 25px; color:#1a1a1a; font-weight:600;">Website: </td>
-                                                        <td style="padding:20px 25px; color:#666;"><?php echo $company_web; ?></td>
-                                                        <td style="padding:20px 25px; text-align: right;">
-                                                            <a href="?web=<?php echo $company_id; ?>" class="btn" style="background:var(--c1); color:#fff; border-radius:10px; padding:6px 16px; font-size:12px; font-weight:600; text-decoration:none;">Update</a>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>   
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-lg-4">
-                                <?php if(isset($_GET["name"])){ ?>
-                                    <div class="card card-default">
-                                        <div class="card-header"><i class='fa fa-edit'></i> Update Name</div>
-                                        <div class="card-body">
-                                <?php if(isset($_POST["btn_title"])){ 
-                                        mysqli_query($conn, "UPDATE aalierp_contents SET company_name='".$_POST["title"]."' WHERE company_id='".$_POST["id"]."'"); 
-                                        echo "<script>window.location.href = '../content/?content';</script>"; 
-                                } ?>
-                                            <form method="post">
-                                                <input type="hidden" name="id" value="<?php echo $company_id; ?>" />
-                                                <input type="text" class="form-control mb-2" name="title" value="<?php echo $company_name; ?>" />
-                                                <input type="submit" name="btn_title" class="btn btn-info btn-sm" value="Update Title" />
-                                            </form>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                                
-                                <?php if(isset($_GET["logo"])){ ?>
-                                    <div class="card card-default">
-                                        <div class="card-header"><i class='fa fa-edit'></i> Update Logo</div>
-                                        <div class="card-body">
-                                <?php if(isset($_POST["btn_logo"])){ 
-                                        if($_FILES["logo"]==""){echo "<div class='alert alert-warning alert-block'>Upload Logo</div>";}else{
-                                            $valid_extensions = array('jpeg', 'jpg', 'png', 'gif', 'bmp');
-                                    		$reg_image = '../../uploads/logos/';
-                                    		$img = $_FILES['logo']['name'];
-                                    		$tmp = $_FILES['logo']['tmp_name'];
-                                    		$ext = strtolower(pathinfo($img, PATHINFO_EXTENSION));
-                                    		$final_image = rand(1000,1000000).$img;
-                                    		if(in_array($ext, $valid_extensions)){ 
-                                    			$reg_image = $reg_image.strtolower($final_image); 
-                                    			if(move_uploaded_file($tmp,$reg_image)){
-                                                    mysqli_query($conn, "UPDATE aalierp_contents SET company_logo='".$reg_image."' WHERE company_id='".$_POST["id"]."'"); 
-                                                    echo "<script>window.location.href = '../content/?content';</script>"; 
-                                    			}
-                                    		}
-                                        }
-                                } ?>
-                                            <form method="post" enctype="multipart/form-data">
-                                                <input type="hidden" name="id" value="<?php echo $company_id; ?>" />
-                                                <input type="file" class="form-control mb-2" name="logo" value="<?php echo $AaliLINK; ?>/uploads/logos/<?php echo $company_logo; ?>" />
-                                                <input type="submit" name="btn_logo" class="btn btn-info btn-sm" value="Update Logo" />
-                                            </form>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                                
-                                <?php if(isset($_GET["salogan"])){ ?>
-                                    <div class="card card-default">
-                                        <div class="card-header"><i class='fa fa-edit'></i> Update Salogan</div>
-                                        <div class="card-body">
-                                <?php if(isset($_POST["btn_salogan"])){ 
-                                        mysqli_query($conn, "UPDATE aalierp_contents SET company_salogan='".$_POST["salogan"]."' WHERE company_id='".$_POST["id"]."'"); 
-                                        echo "<script>window.location.href = '../content/?content';</script>"; 
-                                } ?>
-                                            <form method="post">
-                                                <input type="hidden" name="id" value="<?php echo $company_id; ?>" />
-                                                <input type="text" class="form-control mb-2" name="salogan" value="<?php echo $company_salogan; ?>" />
-                                                <input type="submit" name="btn_salogan" class="btn btn-info btn-sm" value="Update salogan" />
-                                            </form>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                                
-                                <?php if(isset($_GET["phone"])){ ?>
-                                    <div class="card card-default">
-                                        <div class="card-header"><i class='fa fa-edit'></i> Update Phone</div>
-                                        <div class="card-body">
-                                <?php if(isset($_POST["btn_phone"])){ 
-                                        mysqli_query($conn, "UPDATE aalierp_contents SET company_phone='".$_POST["phone"]."' WHERE company_id='".$_POST["id"]."'"); 
-                                        echo "<script>window.location.href = '../content/?content';</script>"; 
-                                } ?>
-                                            <form method="post">
-                                                <input type="hidden" name="id" value="<?php echo $company_id; ?>" />
-                                                <input type="text" class="form-control mb-2" name="phone" value="<?php echo $company_phone; ?>" />
-                                                <input type="submit" name="btn_phone" class="btn btn-info btn-sm" value="Update Phone" />
-                                            </form>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                                
-                                <?php if(isset($_GET["mobile"])){ ?>
-                                    <div class="card card-default">
-                                        <div class="card-header"><i class='fa fa-edit'></i> Update Mobile</div>
-                                        <div class="card-body">
-                                <?php if(isset($_POST["btn_mobile"])){ 
-                                        mysqli_query($conn, "UPDATE aalierp_contents SET company_mobile='".$_POST["mobile"]."' WHERE company_id='".$_POST["id"]."'"); 
-                                        echo "<script>window.location.href = '../content/?content';</script>"; 
-                                } ?>
-                                            <form method="post">
-                                                <input type="hidden" name="id" value="<?php echo $company_id; ?>" />
-                                                <input type="text" class="form-control mb-2" name="mobile" value="<?php echo $company_mobile; ?>" />
-                                                <input type="submit" name="btn_mobile" class="btn btn-info btn-sm" value="Update Mobile" />
-                                            </form>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                                
-                                <?php if(isset($_GET["email"])){ ?>
-                                    <div class="card card-default">
-                                        <div class="card-header"><i class='fa fa-edit'></i> Update Email</div>
-                                        <div class="card-body">
-                                <?php if(isset($_POST["btn_email"])){ 
-                                        mysqli_query($conn, "UPDATE aalierp_contents SET company_email='".$_POST["email"]."' WHERE company_id='".$_POST["id"]."'"); 
-                                        echo "<script>window.location.href = '../content/?content';</script>"; 
-                                } ?>
-                                            <form method="post">
-                                                <input type="hidden" name="id" value="<?php echo $company_id; ?>" />
-                                                <input type="text" class="form-control mb-2" name="email" value="<?php echo $company_email; ?>" />
-                                                <input type="submit" name="btn_email" class="btn btn-info btn-sm" value="Update Email" />
-                                            </form>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                                
-                                <?php if(isset($_GET["web"])){ ?>
-                                    <div class="card card-default">
-                                        <div class="card-header"><i class='fa fa-edit'></i> Update Website</div>
-                                        <div class="card-body">
-                                <?php if(isset($_POST["btn_web"])){ 
-                                        mysqli_query($conn, "UPDATE aalierp_contents SET company_web='".$_POST["web"]."' WHERE company_id='".$_POST["id"]."'"); 
-                                        echo "<script>window.location.href = '../content/?content';</script>"; 
-                                } ?>
-                                            <form method="post">
-                                                <input type="hidden" name="id" value="<?php echo $company_id; ?>" />
-                                                <input type="text" class="form-control mb-2" name="web" value="<?php echo $company_web; ?>" />
-                                                <input type="submit" name="btn_web" class="btn btn-info btn-sm" value="Update Website" />
-                                            </form>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                                
-                                <?php if(isset($_GET["address"])){ ?>
-                                    <div class="card card-default">
-                                        <div class="card-header"><i class='fa fa-edit'></i> Update Address</div>
-                                        <div class="card-body">
-                                <?php if(isset($_POST["btn_address"])){ 
-                                        mysqli_query($conn, "UPDATE aalierp_contents SET company_address='".$_POST["address"]."' WHERE company_id='".$_POST["id"]."'"); 
-                                        echo "<script>window.location.href = '../content/?content';</script>"; 
-                                } ?>
-                                            <form method="post">
-                                                <input type="hidden" name="id" value="<?php echo $company_id; ?>" />
-                                                <input type="text" class="form-control mb-2" name="address" value="<?php echo $company_address; ?>" />
-                                                <input type="submit" name="btn_address" class="btn btn-info btn-sm" value="Update Address" />
-                                            </form>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                                
-                                <?php if(isset($_GET["city"])){ ?>
-                                    <div class="card card-default">
-                                        <div class="card-header"><i class='fa fa-edit'></i> Update City</div>
-                                        <div class="card-body">
-                                <?php if(isset($_POST["btn_city"])){ 
-                                        mysqli_query($conn, "UPDATE aalierp_contents SET company_city='".$_POST["city"]."' WHERE company_id='".$_POST["id"]."'"); 
-                                        echo "<script>window.location.href = '../content/?content';</script>"; 
-                                } ?>
-                                            <form method="post">
-                                                <input type="hidden" name="id" value="<?php echo $company_id; ?>" />
-                                                <input type="text" class="form-control mb-2" name="city" value="<?php echo $company_city; ?>" />
-                                                <input type="submit" name="btn_city" class="btn btn-info btn-sm" value="Update City" />
-                                            </form>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                                
-                                <?php if(isset($_GET["country"])){ ?>
-                                    <div class="card card-default">
-                                        <div class="card-header"><i class='fa fa-edit'></i> Update Country</div>
-                                        <div class="card-body">
-                                <?php if(isset($_POST["btn_country"])){ 
-                                        mysqli_query($conn, "UPDATE aalierp_contents SET company_country='".$_POST["country"]."' WHERE company_id='".$_POST["id"]."'"); 
-                                        echo "<script>window.location.href = '../content/?content';</script>"; 
-                                } ?>
-                                            <form method="post">
-                                                <input type="hidden" name="id" value="<?php echo $company_id; ?>" />
-                                                <input type="text" class="form-control mb-2" name="country" value="<?php echo $company_country; ?>" />
-                                                <input type="submit" name="btn_country" class="btn btn-info btn-sm" value="Update Country" />
-                                            </form>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                                
-                                <?php if(isset($_GET["pob"])){ ?>
-                                    <div class="card card-default">
-                                        <div class="card-header"><i class='fa fa-edit'></i> Update Postal Code</div>
-                                        <div class="card-body">
-                                <?php if(isset($_POST["btn_pob"])){ 
-                                        mysqli_query($conn, "UPDATE aalierp_contents SET company_pob='".$_POST["pob"]."' WHERE company_id='".$_POST["id"]."'"); 
-                                        echo "<script>window.location.href = '../content/?content';</script>"; 
-                                } ?>
-                                            <form method="post">
-                                                <input type="hidden" name="id" value="<?php echo $company_id; ?>" />
-                                                <input type="text" class="form-control mb-2" name="pob" value="<?php echo $company_pob; ?>" />
-                                                <input type="submit" name="btn_pob" class="btn btn-info btn-sm" value="Update Postal Code" />
-                                            </form>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                                
-                                <?php if(isset($_GET["cur"])){ ?>
-                                    <div class="card card-default">
-                                        <div class="card-header"><i class='fa fa-edit'></i> Update Currency</div>
-                                        <div class="card-body">
-                                <?php if(isset($_POST["btn_cur"])){ 
-                                        mysqli_query($conn, "UPDATE aalierp_contents SET company_currency='".$_POST["cur"]."' WHERE company_id='".$_POST["id"]."'"); 
-                                        echo "<script>window.location.href = '../content/?content';</script>"; 
-                                } ?>
-                                            <form method="post">
-                                                <input type="hidden" name="id" value="<?php echo $company_id; ?>" />
-                                                <input type="text" class="form-control mb-2" name="cur" value="<?php echo $cur; ?>" />
-                                                <input type="submit" name="btn_cur" class="btn btn-info btn-sm" value="Update Currency" />
-                                            </form>
-                                        </div>
-                                    </div>
-                                <?php } ?>
-                                
-                            </div>
-                        
-                        </div>
-                        
-                    </section>
-                </div>
-                <?php include($AaliLINK_IN."/functions/HTML/footer.php"); ?>
-            </div>
-        </div>
-        <?php include($AaliLINK_IN."/functions/HTML/js.php"); ?>
+    <div class="main-wrapper main-wrapper-1">
+        <?php include($AaliLINK_IN."/functions/HTML/nav.php"); ?>
         
-    </body>
-</html>
+        <div class="main-content">
+            <section class="section">
+                <div style="margin-bottom:8px">
+                    <h1 class="page-title">Company Settings</h1>
+                    <p class="page-sub">Manage your company information</p>
+                </div>
 
+                <div class="settings-card">
+                    <img src="<?php echo $AaliLINK;?>/uploads/logos/<?php echo $company_logo;?>" alt="Logo" class="logo-preview">
+                    <form method="post" enctype="multipart/form-data" onsubmit="return false" id="settingsForm">
+                        <div class="form-grid">
+                            <div class="form-group"><label>Company Name</label><input type="text" name="company_name" value="<?php echo $company_name;?>"></div>
+                            <div class="form-group"><label>Slogan</label><input type="text" name="company_salogan" value="<?php echo $company_salogan;?>"></div>
+                            <div class="form-group"><label>Email</label><input type="email" name="company_email" value="<?php echo $company_email;?>"></div>
+                            <div class="form-group"><label>Mobile</label><input type="text" name="company_mobile" value="<?php echo $company_mobile;?>"></div>
+                            <div class="form-group"><label>Phone</label><input type="text" name="company_phone" value="<?php echo $company_phone;?>"></div>
+                            <div class="form-group"><label>Website</label><input type="text" name="company_web" value="<?php echo $company_web;?>"></div>
+                            <div class="form-group"><label>City</label><input type="text" name="company_city" value="<?php echo $company_city;?>"></div>
+                            <div class="form-group"><label>Country</label><input type="text" name="company_country" value="<?php echo $company_country;?>"></div>
+                            <div class="form-group"><label>Currency Symbol</label><input type="text" name="company_currency" value="<?php echo $cur;?>"></div>
+                            <div class="form-group"><label>Company Logo</label><input type="file" name="company_logo" accept="image/*"></div>
+                            <div class="form-group full"><label>Address</label><textarea name="company_address" rows="3"><?php echo $company_address;?></textarea></div>
+                        </div>
+                        <button type="submit" class="btn-save" id="btn_save_settings">Save Settings</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<?php include($AaliLINK_IN."/functions/HTML/footer.php"); ?>
+<?php include($AaliLINK_IN."/functions/HTML/js.php"); ?>
+</body>
+</html>
