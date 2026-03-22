@@ -48,10 +48,16 @@ router.post("/login", async (req, res) => {
     if (results.length === 0) { return res.status(401).json({ success: false, message: "Invalid credentials!" }); }
     
     const user = results[0];
+    const md5 = require("md5");
     
-    // Check password using bcrypt (or plain md5 if legacy - but we transition to bcrypt)
-    const isMatch = await bcrypt.compare(user_password, user.user_password);
-    if (!isMatch && user_password !== user.user_password) { // added plain check fallback for legacy
+    // Check password using bcrypt with MD5 fallback for legacy users
+    let isMatch = false;
+    if (user.user_password.startsWith('$2')) {
+        isMatch = await bcrypt.compare(user_password, user.user_password);
+    }
+    const isMD5Match = (md5(user_password) === user.user_password);
+
+    if (!isMatch && !isMD5Match && user_password !== user.user_password) { 
        return res.status(401).json({ success: false, message: "Invalid credentials!" });
     }
 
