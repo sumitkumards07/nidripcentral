@@ -47,16 +47,19 @@ router.post("/login", async (req, res) => {
     const [results] = await db.query(sql, values);
     if (results.length === 0) { return res.status(401).json({ success: false, message: "Invalid credentials!" }); }
     
+    const user = results[0];
     const md5 = require("md5");
     const isMD5Match = (md5(user_password) === user.user_password);
     const isPlainMatch = (user_password === user.user_password);
     
     let isBcryptMatch = false;
-    if (!isMD5Match && !isPlainMatch && user.user_password.startsWith('$2')) {
-        isBcryptMatch = await bcrypt.compare(user_password, user.user_password);
+    if (!isMD5Match && !isPlainMatch && user.user_password && user.user_password.startsWith('$2')) {
+        try {
+            isBcryptMatch = await bcrypt.compare(user_password, user.user_password);
+        } catch(e) { console.error("Bcrypt error:", e); }
     }
 
-    if (isMD5Match || isPlainMatch || isBcryptMatch) { 
+    if (!isMD5Match && !isPlainMatch && !isBcryptMatch) { 
        return res.status(401).json({ success: false, message: "Invalid credentials!" });
     }
 
