@@ -28,6 +28,7 @@
     <title>Dashboard | <?php echo $company_name; ?></title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="<?php echo $AaliLINK; ?>/uploads/logos/<?php echo $company_logo; ?>">
+    <?php include($AaliLINK_IN."/functions/HTML/css.php"); ?>
     <style>
 .search{position:relative}
 .search-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted)}
