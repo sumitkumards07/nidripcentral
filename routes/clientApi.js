@@ -72,8 +72,19 @@ router.post('/by-email', async (req, res) => {
 // 5. GET /api/cart_count
 router.get('/cart_count', async (req, res) => {
     try {
-        // Typically requires user token/ID, assuming 0 for now until auth is passed from app
-        success(res, { count: 0 });
+        const [rows] = await db.query('SELECT COUNT(*) as count FROM aalierp_cart');
+        success(res, { count: rows[0].count });
+    } catch(e) { error(res, e.message); }
+});
+
+// 5b. POST /api/add_to_cart
+router.post('/add_to_cart', async (req, res) => {
+    try {
+        const { p_id, qty, user_id } = req.body;
+        // If user_id is missing, we use 0 for guest or handled by session on web (but this is API)
+        const uid = user_id || 0; 
+        await db.query('INSERT INTO aalierp_cart (p_id, qty, user_id, date, status) VALUES (?, ?, ?, NOW(), "Chosen")', [p_id, qty, uid]);
+        success(res, { status: true, message: 'Added to cart' });
     } catch(e) { error(res, e.message); }
 });
 
