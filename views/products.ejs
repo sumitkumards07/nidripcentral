@@ -1,0 +1,69 @@
+<%- include('partials/header') %>
+<%- include('partials/sidebar') %>
+<% const cur = company.company_currency || '$'; %>
+
+<div class="page-header">
+    <h1>Product Management</h1>
+    <p>Manage your product catalog</p>
+</div>
+
+<div class="top-actions">
+    <input type="text" class="search-input" placeholder="Search products..." oninput="filterRows('prodTable',this.value)">
+    <button class="btn-primary" onclick="document.getElementById('addProductModal').style.display='flex'">+ Add Product</button>
+</div>
+
+<div class="card">
+    <div class="table-wrap">
+        <table class="tbl" id="prodTable">
+            <thead><tr><th>#</th><th></th><th>Product</th><th>Category</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody>
+            <% products.forEach(function(p, i){ const st = p.product_status || 'Active'; %>
+            <tr>
+                <td><%= i+1 %></td>
+                <td><img class="thumb" src="/uploads/products/<%= p.product_image %>" onerror="this.src='/css/placeholder.svg'"></td>
+                <td><strong><%= p.product_name %></strong></td>
+                <td class="muted"><%= p.category_name || '—' %></td>
+                <td class="price"><%= cur %><%= Number(p.product_price||0).toLocaleString() %></td>
+                <td><span class="badge badge-<%= st.toLowerCase() %>"><%= st %></span></td>
+                <td><button class="btn-danger-sm" onclick="deleteItem('/api/products/<%= p.product_id %>')">Delete</button></td>
+            </tr>
+            <% }); %>
+            <% if(!products.length){ %><tr><td colspan="7" class="empty">No products yet</td></tr><% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Add Product Modal -->
+<div class="modal-overlay" id="addProductModal">
+    <div class="modal">
+        <div class="modal-header"><h3>Add Product</h3><button onclick="this.closest('.modal-overlay').style.display='none'" class="modal-close">×</button></div>
+        <form id="addProdForm" enctype="multipart/form-data">
+            <div class="form-grid">
+                <div class="form-group"><label>Product Name</label><input name="product_name" required></div>
+                <div class="form-group"><label>Price</label><input name="product_price" type="number" step="0.01" required></div>
+                <div class="form-group"><label>Old Price</label><input name="product_old_price" type="number" step="0.01" value="0"></div>
+                <div class="form-group"><label>Discount</label><input name="product_discount" type="number" step="0.01" value="0"></div>
+                <div class="form-group"><label>Category</label><select name="category_id"><option value="">None</option><% categories.forEach(c=>{ %><option value="<%= c.category_id %>"><%= c.category_name %></option><% }); %></select></div>
+                <div class="form-group"><label>Unit</label><select name="unit_id"><option value="">None</option><% units.forEach(u=>{ %><option value="<%= u.unit_id %>"><%= u.unit_name %></option><% }); %></select></div>
+                <div class="form-group full"><label>Keywords</label><input name="product_keywords" placeholder="SEO keywords"></div>
+                <div class="form-group full"><label>Description</label><textarea name="product_desc" rows="3"></textarea></div>
+                <div class="form-group full"><label>Image</label><input name="product_image" type="file" accept="image/*" required></div>
+            </div>
+            <button type="submit" class="btn-primary" style="margin-top:16px;width:100%">Add Product</button>
+        </form>
+    </div>
+</div>
+
+<script>
+function filterRows(id,q){document.querySelectorAll('#'+id+' tbody tr').forEach(r=>r.style.display=r.textContent.toLowerCase().includes(q.toLowerCase())?'':'none')}
+document.getElementById('addProdForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+    const fd = new FormData(this);
+    const r = await fetch('/api/products', {method:'POST', body:fd});
+    const d = await r.json();
+    if(d.success) location.reload(); else alert(d.message);
+});
+async function deleteItem(url){if(!confirm('Delete?')) return; const r=await fetch(url,{method:'DELETE'}); const d=await r.json(); if(d.success) location.reload();}
+</script>
+<%- include('partials/footer') %>

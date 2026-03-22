@@ -1,0 +1,51 @@
+<%- include('partials/header') %>
+<%- include('partials/sidebar') %>
+<% const cur = company.company_currency || '$'; %>
+
+<div class="page-header">
+    <h1>Dashboard Overview</h1>
+    <p>Welcome back to your business performance dashboard</p>
+</div>
+
+<!-- Stat Cards -->
+<div class="stat-grid">
+    <div class="stat-card">
+        <div class="stat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg></div>
+        <div class="stat-meta"><div class="stat-label">Total Orders</div><div class="stat-value"><%= totalOrders %></div><div class="stat-sub">Live from database</div></div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg></div>
+        <div class="stat-meta"><div class="stat-label">Pending Orders</div><div class="stat-value"><%= pendingOrders %></div><div class="stat-sub">Awaiting shipment</div></div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+        <div class="stat-meta"><div class="stat-label">Total Customers</div><div class="stat-value"><%= totalCustomers %></div><div class="stat-sub">Registered accounts</div></div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div class="stat-meta"><div class="stat-label">Refunds</div><div class="stat-value"><%= refunds %></div><div class="stat-sub">Refund requests</div></div>
+    </div>
+</div>
+
+<!-- Recent Orders -->
+<div class="card">
+    <h3 class="card-title">Recent Orders</h3>
+    <div class="table-wrap">
+        <table class="tbl">
+            <thead><tr><th>Order</th><th>Product</th><th>Date</th><th>Status</th></tr></thead>
+            <tbody>
+            <% recentOrders.forEach(function(o){ %>
+            <tr>
+                <td><strong>#<%= 1832000 + o.id %></strong></td>
+                <td><%= o.product_name ? o.product_name.substring(0,30) : 'Unknown' %></td>
+                <td class="muted"><%= o.date ? new Date(o.date).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}) : '—' %></td>
+                <td><span class="badge badge-<%= (o.status||'Pending').toLowerCase() %>"><%= o.status || 'Pending' %></span></td>
+            </tr>
+            <% }); %>
+            <% if(!recentOrders.length){ %><tr><td colspan="4" class="empty">No orders yet</td></tr><% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

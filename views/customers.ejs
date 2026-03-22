@@ -1,0 +1,53 @@
+<%- include('partials/header') %>
+<%- include('partials/sidebar') %>
+
+<div class="page-header">
+    <h1>Customer Management</h1>
+    <p>View and manage registered customers</p>
+</div>
+
+<div class="stat-grid three">
+    <div class="mini-stat"><div class="mini-val"><%= stats.total %></div><div class="mini-label">Total Users</div></div>
+    <div class="mini-stat"><div class="mini-val"><%= stats.approved %></div><div class="mini-label">Approved</div></div>
+    <div class="mini-stat"><div class="mini-val"><%= stats.pending %></div><div class="mini-label">Pending</div></div>
+</div>
+
+<div class="top-actions">
+    <input type="text" class="search-input" placeholder="Search customers..." oninput="filterRows('custTable',this.value)">
+</div>
+
+<div class="card">
+    <div class="table-wrap">
+        <table class="tbl" id="custTable">
+            <thead><tr><th>#</th><th></th><th>Name</th><th>Email</th><th>Mobile</th><th>Orders</th><th>Status</th><th>Actions</th></tr></thead>
+            <tbody>
+            <% users.forEach(function(u, i){ const name = u.user_name || ((u.user_fname||'') + ' ' + (u.user_lname||'')).trim() || u.user_email; const st = u.user_status || 'Pending'; %>
+            <tr>
+                <td><%= i+1 %></td>
+                <td><div class="avatar-sm"><%= name.charAt(0).toUpperCase() %></div></td>
+                <td><strong><%= name %></strong></td>
+                <td class="muted"><%= u.user_email %></td>
+                <td><%= u.user_mobile || '—' %></td>
+                <td><strong><%= u.order_count %></strong></td>
+                <td><span class="badge badge-<%= st.toLowerCase() %>"><%= st %></span></td>
+                <td class="actions-cell">
+                    <button class="btn-success-sm" onclick="updateCustomer(<%= u.user_id %>,'Approved')">Approve</button>
+                    <button class="btn-danger-sm" onclick="deleteItem('/api/customers/<%= u.user_id %>')">Delete</button>
+                </td>
+            </tr>
+            <% }); %>
+            <% if(!users.length){ %><tr><td colspan="8" class="empty">No customers yet</td></tr><% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+function filterRows(id,q){document.querySelectorAll('#'+id+' tbody tr').forEach(r=>r.style.display=r.textContent.toLowerCase().includes(q.toLowerCase())?'':'none')}
+async function updateCustomer(id,status){
+    const r=await fetch(`/api/customers/${id}/status`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({status})});
+    const d=await r.json(); if(d.success) location.reload(); else alert(d.message);
+}
+async function deleteItem(url){if(!confirm('Delete?')) return; const r=await fetch(url,{method:'DELETE'}); const d=await r.json(); if(d.success) location.reload();}
+</script>
+<%- include('partials/footer') %>

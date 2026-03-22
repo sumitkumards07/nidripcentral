@@ -1,0 +1,78 @@
+<%- include('partials/header') %>
+<%- include('partials/sidebar') %>
+<% const cur = company.company_currency || '$'; %>
+
+<div class="page-header">
+    <h1>Order Management</h1>
+    <p>Track and manage all customer orders</p>
+</div>
+
+<div class="stat-grid four">
+    <div class="mini-stat"><div class="mini-val"><%= stats.all %></div><div class="mini-label">Total</div></div>
+    <div class="mini-stat"><div class="mini-val"><%= stats.cart %></div><div class="mini-label">In Cart</div></div>
+    <div class="mini-stat"><div class="mini-val"><%= stats.processing %></div><div class="mini-label">Processing</div></div>
+    <div class="mini-stat"><div class="mini-val"><%= stats.done %></div><div class="mini-label">Completed</div></div>
+</div>
+
+<div class="tab-bar">
+    <span class="tab active" data-filter="all">All</span>
+    <span class="tab" data-filter="Chosen">Cart</span>
+    <span class="tab" data-filter="Processing">Processing</span>
+    <span class="tab" data-filter="Processed">Completed</span>
+    <span class="tab" data-filter="Cancelled">Cancelled</span>
+    <span class="tab" data-filter="Delivered">Delivered</span>
+</div>
+
+<div class="card">
+    <div class="table-wrap">
+        <table class="tbl" id="orderTable">
+            <thead><tr><th>Order</th><th>Date</th><th>Product</th><th>Price</th><th>Customer</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+            <% orders.forEach(function(o){ const st = o.status || 'Pending'; %>
+            <tr data-status="<%= st %>">
+                <td><strong>#<%= 1832000 + o.id %></strong></td>
+                <td class="muted"><%= o.date ? new Date(o.date).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}) : '—' %></td>
+                <td>
+                    <div class="product-cell">
+                        <img src="/uploads/products/<%= o.product_image %>" class="thumb" onerror="this.style.display='none'">
+                        <span><%= (o.product_name||'').substring(0,28) %></span>
+                    </div>
+                </td>
+                <td class="price"><%= cur %><%= Number(o.product_price||0).toLocaleString() %></td>
+                <td><%= o.user_name || '—' %></td>
+                <td><span class="badge badge-<%= st.toLowerCase() %>"><%= st %></span></td>
+                <td>
+                    <select class="status-select" onchange="updateOrderStatus(<%= o.id %>, this.value)">
+                        <option value="">Change</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Processed">Processed</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                </td>
+            </tr>
+            <% }); %>
+            <% if(!orders.length){ %><tr><td colspan="7" class="empty">No orders found</td></tr><% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', function(){
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    this.classList.add('active');
+    const f = this.dataset.filter;
+    document.querySelectorAll('#orderTable tbody tr').forEach(r => {
+        r.style.display = f==='all' || r.dataset.status===f ? '' : 'none';
+    });
+}));
+async function updateOrderStatus(id, status){
+    if(!status) return;
+    const r = await fetch(`/api/orders/${id}/status`, {method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({status})});
+    const d = await r.json();
+    if(d.success) location.reload();
+    else alert(d.message);
+}
+</script>
+<%- include('partials/footer') %>

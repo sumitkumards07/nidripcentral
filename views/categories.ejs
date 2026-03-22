@@ -1,0 +1,101 @@
+<%- include('partials/header') %>
+<%- include('partials/sidebar') %>
+
+<div class="page-header">
+    <h1>Category Management</h1>
+    <p>Manage categories, sub-categories, and units</p>
+</div>
+
+<div class="tab-bar">
+    <span class="tab active" onclick="showPanel('cat',this)">Categories</span>
+    <span class="tab" onclick="showPanel('sub',this)">Sub-Categories</span>
+    <span class="tab" onclick="showPanel('unit',this)">Units</span>
+</div>
+
+<!-- Categories Panel -->
+<div id="cat" class="panel active">
+    <div class="card" style="margin-bottom:20px">
+        <form id="catForm" class="form-row-inline">
+            <div class="form-group"><label>Category Name</label><input name="category_name" placeholder="Enter category" required></div>
+            <div class="form-group"><label>Description</label><input name="category_description" placeholder="Optional"></div>
+            <button type="submit" class="btn-primary" style="align-self:end">Add</button>
+        </form>
+    </div>
+    <div class="card">
+        <div class="table-wrap">
+            <table class="tbl"><thead><tr><th>#</th><th>Category</th><th>Description</th><th></th></tr></thead><tbody>
+            <% categories.forEach(function(c,i){ %>
+            <tr><td><%= i+1 %></td><td><strong><%= c.category_name %></strong></td><td class="muted"><%= c.category_description || '—' %></td><td><button class="btn-danger-sm" onclick="deleteItem('/api/categories/<%= c.category_id %>')">Delete</button></td></tr>
+            <% }); %>
+            <% if(!categories.length){ %><tr><td colspan="4" class="empty">No categories</td></tr><% } %>
+            </tbody></table>
+        </div>
+    </div>
+</div>
+
+<!-- Sub-Categories Panel -->
+<div id="sub" class="panel">
+    <div class="card" style="margin-bottom:20px">
+        <form id="subForm" class="form-row-inline">
+            <div class="form-group"><label>Sub-Category Name</label><input name="sub_category_name" placeholder="Enter sub-category" required></div>
+            <div class="form-group"><label>Parent Category</label>
+                <select name="category_id" required>
+                    <% categories.forEach(function(c){ %><option value="<%= c.category_id %>"><%= c.category_name %></option><% }); %>
+                </select>
+            </div>
+            <button type="submit" class="btn-primary" style="align-self:end">Add</button>
+        </form>
+    </div>
+    <div class="card">
+        <div class="table-wrap">
+            <table class="tbl"><thead><tr><th>#</th><th>Sub-Category</th><th>Parent</th><th></th></tr></thead><tbody>
+            <% subcats.forEach(function(s,i){ %>
+            <tr><td><%= i+1 %></td><td><strong><%= s.sub_category_name %></strong></td><td class="muted"><%= s.category_name || '—' %></td><td><button class="btn-danger-sm" onclick="deleteItem('/api/subcategories/<%= s.sub_category_id %>')">Delete</button></td></tr>
+            <% }); %>
+            <% if(!subcats.length){ %><tr><td colspan="4" class="empty">No sub-categories</td></tr><% } %>
+            </tbody></table>
+        </div>
+    </div>
+</div>
+
+<!-- Units Panel -->
+<div id="unit" class="panel">
+    <div class="card" style="margin-bottom:20px">
+        <form id="unitForm" class="form-row-inline">
+            <div class="form-group"><label>Unit Name</label><input name="unit_name" placeholder="e.g. Kg, Ltr" required></div>
+            <button type="submit" class="btn-primary" style="align-self:end">Add</button>
+        </form>
+    </div>
+    <div class="card">
+        <div class="table-wrap">
+            <table class="tbl"><thead><tr><th>#</th><th>Unit Name</th><th></th></tr></thead><tbody>
+            <% units.forEach(function(u,i){ %>
+            <tr><td><%= i+1 %></td><td><strong><%= u.unit_name %></strong></td><td><button class="btn-danger-sm" onclick="deleteItem('/api/units/<%= u.unit_id %>')">Delete</button></td></tr>
+            <% }); %>
+            <% if(!units.length){ %><tr><td colspan="3" class="empty">No units</td></tr><% } %>
+            </tbody></table>
+        </div>
+    </div>
+</div>
+
+<script>
+function showPanel(id,el){
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    el.classList.add('active');
+}
+['catForm','subForm','unitForm'].forEach(function(fid){
+    document.getElementById(fid)?.addEventListener('submit', async function(e){
+        e.preventDefault();
+        const url = fid==='catForm'?'/api/categories':fid==='subForm'?'/api/subcategories':'/api/units';
+        const fd = new FormData(this);
+        const body = Object.fromEntries(fd.entries());
+        const r = await fetch(url, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+        const d = await r.json();
+        if(d.success) location.reload(); else alert(d.message);
+    });
+});
+async function deleteItem(url){if(!confirm('Delete?')) return; const r=await fetch(url,{method:'DELETE'}); const d=await r.json(); if(d.success) location.reload(); else alert(d.message||'Error');}
+</script>
+<%- include('partials/footer') %>
