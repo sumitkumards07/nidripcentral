@@ -10,7 +10,7 @@ const error = (res, msg) => res.status(500).json({ status: false, message: msg }
 // 1. GET /api/categories
 router.get('/categories', async (req, res) => {
     try {
-        const [rows] = await db.query('SELECT * FROM aalierp_category WHERE category_status="Active" OR category_status IS NULL ORDER BY category_id DESC');
+        const [rows] = await db.query('SELECT * FROM aalierp_category WHERE (category_status="Active" OR category_status IS NULL) GROUP BY category_name ORDER BY category_id DESC');
         rows.forEach(r => { if(r.category_image) r.category_image = 'categories/' + r.category_image; });
         success(res, rows);
     } catch(e) { error(res, e.message); }
