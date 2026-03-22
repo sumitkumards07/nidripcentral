@@ -29,32 +29,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="<?php echo $AaliLINK; ?>/uploads/logos/<?php echo $company_logo; ?>">
     <style>
-:root{--c1:#fd215e;--c2:#fd229b;--c3:#fd23c2;--c6:#59c167;--bg:#fafafa;--card:#fff;--border:rgba(0,0,0,.06);--muted:#8a8a8a;--foreground:#1a1a1a;font-family:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif}
-*{box-sizing:border-box;margin:0;padding:0}
-body,html{background:linear-gradient(180deg,#fff,#f4f6f8);min-height:100vh;overflow-x:hidden}
-.app{display:flex;min-height:100vh}
-.hamburger{display:none;width:36px;height:28px;flex-direction:column;justify-content:space-between;cursor:pointer}
-.hamburger span{height:4px;width:100%;background:#111;border-radius:4px;transition:.3s ease}
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);opacity:0;visibility:hidden;transition:.3s ease;z-index:98}
-.sidebar{width:280px;padding:32px;background:linear-gradient(180deg,#ff2b8a 0%,#ff3aa6 50%,#6ee28e 100%);color:#fff;display:flex;flex-direction:column;min-height:100vh}
-.brand{display:flex;justify-content:center;margin-bottom:40px}
-.brand-logo{width:200px;max-width:100%}
-.nav{display:flex;flex-direction:column;gap:12px;flex:1}
-.nav-item{background:rgba(255,255,255,.15);border-radius:12px;padding:12px 16px;border:none;color:#fff;display:flex;align-items:center;gap:16px;cursor:pointer;transition:all .2s ease;font-size:15px;font-family:inherit}
-.nav-item:hover{background:rgba(255,255,255,.25)}
-.nav-item .ico-box{width:44px;height:44px;border-radius:12px;background:#fff;color:var(--foreground);display:flex;align-items:center;justify-content:center}
-.nav-item.active{background:#fff;color:var(--c1);font-weight:600}
-.nav-item.active .ico-box{background:linear-gradient(135deg,var(--c1),var(--c3));color:#fff}
-.upgrade-wrapper{margin-top:auto;padding-top:32px}
-.upgrade{width:100%;background:#fff;border:none;padding:12px 24px;border-radius:12px;font-weight:700;color:var(--c1);cursor:pointer;font-family:inherit;font-size:14px;transition:box-shadow .2s ease}
-.upgrade:hover{box-shadow:0 10px 30px rgba(0,0,0,.15)}
-.sidebar-foot{text-align:center;font-size:12px;opacity:.7;margin-top:24px}
-.main{flex:1;padding:24px;overflow-y:auto;overflow-x:hidden}
-.header{margin-bottom:24px}
-.breadcrumbs{color:var(--muted);font-size:14px;margin-bottom:8px}
-.header-row{display:flex;align-items:center;justify-content:space-between}
-.header-row h1{font-size:32px;font-weight:700;color:var(--foreground)}
-.header-controls{display:flex;align-items:center;gap:16px}
 .search{position:relative}
 .search-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--muted)}
 .search input{padding:14px 20px 14px 48px;width:320px;border-radius:999px;border:1px solid var(--border);background:#fff;font-size:14px;font-family:inherit;outline:none;transition:border-color .2s ease,box-shadow .2s ease}
@@ -111,75 +85,16 @@ body,html{background:linear-gradient(180deg,#fff,#f4f6f8);min-height:100vh;overf
     </style>
 </head>
 <body>
-    <input type="checkbox" id="sidebar-toggle" hidden>
-    <label for="sidebar-toggle" class="overlay"></label>
-
-    <div class="app">
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
-            <div class="brand">
-                <a href="<?php echo $AaliLINK; ?>/admin/dashboard/?-">
-                    <img src="<?php echo $AaliLINK; ?>/uploads/logos/<?php echo $company_logo; ?>" alt="<?php echo $company_name; ?>" class="brand-logo" style="height:60px;width:auto;">
-                </a>
-            </div>
-
-            <nav class="nav">
-                <a href="<?php echo $AaliLINK; ?>/admin/dashboard/?-" class="nav-item active" style="text-decoration:none;">
-                    <span class="ico-box"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
-                    <span class="label">Dashboard</span>
-                </a>
-                <a href="<?php echo $AaliLINK; ?>/admin/view-orders/?vo" class="nav-item" style="text-decoration:none;">
-                    <span class="ico-box"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg></span>
-                    <span class="label">Orders</span>
-                </a>
-                <a href="<?php echo $AaliLINK; ?>/admin/users/?ud" class="nav-item" style="text-decoration:none;">
-                    <span class="ico-box"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
-                    <span class="label">Customer</span>
-                </a>
-                <a href="<?php echo $AaliLINK; ?>/admin/view-product/?vp" class="nav-item" style="text-decoration:none;">
-                    <span class="ico-box"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span>
-                    <span class="label">Products</span>
-                </a>
-                <a href="<?php echo $AaliLINK; ?>/admin/content/?content" class="nav-item" style="text-decoration:none;">
-                    <span class="ico-box"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg></span>
-                    <span class="label">Marketing</span>
-                </a>
-                <a href="<?php echo $AaliLINK; ?>/admin/accounts-detail/?ad" class="nav-item" style="text-decoration:none;">
-                    <span class="ico-box"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg></span>
-                    <span class="label">Accounts</span>
-                </a>
-                <a href="<?php echo $AaliLINK; ?>/admin/add-category/?ac" class="nav-item" style="text-decoration:none;">
-                    <span class="ico-box"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></span>
-                    <span class="label">Settings</span>
-                </a>
-            </nav>
-
-            <div class="upgrade-wrapper">
-                <a href="<?php echo $AaliLINK; ?>/config/logout.php" class="upgrade" style="display:block;text-align:center;text-decoration:none;">Logout</a>
-            </div>
-            <div class="sidebar-foot">© <?php echo $company_name; ?></div>
-        </aside>
-
-        <!-- MAIN -->
-        <main class="main">
-            <header class="header">
-                <div class="breadcrumbs">Dashboard / <strong>Admin</strong></div>
-                <div class="header-row">
-                    <label for="sidebar-toggle" class="hamburger"><span></span><span></span><span></span></label>
-                    <h1>Admin Dashboard</h1>
-                    <div class="header-controls">
-                        <div class="search">
-                            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                            <input type="text" placeholder="Search anything here" aria-label="Search">
-                        </div>
-                        <button class="notif" aria-label="Notifications"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></button>
-                        <span style="font-size:14px;font-weight:600;color:var(--c1);">Hello, <?php echo isset($_SESSION["user_name"]) ? $_SESSION["user_name"] : "Admin"; ?></span>
+    <div id="app">
+        <div class="main-wrapper main-wrapper-1">
+            <?php include($AaliLINK_IN."/functions/HTML/nav.php"); ?>
+            
+            <div class="main-content">
+                <section class="section">
+                    <div style="margin-bottom: 40px;">
+                        <h1 style="font-size: 32px; font-weight: 800; color: #1a1a1a; margin-bottom: 8px;">Dashboard Overview</h1>
+                        <p style="color: #666; font-size: 16px;">Welcome back to your business performance dashboard</p>
                     </div>
-                </div>
-            </header>
-
-            <section class="page active" id="dashboardPage">
-                <div class="dashboard-card">
 
                     <!-- Stat Cards -->
                     <section class="cards">

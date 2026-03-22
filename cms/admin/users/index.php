@@ -20,7 +20,7 @@
                 <?php include($AaliLINK_IN."/functions/HTML/nav.php"); ?>
                 <div class="main-content">
                     <section class="section">
-                        <?php include($AaliLINK_IN."/functions/HTML/users-table.php"); ?>
+                        <?php include($AaliLINK_IN."/functions/HTML/customer-table.php"); ?>
                     </section>
                 </div>
                 <?php include($AaliLINK_IN."/functions/HTML/footer.php"); ?>

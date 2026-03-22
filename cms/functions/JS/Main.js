@@ -15,16 +15,29 @@ $(document).ready(function(){
 
     
 //View Users..
-    getUsers();
-    function getUsers(){
-        $.ajax({
-            url: "/functions/PHP/process.php",
-            method: "POST",
-            data: {viewUsers:1},
-            success: function(data){
-                $("#view_users").html(data);
-            }
-        })
+    loadUsersView();
+    function loadUsersView(){
+        if($("#view_users").length){
+            $.ajax({
+                url: "/functions/PHP/process.php",
+                method: "POST",
+                data: {viewUsers:1},
+                success: function(data){
+                    $("#view_users").html(data);
+                }
+            })
+        }
+
+        if($(".view_users_processing").length){
+            $.ajax({
+                url: "/functions/PHP/process.php",
+                method: "POST",
+                data: {view_users_processing:1},
+                success: function(data){
+                    $(".view_users_processing").html(data);
+                }
+            })
+        }
     }
     
     

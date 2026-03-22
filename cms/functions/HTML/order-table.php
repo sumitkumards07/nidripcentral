@@ -1,26 +1,38 @@
-<div class="card orders-full" style="background:#fff; border-radius:12px; box-shadow:0 8px 30px rgba(0,0,0,0.04); overflow:hidden; border:none;">
-    <div class="card-header" style="padding:20px; border-bottom:1px solid #eee; display:flex; justify-content:between; align-items:center;">
-        <h3 style="margin:0; font-size:18px; font-weight:700; color:var(--c1);">Order Management</h3>
-        <div class="badge-row">
-            <span class="order-status processing" style="margin-left:10px;">New Orders</span>
+<div class="page-heading" style="margin-bottom: 30px;">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+        <div>
+            <h2 style="font-size:28px; font-weight:700; color:#1a1a1a; margin-bottom:5px;">Orders</h2>
+            <p style="color:#666; font-size:14px; margin:0;">Manage and track all customer orders</p>
+        </div>
+        <div class="filter-box">
+            <select class="form-control" style="border-radius:10px; border:1px solid #ddd; padding:8px 15px; height:auto; color:#666; font-size:14px;">
+                <option>All Status</option>
+                <option>Processing</option>
+                <option>Shipped</option>
+                <option>Delivered</option>
+                <option>Refunded</option>
+            </select>
         </div>
     </div>
+</div>
+
+<div class="card orders-container" style="background:#fff; border-radius:20px; box-shadow:0 8px 40px rgba(0,0,0,0.04); border:none; overflow:hidden;">
     <div class="card-body" style="padding:0;">
         <div class="table-responsive">
             <table class="table" style="width:100%; margin:0; border-collapse: collapse;">
-                <thead style="background:#f9f9f9;">
+                <thead style="background:#fff;">
                   <tr>
-                    <th style="padding:15px 20px; font-weight:600; color:#666; font-size:13px; text-transform:uppercase;">#</th>
-                    <th style="padding:15px 20px; font-weight:600; color:#666; font-size:13px; text-transform:uppercase;">Date</th>
-                    <th style="padding:15px 20px; font-weight:600; color:#666; font-size:13px; text-transform:uppercase;">Product</th>
-                    <th style="padding:15px 20px; font-weight:600; color:#666; font-size:13px; text-transform:uppercase;">Price</th>
-                    <th style="padding:15px 20px; font-weight:600; color:#666; font-size:13px; text-transform:uppercase;">Customer</th>
-                    <th style="padding:15px 20px; font-weight:600; color:#666; font-size:13px; text-transform:uppercase;">Status</th>
-                    <th style="padding:15px 20px; font-weight:600; color:#666; font-size:13px; text-transform:uppercase;">Action</th>
+                    <th style="padding:20px 25px; font-weight:500; color:#888; border-bottom:1px solid #f4f4f4; font-size:13px;">Order</th>
+                    <th style="padding:20px 25px; font-weight:500; color:#888; border-bottom:1px solid #f4f4f4; font-size:13px;">Customer</th>
+                    <th style="padding:20px 25px; font-weight:500; color:#888; border-bottom:1px solid #f4f4f4; font-size:13px;">Status</th>
+                    <th style="padding:20px 25px; font-weight:500; color:#888; border-bottom:1px solid #f4f4f4; font-size:13px;">Payment</th>
+                    <th style="padding:20px 25px; font-weight:500; color:#888; border-bottom:1px solid #f4f4f4; font-size:13px;">Total</th>
+                    <th style="padding:20px 25px; font-weight:500; color:#888; border-bottom:1px solid #f4f4f4; font-size:13px;">Date</th>
+                    <th style="padding:20px 25px; font-weight:500; color:#888; border-bottom:1px solid #f4f4f4; font-size:13px;"></th>
                   </tr>
                 </thead>
                 <tbody class="view_order_processing">
-                    <!-- Loaded via AJAX -->
+                    <!-- Data flows from process.php AJAX -->
                 </tbody>
             </table>
         </div>

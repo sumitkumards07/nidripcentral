@@ -20,86 +20,71 @@
                 <?php include($AaliLINK_IN."/functions/HTML/nav.php"); ?>
                 <div class="main-content">
                     <section class="section">
-                        
+                        <div class="page-heading" style="margin-bottom: 30px;">
+                            <h2 style="font-size:28px; font-weight:700; color:#1a1a1a; margin-bottom:5px;">System Content</h2>
+                            <p style="color:#666; font-size:14px; margin:0;">Manage global site settings and branding</p>
+                        </div>
+
                         <div class="row">
 
                             <div class="col-lg-8">
-                                <div class="card card-default">
-                                    <div class="card-header"><i class='fa fa-eye'></i> View Web Contents</div>
-                                    <div class="card-body">
-                                        <div id="dsucc"></div>
-                                        <div id="dinfo"></div>
-                                        <table class="table table-striped table-sm">
-                                            <thead>
-                                                <tr>
-                                                    <th width="30%">Fields</th>
-                                                    <th>Data</th>
-                                                    <th style="text-align: right;">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Title: </td>
-                                                    <td><?php echo $company_name; ?></td>
-                                                    <td style="text-align: right;"><a href="?name=<?php echo $company_id; ?>" class="btn btn-info btn-sm">Update</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Logo: </td>
-                                                    <td><img src="<?php echo $AaliLINK; ?>/uploads/logos/<?php echo $company_logo; ?>" width="30" height="30" /></td>
-                                                    <td style="text-align: right;"><a href="?logo=<?php echo $company_id; ?>" class="btn btn-info btn-sm">Update</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Salogan: </td>
-                                                    <td><?php echo $company_salogan; ?></td>
-                                                    <td style="text-align: right;"><a href="?salogan=<?php echo $company_id; ?>" class="btn btn-info btn-sm">Update</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Phone: </td>
-                                                    <td><?php echo $company_phone; ?></td>
-                                                    <td style="text-align: right;"><a href="?phone=<?php echo $company_id; ?>" class="btn btn-info btn-sm">Update</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Mobile: </td>
-                                                    <td><?php echo $company_mobile; ?></td>
-                                                    <td style="text-align: right;"><a href="?mobile=<?php echo $company_id; ?>" class="btn btn-info btn-sm">Update</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Email: </td>
-                                                    <td><?php echo $company_email; ?></td>
-                                                    <td style="text-align: right;"><a href="?email=<?php echo $company_id; ?>" class="btn btn-info btn-sm">Update</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Website: </td>
-                                                    <td><?php echo $company_web; ?></td>
-                                                    <td style="text-align: right;"><a href="?web=<?php echo $company_id; ?>" class="btn btn-info btn-sm">Update</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Address: </td>
-                                                    <td><?php echo $company_address; ?></td>
-                                                    <td style="text-align: right;"><a href="?address=<?php echo $company_id; ?>" class="btn btn-info btn-sm">Update</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>City: </td>
-                                                    <td><?php echo $company_city; ?></td>
-                                                    <td style="text-align: right;"><a href="?city=<?php echo $company_id; ?>" class="btn btn-info btn-sm">Update</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Country: </td>
-                                                    <td><?php echo $company_country; ?></td>
-                                                    <td style="text-align: right;"><a href="?country=<?php echo $company_id; ?>" class="btn btn-info btn-sm">Update</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Postal Code: </td>
-                                                    <td><?php echo $company_pob; ?></td>
-                                                    <td style="text-align: right;"><a href="?pob=<?php echo $company_id; ?>" class="btn btn-info btn-sm">Update</a></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Currency: </td>
-                                                    <td><?php echo $cur; ?></td>
-                                                    <td style="text-align: right;"><a href="?cur=<?php echo $company_id; ?>" class="btn btn-info btn-sm">Update</a></td>
-                                                </tr>
-                                            </tbody>   
-                                        </table>
+                                <div class="card" style="background:#fff; border-radius:20px; box-shadow:0 8px 40px rgba(0,0,0,0.04); border:none; overflow:hidden;">
+                                    <div class="card-body" style="padding:0;">
+                                        <div class="table-responsive">
+                                            <table class="table" style="width:100%; margin:0; border-collapse: collapse;">
+                                                <thead style="background:#fff;">
+                                                    <tr>
+                                                        <th style="padding:20px 25px; font-weight:500; color:#888; border-bottom:1px solid #f4f4f4; font-size:13px; width:30%;">Fields</th>
+                                                        <th style="padding:20px 25px; font-weight:500; color:#888; border-bottom:1px solid #f4f4f4; font-size:13px;">Data</th>
+                                                        <th style="padding:20px 25px; font-weight:500; color:#888; border-bottom:1px solid #f4f4f4; font-size:13px; text-align: right;">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr style="border-bottom: 1px solid #f8f8f8;">
+                                                        <td style="padding:20px 25px; color:#1a1a1a; font-weight:600;">Title: </td>
+                                                        <td style="padding:20px 25px; color:#666;"><?php echo $company_name; ?></td>
+                                                        <td style="padding:20px 25px; text-align: right;">
+                                                            <a href="?name=<?php echo $company_id; ?>" class="btn" style="background:var(--c1); color:#fff; border-radius:10px; padding:6px 16px; font-size:12px; font-weight:600; text-decoration:none;">Update</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid #f8f8f8;">
+                                                        <td style="padding:20px 25px; color:#1a1a1a; font-weight:600;">Logo: </td>
+                                                        <td style="padding:20px 25px;"><img src="<?php echo $AaliLINK; ?>/uploads/logos/<?php echo $company_logo; ?>" style="width:40px; height:40px; border-radius:8px; object-fit:contain; background:#f5f5f5;" /></td>
+                                                        <td style="padding:20px 25px; text-align: right;">
+                                                            <a href="?logo=<?php echo $company_id; ?>" class="btn" style="background:var(--c1); color:#fff; border-radius:10px; padding:6px 16px; font-size:12px; font-weight:600; text-decoration:none;">Update</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid #f8f8f8;">
+                                                        <td style="padding:20px 25px; color:#1a1a1a; font-weight:600;">Slogan: </td>
+                                                        <td style="padding:20px 25px; color:#666;"><?php echo $company_salogan; ?></td>
+                                                        <td style="padding:20px 25px; text-align: right;">
+                                                            <a href="?salogan=<?php echo $company_id; ?>" class="btn" style="background:var(--c1); color:#fff; border-radius:10px; padding:6px 16px; font-size:12px; font-weight:600; text-decoration:none;">Update</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid #f8f8f8;">
+                                                        <td style="padding:20px 25px; color:#1a1a1a; font-weight:600;">Phone: </td>
+                                                        <td style="padding:20px 25px; color:#666;"><?php echo $company_phone; ?></td>
+                                                        <td style="padding:20px 25px; text-align: right;">
+                                                            <a href="?phone=<?php echo $company_id; ?>" class="btn" style="background:var(--c1); color:#fff; border-radius:10px; padding:6px 16px; font-size:12px; font-weight:600; text-decoration:none;">Update</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid #f8f8f8;">
+                                                        <td style="padding:20px 25px; color:#1a1a1a; font-weight:600;">Email: </td>
+                                                        <td style="padding:20px 25px; color:#666;"><?php echo $company_email; ?></td>
+                                                        <td style="padding:20px 25px; text-align: right;">
+                                                            <a href="?email=<?php echo $company_id; ?>" class="btn" style="background:var(--c1); color:#fff; border-radius:10px; padding:6px 16px; font-size:12px; font-weight:600; text-decoration:none;">Update</a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="border-bottom: 1px solid #f8f8f8;">
+                                                        <td style="padding:20px 25px; color:#1a1a1a; font-weight:600;">Website: </td>
+                                                        <td style="padding:20px 25px; color:#666;"><?php echo $company_web; ?></td>
+                                                        <td style="padding:20px 25px; text-align: right;">
+                                                            <a href="?web=<?php echo $company_id; ?>" class="btn" style="background:var(--c1); color:#fff; border-radius:10px; padding:6px 16px; font-size:12px; font-weight:600; text-decoration:none;">Update</a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>   
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

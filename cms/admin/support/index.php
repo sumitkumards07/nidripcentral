@@ -9,7 +9,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-        <title>Marketing Dashboard | <?php echo $company_name; ?></title>
+        <title>Support Dashboard | <?php echo $company_name; ?></title>
         <?php include($AaliLINK_IN."/functions/HTML/css.php"); ?>
     </head>
     
@@ -20,8 +20,8 @@
                 <?php include($AaliLINK_IN."/functions/HTML/nav.php"); ?>
                 <div class="main-content">
                     <section class="section">
-                        <?php include($AaliLINK_IN."/functions/HTML/marketing-box.php"); ?>
-                        <?php include($AaliLINK_IN."/functions/HTML/marketing-table.php"); ?>
+                        <?php include($AaliLINK_IN."/functions/HTML/support-box.php"); ?>
+                        <?php include($AaliLINK_IN."/functions/HTML/support-table.php"); ?>
                     </section>
                 </div>
                 <?php include($AaliLINK_IN."/functions/HTML/footer.php"); ?>
@@ -30,9 +30,3 @@
         <?php include($AaliLINK_IN."/functions/HTML/js.php"); ?>
     </body>
 </html>
-
-<?php 
-    if(isset($_GET["ma"])){mysqli_query($conn, "UPDATE aalierp_banner SET banner_status='Active' WHERE banner_id='".$_GET["ma"]."'");echo "<script>window.location.href='../banner/?banner';</script>";}
-    if(isset($_GET["mda"])){mysqli_query($conn, "UPDATE aalierp_banner SET banner_status='Deactive' WHERE banner_id='".$_GET["mda"]."'");echo "<script>window.location.href='../banner/?banner';</script>";}
-
-?>

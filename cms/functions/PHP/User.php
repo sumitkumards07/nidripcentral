@@ -38,11 +38,9 @@ class User{
 
 			$hash_password = password_hash($reg_password, PASSWORD_DEFAULT,["cost"=>8]);
 
-			$user_ip = $_SERVER['REMOTE_ADDR'];
-			$ipdat = 'http://ip-api.com/php/'.$user_ip;
-			$ress = @unserialize(file_get_contents($ipdat));
-			$user_country = $ress["country"];
-			$user_city = $ress["city"];
+			$user_ip = $_SERVER['REMOTE_ADDR'] ?? '127.0.0.1';
+			$user_country = "Local";
+			$user_city = "Local";
 			
 			
 
@@ -61,7 +59,7 @@ After you have activated your account by pressing the url below:
 https://mohsin.mraalionline.com/?email=".$reg_email."&password=".$hash_password."";
 		                          
 	$headers = "From:noreply@mraalionline.com"."\r\n"; 
-	mail($reg_email, $subject, $message, $headers);
+	// mail($reg_email, $subject, $message, $headers); // Commented for speed optimization
 
 			$stmt = $this->con->prepare("INSERT INTO aalierp_user (user_fname, user_lname, user_username, user_image, user_designation, user_mobile, user_email, user_password, user_passcode, user_type, user_ip, user_city, user_country, user_status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 			$stmt->bind_param("ssssssssssssss", $reg_fname, $reg_lname, $reg_username, $reg_image, $reg_type, $reg_mobile, $reg_email, $hash_password, $reg_passcode, $reg_type, $user_ip, $user_city, $user_country, $reg_status);

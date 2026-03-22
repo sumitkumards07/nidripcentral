@@ -614,6 +614,25 @@ include_once("manage.php");
         exit();
     }
     
+//View Users Processing
+    if(isset($_POST["view_users_processing"])){ 
+        $obj = mysqli_query($conn, "SELECT u.user_id, u.user_name, u.user_email, u.user_status, (SELECT COUNT(id) FROM aalierp_cart WHERE user_id=u.user_id) as order_count FROM aalierp_user u ORDER BY u.user_id DESC");
+        while($obj && ($row = mysqli_fetch_array($obj))){ ?>
+            <tr style="border-bottom: 1px solid #f8f8f8;">
+                <td style="padding:20px 25px; color:#1a1a1a; font-weight:600;"><?php echo $row["user_name"]; ?></td>
+                <td style="padding:20px 25px; color:#666;"><?php echo $row["user_email"]; ?></td>
+                <td style="padding:20px 25px; color:#1a1a1a; font-weight:600;"><?php echo $row["order_count"]; ?></td>
+                <td style="padding:20px 25px;">
+                    <?php $status = $row["user_status"] ?? 'Pending'; ?>
+                    <span class="badge" style="background:<?php echo ($status === 'Approved') ? '#e8faf0' : '#fff0f0'; ?>; color:<?php echo ($status === 'Approved') ? '#2dbb6a' : '#ff4d4d'; ?>; padding:6px 14px; border-radius:20px; font-size:12px; font-weight:600;"><?php echo $status; ?></span>
+                </td>
+                <td style="padding:20px 25px; color:#666;">#<?php echo $row["user_id"]; ?></td>
+                <td style="padding:20px 25px; text-align:right;">
+                    <svg style="cursor:pointer; color:#bbb;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+                </td>
+            </tr>
+        <?php } 
+    }
 //View Unit
     if(isset($_POST["viewUnit"])){ $n=1;
         $obj = mysqli_query($conn, "SELECT * FROM aalierp_unit");
@@ -843,7 +862,7 @@ include_once("manage.php");
         }
         
     }
-    
+
 //View Product Images...
     if(isset($_POST["viewProductImage"])){ $n=1;
         $obj = mysqli_query($conn, "SELECT i.image_id,i.product_id,i.product_image,p.product_name,p.product_status FROM aalierp_image i, aalierp_product p WHERE i.product_id=p.product_id ORDER BY image_id DESC");
@@ -860,14 +879,14 @@ include_once("manage.php");
                             <ul class="dropdown-menu pull-right p-3" role="menu">
                                 <li><a href="#" uid="<?php echo $row['image_id']; ?>" data-toggle="modal" data-target="#update_product_image" class="update_product_image"><i class="fa fa-edit"></i> Update Product Image</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#" did="<?php echo $row['image_id']; ?>" class="delete_product_image"><i class="fa fa-trash"></i> Delete Product Image</a></li>              
+                                <li><a href="#" did="<?php echo $row['image_id']; ?>" class="delete_product_image"><i class="fa fa-trash"></i> Delete Product Image</a></li>
                             </ul>
                         </div>
                     </div>
                 </td>
             </tr>
 
-        <?php $n++; }    
+        <?php $n++; }
     }
     
     
@@ -957,22 +976,17 @@ include_once("manage.php");
     if(isset($_POST["view_order_processing"])){ $n=1;
         $obj = mysqli_query($conn, "SELECT p.product_id,p.product_name,p.product_image,p.product_price,c.id,c.p_id,c.date,c.user_id,c.qty,c.ship,c.status,u.user_name FROM aalierp_product p, aalierp_cart c, aalierp_user u WHERE p.product_id=c.p_id AND c.user_id=u.user_id AND c.status='Processing'");
         while($obj && ($row = mysqli_fetch_array($obj))){ ?>
-            <tr style="border-bottom: 1px solid #f0f0f0;">
-                <td style="padding:15px 20px;"><?php echo $n; ?></td>
-                <td style="padding:15px 20px; color:#666; font-size:13px;"><?php echo date('d M, Y', strtotime($row["date"])); ?></td>
-                <td style="padding:15px 20px;">
-                    <div style="display:flex; align-items:center; gap:12px;">
-                        <img src="../../uploads/products/<?php echo $row['product_image']; ?>" style="width:40px; height:40px; border-radius:8px; object-fit:cover; background:#f5f5f5;">
-                        <span style="font-weight:600; color:#333;"><?php echo $row["product_name"]; ?></span>
-                    </div>
+            <tr style="border-bottom: 1px solid #f8f8f8;">
+                <td style="padding:20px 25px; color:#1a1a1a; font-weight:600;">#<?php echo 1832000 + $row["id"]; ?></td>
+                <td style="padding:20px 25px; color:#1a1a1a; font-weight:600;"><?php echo $row["user_name"]; ?></td>
+                <td style="padding:20px 25px;">
+                    <span class="badge" style="background:#fff2ed; color:#ff7a3d; padding:6px 14px; border-radius:20px; font-size:12px; font-weight:600;">Processing</span>
                 </td>
-                <td style="padding:15px 20px; font-weight:700; color:var(--c1);"><?php echo $cur."".number_format($row["product_price"]); ?></td>
-                <td style="padding:15px 20px; color:#444;"><?php echo $row["user_name"]; ?></td>
-                <td style="padding:15px 20px;">
-                    <span class="badge" style="background:rgba(255, 43, 138, 0.1); color:#ff2b8a; padding:6px 12px; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase;">Processing</span>
-                </td>
-                <td style="padding:15px 20px;">
-                    <button class="btn btn-sm" style="background:#f8f9fa; border:1px solid #ddd; border-radius:6px; cursor:pointer;" onclick="viewOrder(<?php echo $row['id']; ?>)">Update</button>
+                <td style="padding:20px 25px; color:#666;">Card</td>
+                <td style="padding:20px 25px; font-weight:700; color:#1a1a1a;"><?php echo $cur."".number_format($row["product_price"]); ?></td>
+                <td style="padding:20px 25px; color:#666;"><?php echo date('d M', strtotime($row["date"])); ?></td>
+                <td style="padding:20px 25px; text-align:right;">
+                    <svg onclick="viewOrder(<?php echo $row['id']; ?>)" style="cursor:pointer; color:#bbb;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
                 </td>
             </tr>
         <?php $n++; } 
@@ -1004,4 +1018,62 @@ include_once("manage.php");
 
 
 
+//View Marketing Processing
+    if(isset($_POST["view_marketing_processing"])){ 
+        $obj = mysqli_query($conn, "SELECT * FROM aalierp_coupon");
+        while($obj && ($row = mysqli_fetch_array($obj))){ ?>
+            <tr style="border-bottom: 1px solid #f8f8f8;">
+                <td style="padding:20px 25px; color:#1a1a1a; font-weight:600;">Coupon #<?php echo $row["id"]; ?></td>
+                <td style="padding:20px 25px; color:#666;">Coupon</td>
+                <td style="padding:20px 25px;">
+                    <span class="badge" style="background:<?php echo ($row['status'] == 'Active') ? '#e8faf0' : '#fff2ed'; ?>; color:<?php echo ($row['status'] == 'Active') ? '#2dbb6a' : '#ff7a3d'; ?>; padding:6px 14px; border-radius:20px; font-size:12px; font-weight:600;"><?php echo $row["status"]; ?></span>
+                </td>
+                <td style="padding:20px 25px; font-weight:700; color:#1a1a1a;"><?php echo $cur."".number_format($row["coupon_minimum"]); ?></td>
+                <td style="padding:20px 25px; color:#666;"><?php echo date('d M Y', strtotime($row["coupon_valid_from"])); ?></td>
+                <td style="padding:20px 25px; color:#666;"><?php echo date('d M Y', strtotime($row["coupon_valid_to"])); ?></td>
+                <td style="padding:20px 25px; text-align:right;">
+                    <svg style="cursor:pointer; color:#bbb;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+                </td>
+            </tr>
+        <?php } 
+    }
+
+//View Support Processing
+    if(isset($_POST["view_support_processing"])){ 
+        $obj = mysqli_query($conn, "SELECT t.*, u.user_name FROM aalierp_tickets t LEFT JOIN aalierp_user u ON t.user_id=u.user_id");
+        while($obj && ($row = mysqli_fetch_array($obj))){ ?>
+            <tr style="border-bottom: 1px solid #f8f8f8;">
+                <td style="padding:20px 25px; color:#1a1a1a; font-weight:600;">#TCK-<?php echo $row["id"]; ?></td>
+                <td style="padding:20px 25px; color:#666;"><?php echo $row["user_name"]; ?></td>
+                <td style="padding:20px 25px; color:#1a1a1a; font-weight:500;"><?php echo $row["subject"] ?? 'Order Inquiry'; ?></td>
+                <td style="padding:20px 25px;">
+                    <span class="badge" style="background:<?php echo ($row['status'] == 'Open') ? '#e8faf0' : '#fff0f0'; ?>; color:<?php echo ($row['status'] == 'Open') ? '#2dbb6a' : '#ff4d4d'; ?>; padding:6px 14px; border-radius:20px; font-size:12px; font-weight:600;"><?php echo $row["status"]; ?></span>
+                </td>
+                <td style="padding:20px 25px; font-weight:600; color:<?php echo ($row['priority'] == 'High') ? '#ff4d4d' : '#666'; ?>;"><?php echo $row["priority"] ?? 'Normal'; ?></td>
+                <td style="padding:20px 25px; color:#666;"><?php echo date('d M Y', strtotime($row["created_on"])); ?></td>
+                <td style="padding:20px 25px; text-align:right;">
+                    <svg style="cursor:pointer; color:#bbb;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+                </td>
+            </tr>
+        <?php } 
+    }
+
+//View Reports Processing
+    if(isset($_POST["view_reports_processing"])){ 
+        $obj = mysqli_query($conn, "SELECT s.*, u.user_name FROM aalierp_sales s LEFT JOIN aalierp_user u ON s.user_id=u.user_id");
+        while($obj && ($row = mysqli_fetch_array($obj))){ ?>
+            <tr style="border-bottom: 1px solid #f8f8f8;">
+                <td style="padding:20px 25px; color:#1a1a1a; font-weight:600;">#RPT-<?php echo $row["sales_id"]; ?></td>
+                <td style="padding:20px 25px; color:#666;">Sales Report</td>
+                <td style="padding:20px 25px; color:#1a1a1a; font-weight:500;"><?php echo $row["user_name"] ?? 'System Admin'; ?></td>
+                <td style="padding:20px 25px; color:#666;"><?php echo date('d M Y', strtotime($row["sales_date"])); ?></td>
+                <td style="padding:20px 25px;">
+                    <span class="badge" style="background:#e8faf0; color:#2dbb6a; padding:6px 14px; border-radius:20px; font-size:12px; font-weight:600;">Generated</span>
+                </td>
+                <td style="padding:20px 25px; text-align:right;">
+                    <svg style="cursor:pointer; color:#bbb;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+                </td>
+            </tr>
+        <?php } 
+    }
 ?>

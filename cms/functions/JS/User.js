@@ -66,7 +66,7 @@ $(document).ready(function(){
                     }else if(data.includes("Admin Logged In Successfully!")){
                         $("#msg").html("<div class='alert alert-success'> Redirecting.. </div>");
                         $("#btn_login").val("Signing in...");
-                        setTimeout(function(){ window.location.href = "/admin/dashboard/?-"; }, 100);          
+                        window.location.href = "/admin/dashboard/?-";          
                     }else if(data.includes("Super Admin Logged In Successfully!")){
                         $("#msg").html("<div class='alert alert-success'> Redirecting.. </div>");
                         $("#btn_login").val("Signing in...");
@@ -251,7 +251,7 @@ $(document).ready(function(){
                     }else if(data =="Registered Successfully!"){
                         $("#msg").html("<div class='alert alert-primary alert-block'> Redirecting.. </div>");
                         $("#btn_register").html("<img src='/assets/img/loading.gif' width='20'/> &nbsp; Registering..");
-                        setTimeout('window.location.href = "/?login";',2000);          
+                        window.location.href = "/?login";          
                     }else{
                         $("#msg").html("<div class='alert alert-danger'> Something went wrong! </div>");
                     }
