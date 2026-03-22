@@ -931,7 +931,7 @@ app.use((err, req, res, next) => {
 // KEEP-ALIVE PING: Prevent Render from sleeping
 const https = require('https');
 setInterval(() => {
-    https.get('https://nidripcentral.onrender.com', (res) => {
+    https.get('https://nidripcentral-1.onrender.com', (res) => {
         console.log(`[Keep-Alive] Pinged server, status: ${res.statusCode}`);
     }).on('error', (err) => {
         console.log(`[Keep-Alive] Ping failed: ${err.message}`);
