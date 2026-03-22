@@ -88,12 +88,46 @@ router.post('/add_to_cart', async (req, res) => {
     } catch(e) { error(res, e.message); }
 });
 
+// 5c. GET /api/cart
+router.get('/cart', async (req, res) => {
+    try {
+        const { user_id } = req.query;
+        // If user_id is missing, assume 0 or handle guest
+        const uid = user_id || 0;
+        const [rows] = await db.query(
+            'SELECT c.*, p.product_name, p.product_image, p.product_selling_price FROM aalierp_cart c JOIN aalierp_product p ON c.p_id = p.product_id WHERE c.user_id = ? AND c.status = "Chosen" ORDER BY c.cart_id DESC',
+            [uid]
+        );
+        rows.forEach(r => { if(r.product_image) r.product_image = 'products/' + r.product_image; });
+        success(res, rows);
+    } catch(e) { error(res, e.message); }
+});
+
 // 6. DELETE /api/delete-account/:id
 router.delete('/delete-account/:id', async (req, res) => {
     try {
         const { id } = req.params;
         await db.query('DELETE FROM aalierp_user WHERE user_id=?', [id]);
         success(res, { status: true, message: 'Account deleted successfully' });
+    } catch(e) { error(res, e.message); }
+});
+
+// 7. PUT /api/cart/:id (Update qty)
+router.put('/cart/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { qty } = req.body;
+        await db.query('UPDATE aalierp_cart SET qty = ? WHERE cart_id = ?', [qty, id]);
+        success(res, { status: true, message: 'Quantity updated' });
+    } catch(e) { error(res, e.message); }
+});
+
+// 8. DELETE /api/cart/:id (Remove item)
+router.delete('/cart/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        await db.query('DELETE FROM aalierp_cart WHERE cart_id=?', [id]);
+        success(res, { status: true, message: 'Item removed' });
     } catch(e) { error(res, e.message); }
 });
 
