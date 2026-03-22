@@ -72,7 +72,9 @@ router.post('/by-email', async (req, res) => {
 // 5. GET /api/cart_count
 router.get('/cart_count', async (req, res) => {
     try {
-        const [rows] = await db.query('SELECT COUNT(*) as count FROM aalierp_cart');
+        const { user_id } = req.query;
+        const uid = user_id || 0;
+        const [rows] = await db.query('SELECT COUNT(*) as count FROM aalierp_cart WHERE user_id = ? AND status = "Chosen"', [uid]);
         success(res, { count: rows[0].count });
     } catch(e) { error(res, e.message); }
 });
