@@ -421,22 +421,20 @@ app.post("/login", [
     log(`User found: ${user.user_id}, status: ${user.user_status}, pass_type: ${user.user_password.startsWith('$2') ? 'bcrypt' : 'other'}`);
     
     const md5 = require("md5");
+    const matchMD5 = (md5(user_password) === user.user_password);
+    const matchPlain = (user_password === user.user_password);
+    
     let matchBcrypt = false;
-    try {
-      if (user.user_password.startsWith('$2')) {
+    // Only run bcrypt if MD5/Plain failed (speeds up login for most users)
+    if (!matchMD5 && !matchPlain && user.user_password.startsWith('$2')) {
+      try {
         matchBcrypt = await bcrypt.compare(user_password, user.user_password);
-        log(`Bcrypt match: ${matchBcrypt}`);
-      } else {
-        log(`Skipping bcrypt, hash doesn't look like bcrypt`);
+      } catch (bcErr) {
+        log(`Bcrypt error: ${bcErr.message}`);
       }
-    } catch (bcErr) {
-      log(`Bcrypt error: ${bcErr.message}`);
     }
 
-    const matchMD5 = (md5(user_password) === user.user_password);
-    log(`MD5 match: ${matchMD5}`);
-
-    if (matchBcrypt || matchMD5) { 
+    if (matchMD5 || matchPlain || matchBcrypt) { 
       log(`Authentication SUCCESS. Redirecting to /home`);
       req.session.user = user.user_id; 
       return res.redirect("/home"); 

@@ -138,9 +138,6 @@
                     <div class="mb-0 text-muted text-center">
                         Already Registered? <a href="<?php echo $AaliLINK; ?>">Sign In</a>
                     </div>
-                    <div class="mb-2 text-muted text-center">
-                        Developed by: <b><a href="https://mraalionline.com/" target="_blank">mraalionline.com</a></b>
-                    </div>
                 </div>
             </div>
         </div>

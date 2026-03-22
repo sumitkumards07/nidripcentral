@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 <div class="mt-0 text-muted text-center">
-                  Developed by: <b><a href="https://mraalionline.com" target="_blank">mraalionline.com</a></b>
+                  &copy; <?php echo date("Y"); ?> <?php echo $company_name; ?>
                 </div>
             </div>
         </div>

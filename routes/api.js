@@ -18,7 +18,7 @@ let transporter = nodemailer.createTransport({
   port: 587,
   secure: false, // IMPORTANT
   auth: {
-    user: "support@mraalionline.com",
+    user: "support@nidripcentral.com",
     pass: "Support@786#",
   },
   tls: {
@@ -47,17 +47,16 @@ router.post("/login", async (req, res) => {
     const [results] = await db.query(sql, values);
     if (results.length === 0) { return res.status(401).json({ success: false, message: "Invalid credentials!" }); }
     
-    const user = results[0];
     const md5 = require("md5");
-    
-    // Check password using bcrypt with MD5 fallback for legacy users
-    let isMatch = false;
-    if (user.user_password.startsWith('$2')) {
-        isMatch = await bcrypt.compare(user_password, user.user_password);
-    }
     const isMD5Match = (md5(user_password) === user.user_password);
+    const isPlainMatch = (user_password === user.user_password);
+    
+    let isBcryptMatch = false;
+    if (!isMD5Match && !isPlainMatch && user.user_password.startsWith('$2')) {
+        isBcryptMatch = await bcrypt.compare(user_password, user.user_password);
+    }
 
-    if (!isMatch && !isMD5Match && user_password !== user.user_password) { 
+    if (isMD5Match || isPlainMatch || isBcryptMatch) { 
        return res.status(401).json({ success: false, message: "Invalid credentials!" });
     }
 
@@ -91,20 +90,15 @@ router.post("/by-email", async (req, res) => {
     const user_type = "User"; 
     const user_status = "Pending"; 
     const created_on = new Date();
-    const user_ip = req.headers["x-forwarded-for"]?.split(",")[0] || req.socket.remoteAddress?.replace("::ffff:", "") || "Unknown";
-    console.log("🌐 Detected IP:", user_ip); let user_city = req.body.city?.trim() || "Unknown"; let user_country = req.body.country?.trim() || "Unknown"; let user_cc = req.body.country_code?.trim() || "XX";
-    try {
-      const geoRes = await axios.get(`https://ipapi.co/${user_ip}/json/`);
-      if (geoRes.data && !geoRes.data.error) {user_city = geoRes.data.city || user_city; user_country = geoRes.data.country_name || user_country; user_cc = geoRes.data.country_code || user_cc; }
-    } catch (geoErr) {console.warn("⚠️ GeoIP lookup failed:", geoErr.message);}
-    console.log("📍 Final Location:", { user_city, user_country, user_cc }); const [existingUser] = await db.query("SELECT * FROM aalierp_user WHERE user_email = ?", [user_email]);
+    console.log("📍 Location skipped for speed."); 
+    const [existingUser] = await db.query("SELECT * FROM aalierp_user WHERE user_email = ?", [user_email]);
     if (existingUser.length > 0) { return res.status(409).json({ status: "error", message: "Email already exists!", });
     }
     await db.query(
     `INSERT INTO aalierp_user (user_username,user_email,user_password,user_passcode,user_pin,user_email_otp,user_type,user_ip,user_city,user_country,user_cc,user_referred_by,user_referral,user_status,created_on) 
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [user_username,user_email,user_password,user_passcode,user_pin,user_email_otp,user_type,user_ip,user_city,user_country,user_cc,user_referred_by,user_referral,user_status,created_on]);
-    let mailOptions = {from: '"Ni Drip" <support@mraalionline.com>', to: email, subject: "Verify your Email", text: `Your OTP code is: ${user_email_otp}`, };
+    let mailOptions = {from: '"Ni Drip" <support@nidripcentral.com>', to: email, subject: "Verify your Email", text: `Your OTP code is: ${user_email_otp}`, };
     try { const result = await transporter.sendMail(mailOptions); console.log("📧 Email sent successfully:", result);
     } catch (emailErr) {  console.error("❌ Email send error:", emailErr); return res.status(500).json({ status: "error",message: "Email sending failed",error: emailErr.message }); }
     console.log("Email sent successfully:", email); return res.status(200).json({status: "success", message: "OTP sent to your email. Verify now.", next: "/by-email-otp", user_cc: user_cc,  });
@@ -134,7 +128,7 @@ router.post("/forgot-password", async (req, res) => {
     if (users.length === 0) { return res.status(404).json({ success: false, message: "Email not found!", }); }
     const user = users[0];
     const mailOptions = { 
-        from: '"Ni Drip" <support@mraalionline.com>', to: email, subject: "Your Password Recovery",
+        from: '"Ni Drip" <support@nidripcentral.com>', to: email, subject: "Your Password Recovery",
         text: `Hello ${user.user_username || "User"},\n\nYour password is: ${user.user_passcode}\n\nPlease keep it safe and do not share with anyone.\n\n- Ni Drip Team`,
     };
     try { const result = await transporter.sendMail(mailOptions); console.log("📧 Forgot password email sent:", result);
