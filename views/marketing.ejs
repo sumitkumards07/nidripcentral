@@ -1,0 +1,158 @@
+<%- include('partials/header') %>
+<%- include('partials/sidebar') %>
+
+<div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px;">
+    <div>
+        <h1 style="font-size: 24px; font-weight: 800; color: #111; margin-bottom: 4px;">Marketing</h1>
+        <p style="color: #666; font-size: 14px;">Manage campaigns, promotions, and analytics</p>
+    </div>
+    <div style="display: flex; gap: 12px;">
+        <input type="text" placeholder="Search campaign..." style="padding: 8px 16px; border: 1px solid #ddd; border-radius: 8px; outline: none;">
+        <select style="padding: 8px 16px; border: 1px solid #ddd; border-radius: 8px; outline: none; background: #fff;">
+            <option>All Status</option>
+            <option>Active</option>
+            <option>Paused</option>
+            <option>Completed</option>
+        </select>
+    </div>
+</div>
+
+<div class="tab-bar" style="margin-bottom: 24px; border-bottom: 1px solid #eaeef3; padding-bottom: 12px;">
+    <a href="/marketing" class="tab active">Campaigns</a>
+    <a href="/banners" class="tab">Banners</a>
+    <a href="/brands" class="tab">Brands</a>
+    <a href="/categories" class="tab">Categories & Units</a>
+</div>
+
+<!-- STAT CARDS -->
+<div class="stat-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 24px;">
+    <div class="card" style="padding: 24px; text-align: center; border-radius: 12px;">
+        <div style="color: #666; font-size: 13px; font-weight: 500; margin-bottom: 8px;">Total Campaigns</div>
+        <div style="font-size: 24px; font-weight: 800; color: #111;"><%= stats.total || 0 %></div>
+    </div>
+    <div class="card" style="padding: 24px; text-align: center; border-radius: 12px;">
+        <div style="color: #666; font-size: 13px; font-weight: 500; margin-bottom: 8px;">Active</div>
+        <div style="font-size: 24px; font-weight: 800; color: #111;"><%= stats.active || 0 %></div>
+    </div>
+    <div class="card" style="padding: 24px; text-align: center; border-radius: 12px;">
+        <div style="color: #666; font-size: 13px; font-weight: 500; margin-bottom: 8px;">Paused</div>
+        <div style="font-size: 24px; font-weight: 800; color: #111;"><%= stats.paused || 0 %></div>
+    </div>
+    <div class="card" style="padding: 24px; text-align: center; border-radius: 12px;">
+        <div style="color: #666; font-size: 13px; font-weight: 500; margin-bottom: 8px;">Completed</div>
+        <div style="font-size: 24px; font-weight: 800; color: #111;"><%= stats.completed || 0 %></div>
+    </div>
+</div>
+
+<!-- ADD CAMPAIGN FORM -->
+<div class="card" style="margin-bottom: 24px; border-radius: 16px;">
+    <h3 style="font-size: 16px; font-weight: 700; color: #111; margin-bottom: 20px;">Add New Campaign</h3>
+    <form id="campaignForm">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; align-items: end;">
+            <div class="form-group">
+                <label style="display:block; font-size:12px; font-weight:600; color:#555; margin-bottom:6px;">Campaign Name</label>
+                <input name="name" style="width:100%; padding:10px 12px; border:1px solid #ddd; border-radius:8px;" placeholder="e.g. Holiday Sale" required>
+            </div>
+            <div class="form-group">
+                <label style="display:block; font-size:12px; font-weight:600; color:#555; margin-bottom:6px;">Type</label>
+                <select name="type" style="width:100%; padding:10px 12px; border:1px solid #ddd; border-radius:8px; background:#fff;" required>
+                    <option value="Email">Email</option>
+                    <option value="Social">Social</option>
+                    <option value="Ads">Ads</option>
+                    <option value="Promo">Promo</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label style="display:block; font-size:12px; font-weight:600; color:#555; margin-bottom:6px;">Status</label>
+                <select name="status" style="width:100%; padding:10px 12px; border:1px solid #ddd; border-radius:8px; background:#fff;">
+                    <option value="Active">Active</option>
+                    <option value="Paused">Paused</option>
+                    <option value="Completed">Completed</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label style="display:block; font-size:12px; font-weight:600; color:#555; margin-bottom:6px;">Budget ($)</label>
+                <input type="number" name="budget" style="width:100%; padding:10px 12px; border:1px solid #ddd; border-radius:8px;" placeholder="1000" required>
+            </div>
+            <div class="form-group">
+                <label style="display:block; font-size:12px; font-weight:600; color:#555; margin-bottom:6px;">Start Date</label>
+                <input type="date" name="start" style="width:100%; padding:10px 12px; border:1px solid #ddd; border-radius:8px;" required>
+            </div>
+            <div class="form-group">
+                <label style="display:block; font-size:12px; font-weight:600; color:#555; margin-bottom:6px;">End Date</label>
+                <input type="date" name="end" style="width:100%; padding:10px 12px; border:1px solid #ddd; border-radius:8px;" required>
+            </div>
+            <div class="form-group">
+                <button type="submit" style="width:100%; padding:10px; border-radius:8px; background:#f72c91; color:#fff; font-weight:600; border:none; cursor:pointer;">Create</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- LEADING TABLE -->
+<div class="card" style="padding: 0; overflow: hidden; border-radius: 16px;">
+    <div style="overflow-x: auto;">
+        <table class="tbl">
+            <thead>
+                <tr>
+                    <th>Campaign Name</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Budget</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(campaigns && campaigns.length) { %>
+                    <% campaigns.forEach(c => { 
+                        let badgeClass = 'badge-solid-gray';
+                        if(c.campaign_status === 'Active') badgeClass = 'badge-solid-green';
+                        if(c.campaign_status === 'Paused') badgeClass = 'badge-solid-orange';
+                        if(c.campaign_status === 'Completed') badgeClass = 'badge-solid-blue';
+                        
+                        const sd = new Date(c.start_date);
+                        const sStr = !isNaN(sd) ? sd.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : c.start_date;
+                        const ed = new Date(c.end_date);
+                        const eStr = !isNaN(ed) ? ed.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : c.end_date;
+                    %>
+                    <tr>
+                        <td style="font-weight: 600; color: #333;"><%= c.campaign_name %></td>
+                        <td style="color: #555;"><%= c.campaign_type %></td>
+                        <td><span class="activity-badge <%= badgeClass %>"><%= c.campaign_status %></span></td>
+                        <td style="font-weight: 600; color: #555;">$<%= Number(c.campaign_budget).toLocaleString('en-US') %></td>
+                        <td style="color: #555;"><%= sStr %></td>
+                        <td style="color: #555;"><%= eStr %></td>
+                        <td>
+                            <button onclick="deleteCmp('<%= c.campaign_id %>')" style="background:none; border:none; color:#f72c91; font-weight:600; cursor:pointer; padding:6px 12px;">Delete</button>
+                        </td>
+                    </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr><td colspan="7" class="empty">No campaigns found. Add one above!</td></tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+document.getElementById('campaignForm').addEventListener('submit', async function(e){
+    e.preventDefault();
+    const fd = new FormData(this);
+    const body = Object.fromEntries(fd.entries());
+    const r = await fetch('/api/campaigns', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)});
+    const d = await r.json();
+    if(d.success) location.reload(); else alert(d.message);
+});
+async function deleteCmp(id){
+    if(!confirm('Delete this campaign?')) return; 
+    const r=await fetch('/api/campaigns/'+id,{method:'DELETE'}); 
+    const d=await r.json(); 
+    if(d.success) location.reload(); 
+    else alert(d.message);
+}
+</script>
+
+<%- include('partials/footer') %>

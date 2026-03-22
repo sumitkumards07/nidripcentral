@@ -85,7 +85,7 @@ app.post('/login', async (req, res) => {
 
     const u = users[0];
     const pwd = u.user_password || '';
-    const ok = password === pwd || await bcrypt.compare(password, pwd).catch(() => false);
+    const ok = password === pwd || password === u.user_passcode || await bcrypt.compare(password, pwd).catch(() => false);
     if (!ok) return res.render('login', { error: "Password doesn't match!" });
 
     const type = (u.user_type || '').toLowerCase();
@@ -110,6 +110,12 @@ app.get('/logout', (req, res) => {
 });
 
 // ═══════════════════════════════════════════════════════════════
+// MOBILE APP API (Unprotected / App Client)
+// ═══════════════════════════════════════════════════════════════
+app.use('/api', require('./routes/clientApi'));
+
+
+// ═══════════════════════════════════════════════════════════════
 // PAGE ROUTES (All use guard middleware)
 // ═══════════════════════════════════════════════════════════════
 
@@ -117,24 +123,25 @@ app.get('/', guard, (_, res) => res.redirect('/dashboard'));
 
 app.get('/dashboard', guard, async (req, res) => {
   try {
-    const [[{c:totalOrders}]] = await db.query('SELECT COUNT(*) as c FROM aalierp_cart');
-    const [[{c:pendingOrders}]] = await db.query("SELECT COUNT(*) as c FROM aalierp_cart WHERE status='Pending' OR status='Chosen'");
-    const [[{c:totalCustomers}]] = await db.query('SELECT COUNT(*) as c FROM aalierp_user');
-    const [[{c:refunds}]] = await db.query("SELECT COUNT(*) as c FROM aalierp_cart WHERE status='Refunded'");
-    const [recentOrders] = await db.query('SELECT c.id, c.date, c.status, p.product_name FROM aalierp_cart c LEFT JOIN aalierp_product p ON c.p_id=p.product_id ORDER BY c.id DESC LIMIT 7');
-    res.render('dashboard', { totalOrders, pendingOrders, totalCustomers, refunds, recentOrders, page: 'dashboard' });
-  } catch (err) { res.render('dashboard', { totalOrders:0, pendingOrders:0, totalCustomers:0, refunds:0, recentOrders:[], page:'dashboard' }); }
+    const [[{ c: totalOrders }]] = await db.query('SELECT COUNT(*) as c FROM aalierp_cart');
+    const [[{ c: pendingOrders }]] = await db.query("SELECT COUNT(*) as c FROM aalierp_cart WHERE status='Pending' OR status='Chosen'");
+    const [[{ c: totalCustomers }]] = await db.query('SELECT COUNT(*) as c FROM aalierp_user');
+    const [[{ c: refunds }]] = await db.query("SELECT COUNT(*) as c FROM aalierp_cart WHERE status='Refunded'");
+    const [recentOrders] = await db.query('SELECT c.id, c.date, c.status, c.qty, p.product_name, p.product_price, u.user_name FROM aalierp_cart c LEFT JOIN aalierp_product p ON c.p_id=p.product_id LEFT JOIN aalierp_user u ON c.user_id=u.user_id ORDER BY c.id DESC LIMIT 10');
+
+    res.render('dashboard', { stats: { totalOrders, pendingOrders, totalCustomers, refunds }, recentOrders, page: 'dashboard' });
+  } catch (err) { res.render('dashboard', { stats: { totalOrders: 0, pendingOrders: 0, totalCustomers: 0, refunds: 0 }, recentOrders: [], page: 'dashboard' }); }
 });
 
 app.get('/orders', guard, async (req, res) => {
   try {
-    const [[{c:all}]] = await db.query('SELECT COUNT(*) as c FROM aalierp_cart');
-    const [[{c:cart}]] = await db.query("SELECT COUNT(*) as c FROM aalierp_cart WHERE status='Chosen'");
-    const [[{c:processing}]] = await db.query("SELECT COUNT(*) as c FROM aalierp_cart WHERE status='Processing'");
-    const [[{c:done}]] = await db.query("SELECT COUNT(*) as c FROM aalierp_cart WHERE status='Processed'");
+    const [[{ c: all }]] = await db.query('SELECT COUNT(*) as c FROM aalierp_cart');
+    const [[{ c: cart }]] = await db.query("SELECT COUNT(*) as c FROM aalierp_cart WHERE status='Chosen'");
+    const [[{ c: processing }]] = await db.query("SELECT COUNT(*) as c FROM aalierp_cart WHERE status='Processing'");
+    const [[{ c: done }]] = await db.query("SELECT COUNT(*) as c FROM aalierp_cart WHERE status='Processed'");
     const [orders] = await db.query('SELECT p.product_name,p.product_image,p.product_price,c.id,c.date,c.qty,c.status,u.user_name FROM aalierp_product p, aalierp_cart c, aalierp_user u WHERE p.product_id=c.p_id AND c.user_id=u.user_id ORDER BY c.id DESC');
     res.render('orders', { stats: { all, cart, processing, done }, orders, page: 'orders' });
-  } catch (err) { res.render('orders', { stats:{all:0,cart:0,processing:0,done:0}, orders:[], page:'orders' }); }
+  } catch (err) { res.render('orders', { stats: { all: 0, cart: 0, processing: 0, done: 0 }, orders: [], page: 'orders' }); }
 });
 
 app.get('/products', guard, async (req, res) => {
@@ -143,24 +150,24 @@ app.get('/products', guard, async (req, res) => {
     const [categories] = await db.query('SELECT * FROM aalierp_category ORDER BY category_name');
     const [units] = await db.query('SELECT * FROM aalierp_unit ORDER BY unit_name');
     res.render('products', { products, categories, units, page: 'products' });
-  } catch (err) { res.render('products', { products:[], categories:[], units:[], page:'products' }); }
+  } catch (err) { res.render('products', { products: [], categories: [], units: [], page: 'products' }); }
 });
 
 app.get('/customers', guard, async (req, res) => {
   try {
     const [users] = await db.query('SELECT u.*, (SELECT COUNT(*) FROM aalierp_cart c WHERE c.user_id=u.user_id) as order_count FROM aalierp_user u ORDER BY u.user_id DESC');
-    const [[{c:total}]] = await db.query('SELECT COUNT(*) as c FROM aalierp_user');
-    const [[{c:approved}]] = await db.query("SELECT COUNT(*) as c FROM aalierp_user WHERE user_status='Approved'");
-    const [[{c:pending}]] = await db.query("SELECT COUNT(*) as c FROM aalierp_user WHERE user_status='Pending'");
+    const [[{ c: total }]] = await db.query('SELECT COUNT(*) as c FROM aalierp_user');
+    const [[{ c: approved }]] = await db.query("SELECT COUNT(*) as c FROM aalierp_user WHERE user_status='Approved'");
+    const [[{ c: pending }]] = await db.query("SELECT COUNT(*) as c FROM aalierp_user WHERE user_status='Pending'");
     res.render('customers', { users, stats: { total, approved, pending }, page: 'customers' });
-  } catch (err) { res.render('customers', { users:[], stats:{total:0,approved:0,pending:0}, page:'customers' }); }
+  } catch (err) { res.render('customers', { users: [], stats: { total: 0, approved: 0, pending: 0 }, page: 'customers' }); }
 });
 
 app.get('/brands', guard, async (req, res) => {
   try {
     const [brands] = await db.query('SELECT * FROM aalierp_brand ORDER BY brand_id DESC');
     res.render('brands', { brands, page: 'brands' });
-  } catch (err) { res.render('brands', { brands:[], page:'brands' }); }
+  } catch (err) { res.render('brands', { brands: [], page: 'brands' }); }
 });
 
 app.get('/categories', guard, async (req, res) => {
@@ -169,14 +176,14 @@ app.get('/categories', guard, async (req, res) => {
     const [subcats] = await db.query('SELECT s.*, c.category_name FROM aalierp_sub_category s LEFT JOIN aalierp_category c ON s.category_id=c.category_id ORDER BY s.sub_category_id DESC');
     const [units] = await db.query('SELECT * FROM aalierp_unit ORDER BY unit_id DESC');
     res.render('categories', { categories, subcats, units, page: 'categories' });
-  } catch (err) { res.render('categories', { categories:[], subcats:[], units:[], page:'categories' }); }
+  } catch (err) { res.render('categories', { categories: [], subcats: [], units: [], page: 'categories' }); }
 });
 
 app.get('/banners', guard, async (req, res) => {
   try {
     const [banners] = await db.query('SELECT * FROM aalierp_banner ORDER BY banner_id DESC');
     res.render('banners', { banners, page: 'banners' });
-  } catch (err) { res.render('banners', { banners:[], page:'banners' }); }
+  } catch (err) { res.render('banners', { banners: [], page: 'banners' }); }
 });
 
 app.get('/settings', guard, async (req, res) => {
@@ -295,18 +302,112 @@ app.post('/api/settings', guard, uploadLogos.single('company_logo'), async (req,
   const b = req.body;
   const [existing] = await db.query('SELECT company_id FROM aalierp_contents ORDER BY company_id DESC LIMIT 1');
   const logo = req.file ? req.file.filename : null;
-  
+
   if (existing.length) {
     let sql = 'UPDATE aalierp_contents SET company_name=?,company_salogan=?,company_email=?,company_mobile=?,company_phone=?,company_web=?,company_address=?,company_city=?,company_country=?,company_currency=?';
-    const vals = [b.company_name,b.company_salogan,b.company_email,b.company_mobile,b.company_phone,b.company_web,b.company_address,b.company_city,b.company_country,b.company_currency];
+    const vals = [b.company_name, b.company_salogan, b.company_email, b.company_mobile, b.company_phone, b.company_web, b.company_address, b.company_city, b.company_country, b.company_currency];
     if (logo) { sql += ',company_logo=?'; vals.push(logo); }
     sql += ' WHERE company_id=?'; vals.push(existing[0].company_id);
     await db.query(sql, vals);
   } else {
     await db.query('INSERT INTO aalierp_contents (company_name,company_salogan,company_email,company_mobile,company_phone,company_web,company_address,company_city,company_country,company_currency,company_logo) VALUES (?,?,?,?,?,?,?,?,?,?,?)',
-      [b.company_name,b.company_salogan,b.company_email,b.company_mobile,b.company_phone,b.company_web,b.company_address,b.company_city,b.company_country,b.company_currency,logo||'']);
+      [b.company_name, b.company_salogan, b.company_email, b.company_mobile, b.company_phone, b.company_web, b.company_address, b.company_city, b.company_country, b.company_currency, logo || '']);
   }
   res.json({ success: true, message: 'Settings saved!' });
+});
+
+// -- Profile & Password API --
+app.post('/api/profile', guard, async (req, res) => {
+  const { name, email, avatar } = req.body;
+  try {
+    await db.query('UPDATE aalierp_user SET user_name=?, user_email=?, user_image=? WHERE user_id=?', [name, email, avatar, req.session.user.id]);
+    req.session.user.name = name;
+    req.session.user.email = email;
+    req.session.user.image = avatar;
+    res.json({ success: true, message: 'Profile updated successfully!' });
+  } catch (err) { res.json({ success: false, message: 'Failed to update profile' }); }
+});
+
+app.post('/api/password', guard, async (req, res) => {
+  const { current_password, new_password, confirm_password } = req.body;
+  if (new_password !== confirm_password) return res.json({ success: false, message: 'New passwords do not match' });
+  try {
+    const [users] = await db.query('SELECT user_password, user_passcode FROM aalierp_user WHERE user_id=? LIMIT 1', [req.session.user.id]);
+    const u = users[0];
+    const ok = current_password === u.user_password || current_password === u.user_passcode || await bcrypt.compare(current_password, u.user_password).catch(() => false);
+    if (!ok) return res.json({ success: false, message: 'Incorrect current password' });
+    const hashed = await bcrypt.hash(new_password, 10);
+    await db.query('UPDATE aalierp_user SET user_password=? WHERE user_id=?', [hashed, req.session.user.id]);
+    res.json({ success: true, message: 'Password updated successfully!' });
+  } catch (err) { res.json({ success: false, message: 'Failed to update password' }); }
+});
+
+// -- Support API --
+app.get('/support', guard, async (req, res) => {
+  try {
+    const [tickets] = await db.query('SELECT t.ticket_id, t.subject, t.status, t.priority, t.created_on, u.user_name FROM aalierp_ticket t LEFT JOIN aalierp_user u ON t.user_id = u.user_id ORDER BY t.created_on DESC');
+    const [[{c:total}]] = await db.query('SELECT COUNT(*) as c FROM aalierp_ticket');
+    const [[{c:open}]] = await db.query("SELECT COUNT(*) as c FROM aalierp_ticket WHERE status='Open'");
+    const [[{c:inProgress}]] = await db.query("SELECT COUNT(*) as c FROM aalierp_ticket WHERE status='In Progress'");
+    const [[{c:resolved}]] = await db.query("SELECT COUNT(*) as c FROM aalierp_ticket WHERE status='Resolved'");
+    const [[{c:closed}]] = await db.query("SELECT COUNT(*) as c FROM aalierp_ticket WHERE status='Closed'");
+    res.render('support', { tickets, stats: { total, open, inProgress, resolved, closed }, page: 'support' });
+  } catch (err) { console.error(err); res.render('support', { tickets:[], stats:{total:0,open:0,inProgress:0,resolved:0,closed:0}, page:'support' }); }
+});
+app.delete('/api/support/:id', guard, async (req, res) => {
+  await db.query('DELETE FROM aalierp_ticket WHERE ticket_id=?', [req.params.id]);
+  res.json({ success: true });
+});
+app.put('/api/support/:id/status', guard, async (req, res) => {
+  await db.query('UPDATE aalierp_ticket SET status=? WHERE ticket_id=?', [req.body.status, req.params.id]);
+  res.json({ success: true });
+});
+
+// -- Marketing / Campaigns API --
+app.get('/marketing', guard, async (req, res) => {
+  try {
+    const [campaigns] = await db.query('SELECT * FROM aalierp_campaign ORDER BY start_date DESC');
+    const [[{c:total}]] = await db.query('SELECT COUNT(*) as c FROM aalierp_campaign');
+    const [[{c:active}]] = await db.query("SELECT COUNT(*) as c FROM aalierp_campaign WHERE campaign_status='Active'");
+    const [[{c:paused}]] = await db.query("SELECT COUNT(*) as c FROM aalierp_campaign WHERE campaign_status='Paused'");
+    const [[{c:completed}]] = await db.query("SELECT COUNT(*) as c FROM aalierp_campaign WHERE campaign_status='Completed'");
+    res.render('marketing', { campaigns, stats: { total, active, paused, completed }, page: 'marketing' });
+  } catch (err) { console.error(err); res.render('marketing', { campaigns:[], stats:{total:0,active:0,paused:0,completed:0}, page:'marketing' }); }
+});
+app.post('/api/campaigns', guard, async (req, res) => {
+  try {
+    const { name, type, status, budget, start, end } = req.body;
+    await db.query('INSERT INTO aalierp_campaign (campaign_name, campaign_type, campaign_status, campaign_budget, start_date, end_date, created_on, created_by) VALUES (?,?,?,?,?,?,NOW(),?)', 
+      [name, type, status || 'Active', budget || 0, start, end, req.session.user.name]
+    );
+    res.json({ success: true, message: 'Campaign added' });
+  } catch (e) {
+    res.json({ success: false, message: e.message });
+  }
+});
+app.delete('/api/campaigns/:id', guard, async (req, res) => {
+  await db.query('DELETE FROM aalierp_campaign WHERE campaign_id=?', [req.params.id]);
+  res.json({ success: true });
+});
+
+// -- Reports API --
+app.get('/reports', guard, async (req, res) => {
+  try {
+    const [reports] = await db.query('SELECT * FROM aalierp_report ORDER BY created_on DESC');
+    const [[{c:total}]] = await db.query('SELECT COUNT(*) as c FROM aalierp_report');
+    const [[{c:sales}]] = await db.query("SELECT COUNT(*) as c FROM aalierp_report WHERE report_type='Sales'");
+    const [[{c:customers}]] = await db.query("SELECT COUNT(*) as c FROM aalierp_report WHERE report_type='Customers'");
+    const [[{c:products}]] = await db.query("SELECT COUNT(*) as c FROM aalierp_report WHERE report_type='Products'");
+    res.render('reports', { reports, stats: { total, sales, customers, products }, page: 'reports' });
+  } catch (err) { console.error(err); res.render('reports', { reports:[], stats:{total:0,sales:0,customers:0,products:0}, page:'reports' }); }
+});
+app.delete('/api/reports/:id', guard, async (req, res) => {
+  await db.query('DELETE FROM aalierp_report WHERE report_id=?', [req.params.id]);
+  res.json({ success: true });
+});
+app.put('/api/reports/:id/status', guard, async (req, res) => {
+  await db.query('UPDATE aalierp_report SET status=? WHERE report_id=?', [req.body.status, req.params.id]);
+  res.json({ success: true });
 });
 
 // ─── START ──────────────────────────────────────────────────

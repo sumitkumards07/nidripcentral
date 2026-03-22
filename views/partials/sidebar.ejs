@@ -1,54 +1,129 @@
 <aside class="sidebar">
     <div class="brand">
         <a href="/dashboard">
-            <img src="/uploads/logos/<%= company.company_logo || '' %>" alt="<%= company.company_name || 'NI DRIP' %>" class="brand-logo">
+            <img src="/uploads/logos/<%= company.company_logo || '' %>" alt="<%= company.company_name || 'NI DRIP' %>"
+                class="brand-logo">
         </a>
     </div>
     <nav class="nav">
         <a href="/dashboard" class="nav-item<%= page==='dashboard'?' active':'' %>">
-            <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+            <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <polyline points="9 22 9 12 15 12 15 22" />
+                </svg></span>
             <span>Dashboard</span>
         </a>
         <a href="/orders" class="nav-item<%= page==='orders'?' active':'' %>">
-            <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg></span>
+            <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="8" cy="21" r="1" />
+                    <circle cx="19" cy="21" r="1" />
+                    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+                </svg></span>
             <span>Orders</span>
         </a>
         <a href="/customers" class="nav-item<%= page==='customers'?' active':'' %>">
-            <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
-            <span>Customers</span>
+            <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                    <circle cx="9" cy="7" r="4" />
+                    <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg></span>
+            <span>Customer</span>
         </a>
         <a href="/products" class="nav-item<%= page==='products'?' active':'' %>">
-            <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span>
+            <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+                    <line x1="12" y1="22.08" x2="12" y2="12" />
+                </svg></span>
             <span>Products</span>
         </a>
-        <a href="/brands" class="nav-item<%= page==='brands'?' active':'' %>">
-            <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span>
-            <span>Brands</span>
+        <a href="/marketing" class="nav-item<%= ['marketing', 'banners', 'brands', 'categories'].includes(page)?' active':'' %>">
+            <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m3 11 18-5v12L3 14v-3z" />
+                    <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
+                </svg></span>
+            <span>Marketing</span>
         </a>
-        <a href="/banners" class="nav-item<%= page==='banners'?' active':'' %>">
-            <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg></span>
-            <span>Banners</span>
+        <a href="/support" class="nav-item<%= page==='support'?' active':'' %>">
+            <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+                </svg></span>
+            <span>Support</span>
         </a>
-        <a href="/categories" class="nav-item<%= page==='categories'?' active':'' %>">
-            <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span>
-            <span>Categories</span>
+        <a href="/reports" class="nav-item<%= page==='reports'?' active':'' %>">
+            <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 3v18h18" />
+                    <rect width="4" height="7" x="7" y="10" rx="1" />
+                    <rect width="4" height="12" x="15" y="5" rx="1" />
+                </svg></span>
+            <span>Reports</span>
         </a>
         <a href="/settings" class="nav-item<%= page==='settings'?' active':'' %>">
-            <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></span>
+            <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3" />
+                    <path
+                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                </svg></span>
             <span>Settings</span>
         </a>
     </nav>
     <div class="sidebar-bottom">
-        <a href="/logout" class="logout-btn">Logout</a>
-        <div class="copyright">© <%= company.company_name || 'NI DRIP' %></div>
+        <a href="#" class="upgrade-btn">Upgrade To Pro</a>
+        <div class="copyright">@ NI DRIP</div>
     </div>
 </aside>
 <main class="main">
-    <header class="header">
-        <label for="sidebar-toggle" class="hamburger"><span></span><span></span><span></span></label>
-        <div class="header-right">
-            <div class="avatar"><%= user ? user.name.charAt(0).toUpperCase() : 'A' %></div>
-            <span class="user-name">Hello, <%= user ? user.name : 'Admin' %></span>
+    <div class="header-topline" style="padding: 16px 32px 0; color: #888; font-size: 13px; background: #f6f8fa;">
+        Dashboard / <strong><span style="color:#111">Admin</span></strong></div>
+    <header class="header"
+        style="padding: 12px 32px 24px; border-bottom: none; display: flex; align-items: center; justify-content: space-between; background: #f6f8fa; position: sticky; top: 0; z-index: 50;">
+        <label for="sidebar-toggle" class="hamburger" style="display: none; padding: 8px; cursor: pointer;">
+            <span style="display:block; width:22px; height:2px; background:#111; margin-bottom:5px;"></span>
+            <span style="display:block; width:22px; height:2px; background:#111; margin-bottom:5px;"></span>
+            <span style="display:block; width:22px; height:2px; background:#111;"></span>
+        </label>
+
+        <h1 style="font-size: 26px; font-weight: 800; color: #111; margin: 0;">Admin Dashboard</h1>
+
+        <div class="header-right" style="display: flex; align-items: center; gap: 12px; margin-left: auto;">
+            <div class="search-box" style="position: relative; display: flex; align-items: center;">
+                <svg style="position: absolute; left: 16px; color: #aaa;" width="18" height="18" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8" />
+                    <path d="m21 21-4.3-4.3" />
+                </svg>
+                <input type="text" placeholder="Search anything here"
+                    style="padding: 10px 16px 10px 42px; border: 1px solid #eee; border-radius: 24px; outline: none; width: 260px; font-size: 14px; background: #fff;">
+            </div>
+            <button class="btn-icon"
+                style="background:#f72c91; color:#fff; border:none; width:40px; height:40px; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                    <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+                </svg>
+            </button>
+            <a href="#" class="btn-solid"
+                style="background:#f72c91; color:#fff; padding:10px 20px; border-radius:24px; font-weight:600; font-size:14px;">Sign
+                Up</a>
+            <a href="/logout" class="btn-solid"
+                style="background:#f72c91; color:#fff; padding:10px 16px 10px 20px; border-radius:24px; font-weight:600; font-size:14px; display:flex; align-items:center; gap:8px;">Login
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                </svg></a>
         </div>
     </header>
     <div class="content">

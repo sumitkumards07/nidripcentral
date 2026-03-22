@@ -1,45 +1,62 @@
 <%- include('partials/header') %>
-<%- include('partials/sidebar') %>
+    <%- include('partials/sidebar') %>
 
-<div class="page-header">
-    <h1>Banner Management</h1>
-    <p>Manage promotional banners</p>
-</div>
-
-<div class="card" style="margin-bottom:24px">
-    <h3 class="card-title">Add New Banner</h3>
-    <form id="bannerForm" enctype="multipart/form-data">
-        <div class="form-row-inline">
-            <div class="form-group"><label>Banner Size</label>
-                <select name="banner_size"><option value="Full">Full Width</option><option value="Half">Half Width</option><option value="Small">Small</option></select>
-            </div>
-            <div class="form-group"><label>Banner Image</label><input name="banner_image" type="file" accept="image/*" required></div>
-            <button type="submit" class="btn-primary" style="align-self:end">Add Banner</button>
+        <div class="page-header">
+            <h1>Banner Management</h1>
+            <p>Manage promotional banners</p>
         </div>
-    </form>
-</div>
 
-<div class="banner-grid">
-    <% banners.forEach(function(b){ %>
-    <div class="banner-card">
-        <img src="/uploads/banners/<%= b.banner_image %>" alt="Banner" onerror="this.src='/css/placeholder.svg'">
-        <div class="banner-overlay">
-            <span class="badge badge-<%= (b.banner_status||'Active').toLowerCase() %>"><%= b.banner_status || 'Active' %></span>
-            <button class="btn-danger-sm" onclick="deleteItem('/api/banners/<%= b.banner_id %>')">Delete</button>
+        <div class="tab-bar" style="margin-bottom: 24px; border-bottom: 1px solid #eaeef3; padding-bottom: 12px;">
+            <a href="/banners" class="tab active">Banners</a>
+            <a href="/brands" class="tab">Brands</a>
+            <a href="/categories" class="tab">Categories & Units</a>
         </div>
-    </div>
-    <% }); %>
-    <% if(!banners.length){ %><div class="empty-message">No banners yet. Add your first banner above!</div><% } %>
-</div>
 
-<script>
-document.getElementById('bannerForm').addEventListener('submit', async function(e){
-    e.preventDefault();
-    const fd = new FormData(this);
-    const r = await fetch('/api/banners', {method:'POST', body:fd});
-    const d = await r.json();
-    if(d.success) location.reload(); else alert(d.message);
-});
-async function deleteItem(url){if(!confirm('Delete?')) return; const r=await fetch(url,{method:'DELETE'}); const d=await r.json(); if(d.success) location.reload();}
-</script>
-<%- include('partials/footer') %>
+        <div class="card" style="margin-bottom:24px">
+            <h3 class="card-title">Add New Banner</h3>
+            <form id="bannerForm" enctype="multipart/form-data">
+                <div class="form-row-inline">
+                    <div class="form-group"><label>Banner Size</label>
+                        <select name="banner_size">
+                            <option value="Full">Full Width</option>
+                            <option value="Half">Half Width</option>
+                            <option value="Small">Small</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>Banner Image</label><input name="banner_image" type="file"
+                            accept="image/*" required></div>
+                    <button type="submit" class="btn-primary" style="align-self:end">Add Banner</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="banner-grid">
+            <% banners.forEach(function(b){ %>
+                <div class="banner-card">
+                    <img src="/uploads/banners/<%= b.banner_image %>" alt="Banner"
+                        onerror="this.src='/css/placeholder.svg'">
+                    <div class="banner-overlay">
+                        <span class="badge badge-<%= (b.banner_status||'Active').toLowerCase() %>">
+                            <%= b.banner_status || 'Active' %>
+                        </span>
+                        <button class="btn-danger-sm"
+                            onclick="deleteItem('/api/banners/<%= b.banner_id %>')">Delete</button>
+                    </div>
+                </div>
+                <% }); %>
+                    <% if(!banners.length){ %>
+                        <div class="empty-message">No banners yet. Add your first banner above!</div>
+                        <% } %>
+        </div>
+
+        <script>
+            document.getElementById('bannerForm').addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const fd = new FormData(this);
+                const r = await fetch('/api/banners', { method: 'POST', body: fd });
+                const d = await r.json();
+                if (d.success) location.reload(); else alert(d.message);
+            });
+            async function deleteItem(url) { if (!confirm('Delete?')) return; const r = await fetch(url, { method: 'DELETE' }); const d = await r.json(); if (d.success) location.reload(); }
+        </script>
+        <%- include('partials/footer') %>

@@ -1,0 +1,100 @@
+<%- include('partials/header') %>
+<%- include('partials/sidebar') %>
+
+<div class="page-header" style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px;">
+    <div>
+        <h1 style="font-size: 24px; font-weight: 800; color: #111; margin-bottom: 4px;">Support</h1>
+        <p style="color: #666; font-size: 14px;">Manage customer tickets and support requests</p>
+    </div>
+    <div style="display: flex; gap: 12px;">
+        <input type="text" placeholder="Search ticket..." style="padding: 8px 16px; border: 1px solid #ddd; border-radius: 8px; outline: none; width: 200px;">
+        <select style="padding: 8px 16px; border: 1px solid #ddd; border-radius: 8px; outline: none; background: #fff;">
+            <option>All Status</option>
+            <option>Open</option>
+            <option>In Progress</option>
+            <option>Resolved</option>
+            <option>Closed</option>
+        </select>
+    </div>
+</div>
+
+<!-- STAT CARDS -->
+<div class="stat-grid" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; margin-bottom: 24px;">
+    <div class="card" style="padding: 24px; text-align: center; border-radius: 12px;">
+        <div style="color: #666; font-size: 13px; font-weight: 500; margin-bottom: 8px;">Total Tickets</div>
+        <div style="font-size: 24px; font-weight: 800; color: #111;"><%= stats.total || 0 %></div>
+    </div>
+    <div class="card" style="padding: 24px; text-align: center; border-radius: 12px;">
+        <div style="color: #666; font-size: 13px; font-weight: 500; margin-bottom: 8px;">Open</div>
+        <div style="font-size: 24px; font-weight: 800; color: #111;"><%= stats.open || 0 %></div>
+    </div>
+    <div class="card" style="padding: 24px; text-align: center; border-radius: 12px;">
+        <div style="color: #666; font-size: 13px; font-weight: 500; margin-bottom: 8px;">In Progress</div>
+        <div style="font-size: 24px; font-weight: 800; color: #111;"><%= stats.inProgress || 0 %></div>
+    </div>
+    <div class="card" style="padding: 24px; text-align: center; border-radius: 12px;">
+        <div style="color: #666; font-size: 13px; font-weight: 500; margin-bottom: 8px;">Resolved</div>
+        <div style="font-size: 24px; font-weight: 800; color: #111;"><%= stats.resolved || 0 %></div>
+    </div>
+    <div class="card" style="padding: 24px; text-align: center; border-radius: 12px;">
+        <div style="color: #666; font-size: 13px; font-weight: 500; margin-bottom: 8px;">Closed</div>
+        <div style="font-size: 24px; font-weight: 800; color: #111;"><%= stats.closed || 0 %></div>
+    </div>
+</div>
+
+<!-- DATA TABLE -->
+<div class="card" style="padding: 0; overflow: hidden; border-radius: 16px;">
+    <div style="overflow-x: auto;">
+        <table class="tbl">
+            <thead>
+                <tr>
+                    <th>Ticket ID</th>
+                    <th>Customer</th>
+                    <th>Subject</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Created Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if(tickets && tickets.length) { %>
+                    <% tickets.forEach(t => { 
+                        let badgeClass = 'badge-solid-gray';
+                        if(t.status === 'Open') badgeClass = 'badge-solid-pink';
+                        if(t.status === 'In Progress') badgeClass = 'badge-solid-orange';
+                        if(t.status === 'Resolved') badgeClass = 'badge-solid-green';
+                        if(t.status === 'Closed') badgeClass = 'badge-solid-gray';
+                        
+                        const d = new Date(t.created_on);
+                        const dStr = !isNaN(d) ? d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : t.created_on;
+                    %>
+                    <tr>
+                        <td style="font-weight: 600; color: #333;">#S<%= 1000 + t.ticket_id %></td>
+                        <td style="font-weight: 500; color: #111;"><%= t.user_name || 'Guest User' %></td>
+                        <td style="color: #444;"><%= t.subject %></td>
+                        <td><span class="activity-badge <%= badgeClass %>"><%= t.status %></span></td>
+                        <td style="color: #555;"><%= t.priority %></td>
+                        <td style="color: #555;"><%= dStr %></td>
+                        <td class="action-dots" style="cursor: pointer;" onclick="deleteTicket('<%= t.ticket_id %>')">⋮</td>
+                    </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr><td colspan="7" class="empty">No tickets found.</td></tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+async function deleteTicket(id){
+    if(!confirm('Delete this ticket?')) return;
+    const r = await fetch('/api/support/'+id, {method:'DELETE'});
+    const d = await r.json();
+    if(d.success) location.reload();
+    else alert(d.message);
+}
+</script>
+
+<%- include('partials/footer') %>
