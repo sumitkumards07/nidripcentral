@@ -1,59 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>System Settings</title>
-        <link rel="stylesheet" href="/css/style.css">
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    </head>
-    <body>
-        <input type="checkbox" id="sidebar-toggle" hidden>
-        <label for="sidebar-toggle" class="overlay"></label>
-        <div class="app">
-            <%- include("partials/sidebar") %>
-            <main class="main">
-                <%- include("partials/header") %>
-                <section class="page active" id="dashboardPage">
-                    <div class="dashboard-card">
-                        <%- include("partials/settings") %>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - NI DRIP Admin</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+<input type="checkbox" id="sidebar-toggle" hidden>
+<label for="sidebar-toggle" class="overlay"></label>
+<div class="app">
+    <%- include('partials/sidebar') %>
+    <main class="main">
+        <%- include('partials/header', { title: 'Settings' }) %>
+        <section class="content-area">
+            <div class="card">
+                <h3 class="card-title">Company Settings</h3>
+                <form id="settingsForm" enctype="multipart/form-data" class="form-grid settings-form">
+                    <div class="form-group"><label>Company Name</label><input type="text" name="company_name" id="company_name" class="form-control" required></div>
+                    <div class="form-group"><label>Tagline / Slogan</label><input type="text" name="company_salogan" id="company_salogan" class="form-control"></div>
+                    <div class="form-group"><label>Mobile</label><input type="text" name="company_mobile" id="company_mobile" class="form-control"></div>
+                    <div class="form-group"><label>Phone</label><input type="text" name="company_phone" id="company_phone" class="form-control"></div>
+                    <div class="form-group"><label>Email</label><input type="email" name="company_email" id="company_email" class="form-control"></div>
+                    <div class="form-group"><label>Website</label><input type="text" name="company_web" id="company_web" class="form-control"></div>
+                    <div class="form-group"><label>Address</label><input type="text" name="company_address" id="company_address" class="form-control"></div>
+                    <div class="form-group"><label>City</label><input type="text" name="company_city" id="company_city" class="form-control"></div>
+                    <div class="form-group"><label>Country</label><input type="text" name="company_country" id="company_country" class="form-control"></div>
+                    <div class="form-group"><label>Currency Symbol</label><input type="text" name="company_currency" id="company_currency" class="form-control" placeholder="e.g. £ or $"></div>
+                    <div class="form-group"><label>Company Logo</label><input type="file" name="company_logo" class="form-control" accept="image/*"></div>
+                    <div class="form-group" id="logoPreviewWrap" style="display:none;">
+                        <label>Current Logo</label>
+                        <img id="logoPreview" style="height:60px;border-radius:8px;background:#f5f5f5;padding:6px;">
                     </div>
-                </section>
-                    
-            </main>
-        </div>
-        <script src="/js/script.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const urlParams = new URLSearchParams(window.location.search);
-                const success = urlParams.get("success");
-                const error = urlParams.get("error");
+                    <button type="submit" class="btn-primary" style="margin-top:8px;">Save Settings</button>
+                </form>
+                <div id="settingsMsg" class="msg-box"></div>
+            </div>
+        </section>
+    </main>
+</div>
+<script>
+const ADMIN_API = '/admin-api';
 
-                if (success) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: success,
-                    confirmButtonColor: '#bd04e2'
-                }).then(() => {
-                    window.location.href = window.location.pathname; // remove query string
-                });
-                }
+async function loadSettings() {
+    const res = await fetch(`${ADMIN_API}/settings`);
+    const json = await res.json();
+    if (!json.data) return;
+    const d = json.data;
+    ['company_name','company_salogan','company_mobile','company_phone','company_email','company_web','company_address','company_city','company_country','company_currency'].forEach(k => {
+        const el = document.getElementById(k);
+        if (el && d[k]) el.value = d[k];
+    });
+    if (d.company_logo) {
+        document.getElementById('logoPreview').src = d.company_logo;
+        document.getElementById('logoPreviewWrap').style.display = 'block';
+    }
+}
 
-                if (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: error,
-                    confirmButtonColor: '#bd04e2'
-                }).then(() => {
-                    window.location.href = window.location.pathname; // remove query string
-                });
-                }
-            });
-        </script>
-    </body>
+document.getElementById('settingsForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const res = await fetch(`${ADMIN_API}/settings`, { method:'POST', body: fd });
+    const json = await res.json();
+    document.getElementById('settingsMsg').innerHTML = `<div class="alert ${json.success?'alert-success':'alert-danger'}">${json.message}</div>`;
+    setTimeout(() => document.getElementById('settingsMsg').innerHTML = '', 3000);
+    if (json.success) loadSettings();
+});
 
+loadSettings();
+</script>
+<script src="/js/script.js"></script>
+</body>
 </html>

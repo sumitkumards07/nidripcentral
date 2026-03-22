@@ -632,6 +632,10 @@ app.post("/reset-password", async (req, res) => {
 
 
 
+// ─── ADMIN API ROUTER (replaces all PHP CMS process.php logic) ───
+const adminApiRouter = require('./routes/admin');
+app.use('/admin-api', adminApiRouter);
+
 // DASHBOARD
 // ─── ADMIN PANEL ROUTES (Protected by requireAdmin) ───
 // Blanket admin guard for all admin-area paths
@@ -902,8 +906,16 @@ app.get("/stocks", async (req, res) => {
 app.get("/reviews", (req, res) => { res.render("reviews", { message: null, activePage: "reviews" }); });
 //Reviews
 app.get("/tickets", (req, res) => { res.render("tickets", { message: null, activePage: "tickets" }); });
-//Reviews
-app.get("/settings", (req, res) => { res.render("settings", { message: null, activePage: "settings" }); });
+// Settings page
+app.get("/settings", (req, res) => { res.render("settings", { activePage: "settings" }); });
+// Brands page
+app.get("/brands", requireAdmin, (req, res) => { res.render("brands", { activePage: "brands" }); });
+// Banners page
+app.get("/banners", requireAdmin, (req, res) => { res.render("banners", { activePage: "banners" }); });
+// Categories page
+app.get("/categories-admin", requireAdmin, (req, res) => { res.render("categories", { activePage: "categories" }); });
+// Customers page
+app.get("/customers", requireAdmin, (req, res) => { res.render("customers", { activePage: "customers" }); });
 
 
 //View Users..

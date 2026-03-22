@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories - NI DRIP Admin</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+<input type="checkbox" id="sidebar-toggle" hidden>
+<label for="sidebar-toggle" class="overlay"></label>
+<div class="app">
+    <%- include('partials/sidebar') %>
+    <main class="main">
+        <%- include('partials/header', { title: 'Categories' }) %>
+        <section class="content-area">
+            <div class="card mb-4">
+                <h3 class="card-title">Add Category</h3>
+                <form id="catForm" class="form-grid">
+                    <div class="form-group">
+                        <label>Category Name</label>
+                        <input type="text" id="cat_name" class="form-control" placeholder="e.g. Electronics" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Description (optional)</label>
+                        <input type="text" id="cat_desc" class="form-control" placeholder="Short description">
+                    </div>
+                    <button type="submit" class="btn-primary">Add Category</button>
+                </form>
+                <div id="catMsg" class="msg-box"></div>
+            </div>
+            <div class="card">
+                <h3 class="card-title">All Categories</h3>
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Action</th></tr></thead>
+                        <tbody id="catList"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+<div class="modal-overlay" id="editCatModal" style="display:none;">
+    <div class="modal-box">
+        <h3>Edit Category</h3>
+        <input type="hidden" id="edit_cat_id">
+        <div class="form-group"><label>Name</label><input type="text" id="edit_cat_name" class="form-control"></div>
+        <div style="display:flex;gap:12px;margin-top:16px;">
+            <button onclick="saveEditCat()" class="btn-primary">Save</button>
+            <button onclick="closeModal('editCatModal')" class="btn-secondary">Cancel</button>
+        </div>
+    </div>
+</div>
+<script>
+const ADMIN_API = '/admin-api';
+async function loadCats() {
+    const res = await fetch(`${ADMIN_API}/categories`);
+    const json = await res.json();
+    const tbody = document.getElementById('catList');
+    tbody.innerHTML = '';
+    if (!json.data || !json.data.length) { tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:20px;color:#999;">No categories yet.</td></tr>'; return; }
+    json.data.forEach((c, i) => {
+        tbody.innerHTML += `<tr>
+            <td>${i+1}</td><td><strong>${c.category_name}</strong></td>
+            <td><span class="badge ${c.category_status === 'Active' ? 'badge-green' : 'badge-grey'}">${c.category_status || 'Active'}</span></td>
+            <td class="actions">
+                <button onclick="openEditCat(${c.category_id},'${c.category_name.replace(/'/g,"\\'")}')"><i class="fa fa-edit"></i></button>
+                <button onclick="deleteCat(${c.category_id})" class="danger"><i class="fa fa-trash"></i></button>
+            </td></tr>`;
+    });
+}
+document.getElementById('catForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const res = await fetch(`${ADMIN_API}/categories`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ category_name: document.getElementById('cat_name').value, category_description: document.getElementById('cat_desc').value }) });
+    const json = await res.json();
+    document.getElementById('catMsg').innerHTML = `<div class="alert ${json.success?'alert-success':'alert-danger'}">${json.message}</div>`;
+    if (json.success) { e.target.reset(); loadCats(); }
+    setTimeout(() => document.getElementById('catMsg').innerHTML = '', 3000);
+});
+function openEditCat(id, name) { document.getElementById('edit_cat_id').value = id; document.getElementById('edit_cat_name').value = name; document.getElementById('editCatModal').style.display = 'flex'; }
+async function saveEditCat() {
+    const id = document.getElementById('edit_cat_id').value;
+    const name = document.getElementById('edit_cat_name').value;
+    await fetch(`${ADMIN_API}/categories/${id}`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ category_name: name }) });
+    closeModal('editCatModal'); loadCats();
+}
+async function deleteCat(id) { if (!confirm('Delete?')) return; await fetch(`${ADMIN_API}/categories/${id}`, { method:'DELETE' }); loadCats(); }
+function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+loadCats();
+</script>
+<script src="/js/script.js"></script>
+</body>
+</html>

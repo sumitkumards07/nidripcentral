@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brands - NI DRIP Admin</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+<input type="checkbox" id="sidebar-toggle" hidden>
+<label for="sidebar-toggle" class="overlay"></label>
+<div class="app">
+    <%- include('partials/sidebar') %>
+    <main class="main">
+        <%- include('partials/header', { title: 'Brands' }) %>
+        <section class="content-area">
+
+            <!-- Add Brand Form -->
+            <div class="card mb-4">
+                <h3 class="card-title">Add New Brand</h3>
+                <form id="brandForm" enctype="multipart/form-data" class="form-grid">
+                    <div class="form-group">
+                        <label>Brand Name</label>
+                        <input type="text" name="brand_name" id="brand_name" class="form-control" placeholder="e.g. Samsung" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Brand Image</label>
+                        <input type="file" name="brand_image" id="brand_image" class="form-control" accept="image/*" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Add Brand</button>
+                </form>
+                <div id="brandMsg" class="msg-box"></div>
+            </div>
+
+            <!-- Brands Table -->
+            <div class="card">
+                <h3 class="card-title">All Brands</h3>
+                <div class="table-wrap">
+                    <table class="data-table" id="brandsTable">
+                        <thead>
+                            <tr><th>#</th><th>Logo</th><th>Name</th><th>Status</th><th>Action</th></tr>
+                        </thead>
+                        <tbody id="brandsList"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal-overlay" id="editBrandModal" style="display:none;">
+    <div class="modal-box">
+        <h3>Edit Brand</h3>
+        <form id="editBrandForm" enctype="multipart/form-data">
+            <input type="hidden" id="edit_brand_id">
+            <div class="form-group"><label>Name</label><input type="text" id="edit_brand_name" class="form-control" required></div>
+            <div class="form-group"><label>New Image (optional)</label><input type="file" id="edit_brand_image" class="form-control" accept="image/*"></div>
+            <div style="display:flex;gap:12px;margin-top:16px;">
+                <button type="submit" class="btn-primary">Save</button>
+                <button type="button" onclick="closeModal('editBrandModal')" class="btn-secondary">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+const ADMIN_API = '/admin-api';
+
+async function loadBrands() {
+    const res = await fetch(`${ADMIN_API}/brands`);
+    const json = await res.json();
+    const tbody = document.getElementById('brandsList');
+    tbody.innerHTML = '';
+    if (!json.data || !json.data.length) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:#999;">No brands found.</td></tr>'; return; }
+    json.data.forEach((b, i) => {
+        tbody.innerHTML += `<tr>
+            <td>${i+1}</td>
+            <td><img src="${b.brand_image}" style="width:40px;height:40px;object-fit:contain;border-radius:8px;background:#f5f5f5;padding:4px;"></td>
+            <td><strong>${b.brand_name}</strong></td>
+            <td><span class="badge ${b.brand_status === 'Active' ? 'badge-green' : 'badge-grey'}">${b.brand_status || 'Active'}</span></td>
+            <td class="actions">
+                <button onclick="openEditBrand(${b.brand_id}, '${b.brand_name.replace(/'/g,"\\'")}')"><i class="fa fa-edit"></i></button>
+                <button onclick="deleteBrand(${b.brand_id})" class="danger"><i class="fa fa-trash"></i></button>
+            </td>
+        </tr>`;
+    });
+}
+
+document.getElementById('brandForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const res = await fetch(`${ADMIN_API}/brands`, { method: 'POST', body: fd });
+    const json = await res.json();
+    document.getElementById('brandMsg').innerHTML = `<div class="alert ${json.success ? 'alert-success' : 'alert-danger'}">${json.message}</div>`;
+    if (json.success) { e.target.reset(); loadBrands(); }
+    setTimeout(() => document.getElementById('brandMsg').innerHTML = '', 3000);
+});
+
+function openEditBrand(id, name) {
+    document.getElementById('edit_brand_id').value = id;
+    document.getElementById('edit_brand_name').value = name;
+    document.getElementById('editBrandModal').style.display = 'flex';
+}
+
+document.getElementById('editBrandForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const id = document.getElementById('edit_brand_id').value;
+    const fd = new FormData();
+    fd.append('brand_name', document.getElementById('edit_brand_name').value);
+    const img = document.getElementById('edit_brand_image').files[0];
+    if (img) fd.append('brand_image', img);
+    const res = await fetch(`${ADMIN_API}/brands/${id}`, { method: 'PUT', body: fd });
+    const json = await res.json();
+    if (json.success) { closeModal('editBrandModal'); loadBrands(); }
+});
+
+async function deleteBrand(id) {
+    if (!confirm('Delete this brand?')) return;
+    const res = await fetch(`${ADMIN_API}/brands/${id}`, { method: 'DELETE' });
+    const json = await res.json();
+    if (json.success) loadBrands();
+}
+
+function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+loadBrands();
+</script>
+<script src="/js/script.js"></script>
+</body>
+</html>

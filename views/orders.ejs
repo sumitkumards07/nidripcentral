@@ -1,59 +1,96 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Manage Orders</title>
-        <link rel="stylesheet" href="/css/style.css">
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    </head>
-    <body>
-        <input type="checkbox" id="sidebar-toggle" hidden>
-        <label for="sidebar-toggle" class="overlay"></label>
-        <div class="app">
-            <%- include("partials/sidebar") %>
-            <main class="main">
-                <%- include("partials/header") %>
-                <section class="page active" id="dashboardPage">
-                    <div class="dashboard-card">
-                        <%- include("partials/orders") %>
-                    </div>
-                </section>
-                    
-            </main>
-        </div>
-        <script src="/js/script.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const urlParams = new URLSearchParams(window.location.search);
-                const success = urlParams.get("success");
-                const error = urlParams.get("error");
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders - NI DRIP Admin</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+<input type="checkbox" id="sidebar-toggle" hidden>
+<label for="sidebar-toggle" class="overlay"></label>
+<div class="app">
+    <%- include('partials/sidebar') %>
+    <main class="main">
+        <%- include('partials/header', { title: 'Orders' }) %>
+        <section class="content-area">
+            <!-- Filter Tabs -->
+            <div class="filter-tabs" style="margin-bottom:20px;">
+                <button class="tab-btn active" onclick="filterOrders('all', this)">All</button>
+                <button class="tab-btn" onclick="filterOrders('Pending', this)">Pending</button>
+                <button class="tab-btn" onclick="filterOrders('Processing', this)">Processing</button>
+                <button class="tab-btn" onclick="filterOrders('Shipped', this)">Shipped</button>
+                <button class="tab-btn" onclick="filterOrders('Delivered', this)">Delivered</button>
+                <button class="tab-btn" onclick="filterOrders('Refunded', this)">Refunded</button>
+            </div>
 
-                if (success) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: success,
-                    confirmButtonColor: '#bd04e2'
-                }).then(() => {
-                    window.location.href = window.location.pathname; // remove query string
-                });
-                }
+            <div class="card">
+                <div class="table-wrap">
+                    <table class="data-table">
+                        <thead><tr><th>Order ID</th><th>Product</th><th>Customer</th><th>Qty</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
+                        <tbody id="ordersList"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+<script>
+const ADMIN_API = '/admin-api';
+let allOrders = [];
 
-                if (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: error,
-                    confirmButtonColor: '#bd04e2'
-                }).then(() => {
-                    window.location.href = window.location.pathname; // remove query string
-                });
-                }
-            });
-        </script>
-    </body>
+async function loadOrders() {
+    const res = await fetch(`${ADMIN_API}/orders`);
+    const json = await res.json();
+    allOrders = json.data || [];
+    renderOrders(allOrders);
+}
 
+function renderOrders(orders) {
+    const tbody = document.getElementById('ordersList');
+    if (!orders.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;color:#999;">No orders found.</td></tr>'; return; }
+    tbody.innerHTML = orders.map(o => `
+        <tr>
+            <td>#${o.id}</td>
+            <td>${o.product_name || 'N/A'}</td>
+            <td>${o.user_name || o.user_email || 'Guest'}</td>
+            <td>${o.qty || 1}</td>
+            <td>${o.date ? new Date(o.date).toLocaleDateString() : 'N/A'}</td>
+            <td>
+                <select onchange="changeStatus(${o.id}, this.value)" class="status-select">
+                    ${['Pending','Processing','Shipped','Delivered','Cancelled','Refunded'].map(s =>
+                        `<option value="${s}" ${o.status===s?'selected':''}>${s}</option>`
+                    ).join('')}
+                </select>
+            </td>
+            <td class="actions">
+                <button onclick="deleteOrder(${o.id})" class="danger"><i class="fa fa-trash"></i></button>
+            </td>
+        </tr>
+    `).join('');
+}
+
+function filterOrders(status, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderOrders(status === 'all' ? allOrders : allOrders.filter(o => o.status === status));
+}
+
+async function changeStatus(id, status) {
+    await fetch(`${ADMIN_API}/orders/${id}/status`, { method:'PUT', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ status }) });
+    loadOrders();
+}
+
+async function deleteOrder(id) {
+    if (!confirm('Delete this order?')) return;
+    await fetch(`${ADMIN_API}/orders/${id}`, { method:'DELETE' });
+    loadOrders();
+}
+
+loadOrders();
+</script>
+<script src="/js/script.js"></script>
+</body>
 </html>

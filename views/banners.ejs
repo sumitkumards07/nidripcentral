@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banners - NI DRIP Admin</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+<input type="checkbox" id="sidebar-toggle" hidden>
+<label for="sidebar-toggle" class="overlay"></label>
+<div class="app">
+    <%- include('partials/sidebar') %>
+    <main class="main">
+        <%- include('partials/header', { title: 'Banners' }) %>
+        <section class="content-area">
+            <div class="card mb-4">
+                <h3 class="card-title">Upload New Banner</h3>
+                <form id="bannerForm" enctype="multipart/form-data" class="form-grid">
+                    <div class="form-group">
+                        <label>Banner Label / Size</label>
+                        <input type="text" name="banner_size" class="form-control" placeholder="e.g. Hero Banner 1200x400" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Banner Image</label>
+                        <input type="file" name="banner_image" class="form-control" accept="image/*" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Upload Banner</button>
+                </form>
+                <div id="bannerMsg" class="msg-box"></div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">All Banners</h3>
+                <div id="bannersGrid" class="banners-grid"></div>
+            </div>
+        </section>
+    </main>
+</div>
+<script>
+const ADMIN_API = '/admin-api';
+
+async function loadBanners() {
+    const res = await fetch(`${ADMIN_API}/banners`);
+    const json = await res.json();
+    const grid = document.getElementById('bannersGrid');
+    if (!json.data || !json.data.length) { grid.innerHTML = '<p style="color:#999;padding:20px;">No banners found.</p>'; return; }
+    grid.innerHTML = json.data.map(b => `
+        <div class="banner-card">
+            <img src="${b.banner_image}" alt="${b.banner_size}">
+            <div class="banner-info">
+                <strong>${b.banner_size}</strong>
+                <span class="badge ${b.banner_status === 'Active' ? 'badge-green' : 'badge-grey'}">${b.banner_status}</span>
+            </div>
+            <div class="banner-actions">
+                <button onclick="setStatus(${b.banner_id}, 'Active')" class="btn-sm btn-green">Activate</button>
+                <button onclick="setStatus(${b.banner_id}, 'Deactive')" class="btn-sm btn-grey">Deactivate</button>
+                <button onclick="deleteBanner(${b.banner_id})" class="btn-sm btn-red"><i class="fa fa-trash"></i></button>
+            </div>
+        </div>
+    `).join('');
+}
+
+document.getElementById('bannerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    const res = await fetch(`${ADMIN_API}/banners`, { method: 'POST', body: fd });
+    const json = await res.json();
+    document.getElementById('bannerMsg').innerHTML = `<div class="alert ${json.success ? 'alert-success' : 'alert-danger'}">${json.message}</div>`;
+    if (json.success) { e.target.reset(); loadBanners(); }
+    setTimeout(() => document.getElementById('bannerMsg').innerHTML = '', 3000);
+});
+
+async function setStatus(id, status) {
+    await fetch(`${ADMIN_API}/banners/${id}/status`, { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ status }) });
+    loadBanners();
+}
+
+async function deleteBanner(id) {
+    if (!confirm('Delete this banner?')) return;
+    const res = await fetch(`${ADMIN_API}/banners/${id}`, { method: 'DELETE' });
+    const json = await res.json();
+    if (json.success) loadBanners();
+}
+
+loadBanners();
+</script>
+<script src="/js/script.js"></script>
+</body>
+</html>
