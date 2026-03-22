@@ -65,11 +65,20 @@ app.use(session({
   }
 }));
 
-// CSRF Protection (ignored for Stripe webhooks if any, but none here)
+// CSRF Protection (skipped for API routes)
 const csrfProtection = csrf({ cookie: true });
-app.use(csrfProtection);
+app.use((req, res, next) => {
+  if (req.path.startsWith("/api")) {
+    return next();
+  }
+  csrfProtection(req, res, next);
+});
 
 app.use((req, res, next) => {
+  if (req.path.startsWith("/api")) {
+    res.locals.csrfToken = null;
+    return next();
+  }
   res.locals.csrfToken = req.csrfToken();
   next();
 });

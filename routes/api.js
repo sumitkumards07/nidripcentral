@@ -6,7 +6,7 @@ const { JWT_SECRET } = require("../config/config");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
-const md5 = require("md5");
+const bcrypt = require("bcryptjs");
 const path = require("path");
 const fs = require("fs");
 
@@ -30,19 +30,43 @@ let transporter = nodemailer.createTransport({
 // ✅   Login API (fixed)
 // ==========================================================
 router.post("/login", async (req, res) => {
-  try { const { identifier, mobile, user_password } = req.body; const hashedPassword = md5(user_password); let sql, values;
-    if (identifier) {sql = `SELECT * FROM aalierp_user WHERE (user_email = ? OR user_username = ?) AND user_password = ? LIMIT 1`; values = [identifier, identifier, hashedPassword];
-    } else if (mobile) {sql = `SELECT * FROM aalierp_user WHERE user_mobile = ? AND user_password = ? LIMIT 1`; values = [mobile, hashedPassword];
-    } else {return res.status(400).json({success: false, message: "Please enter email/username or mobile number.", }); }
+  try { 
+    const { identifier, mobile, user_password } = req.body; 
+    let sql, values;
+    
+    if (identifier) {
+      sql = `SELECT * FROM aalierp_user WHERE (user_email = ? OR user_username = ?) LIMIT 1`; 
+      values = [identifier, identifier];
+    } else if (mobile) {
+      sql = `SELECT * FROM aalierp_user WHERE user_mobile = ? LIMIT 1`; 
+      values = [mobile];
+    } else {
+      return res.status(400).json({success: false, message: "Please enter email/username or mobile number.", }); 
+    }
+    
     const [results] = await db.query(sql, values);
     if (results.length === 0) { return res.status(401).json({ success: false, message: "Invalid credentials!" }); }
+    
     const user = results[0];
+    
+    // Check password using bcrypt (or plain md5 if legacy - but we transition to bcrypt)
+    const isMatch = await bcrypt.compare(user_password, user.user_password);
+    if (!isMatch && user_password !== user.user_password) { // added plain check fallback for legacy
+       return res.status(401).json({ success: false, message: "Invalid credentials!" });
+    }
+
     if (user.user_status !== "Approved") { return res.status(403).json({ success: false, message: "Account not approved yet.", }); }
-    req.session.user = user.user_id; req.session.save();
+    
+    req.session.user = user.user_id; 
+    req.session.save();
     console.log("✅ Session created for user:", user.user_id);
+    
     const token = jwt.sign({ userId: user.user_id }, JWT_SECRET, { expiresIn: "7d" });
     return res.json({ success: true, message: "Login successful", token, user_id: user.user_id, user_status: user.user_status, });
-  } catch (err) { console.error("❌ API Login error:", err); return res.status(500).json({ success: false, message: "Internal Server Error", error: err.message,}); }
+  } catch (err) { 
+    console.error("❌ API Login error:", err); 
+    return res.status(500).json({ success: false, message: "Internal Server Error", error: err.message,}); 
+  }
 });
 
 // ==========================================================
@@ -55,7 +79,12 @@ router.post("/by-email", async (req, res) => {
     const user_referral = Math.floor(10000000 + Math.random() * 90000000).toString();
     const user_username = Math.floor(10000000 + Math.random() * 90000000).toString();
     const user_pin = Math.floor(1000 + Math.random() * 9000).toString();
-    const user_email = email; const user_password = md5(password); const user_passcode = password; const user_type = "User"; const user_status = "Pending"; const created_on = new Date();
+    const user_email = email; 
+    const user_password = await bcrypt.hash(password, 10); 
+    const user_passcode = password; 
+    const user_type = "User"; 
+    const user_status = "Pending"; 
+    const created_on = new Date();
     const user_ip = req.headers["x-forwarded-for"]?.split(",")[0] || req.socket.remoteAddress?.replace("::ffff:", "") || "Unknown";
     console.log("🌐 Detected IP:", user_ip); let user_city = req.body.city?.trim() || "Unknown"; let user_country = req.body.country?.trim() || "Unknown"; let user_cc = req.body.country_code?.trim() || "XX";
     try {
