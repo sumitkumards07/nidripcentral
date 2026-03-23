@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Support Assistant | NI DRIP CENTRAL</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <style>
+        .chat-container::-webkit-scrollbar { display: none; }
+        .chat-container { -ms-overflow-style: none; scrollbar-width: none; }
+        .message-appear { animation: slideIn 0.3s ease-out forwards; }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-white font-body text-on-surface antialiased overflow-hidden">
+    <header class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-xl border-b border-outline-variant/10 pt-12 pb-4 px-6 shadow-sm">
+        <div class="flex items-center justify-between">
+            <button onclick="history.back()" class="active:scale-95 duration-200 text-[#000000]">
+                <span class="material-symbols-outlined">arrow_back</span>
+            </button>
+            <h1 class="text-lg font-extrabold tracking-tighter text-[#000000] font-headline">Support Assistant</h1>
+            <a href="tel:<%= locals.content && locals.content[0] ? locals.content[0].company_mobile : '' %>" class="active:scale-95 duration-200 text-[#000000]">
+                <span class="material-symbols-outlined">call</span>
+            </a>
+        </div>
+    </header>
+
+    <main class="pt-32 pb-32 h-screen flex flex-col">
+        <div id="chat-area" class="flex-1 overflow-y-auto px-6 py-6 space-y-6 chat-container">
+            <!-- Bot Message -->
+            <div class="flex flex-col items-start gap-2 message-appear">
+                <div class="bg-surface-container-low px-5 py-4 rounded-2xl rounded-bl-none max-w-[85%] text-sm font-medium leading-relaxed shadow-sm">
+                    Hi there! I'm your NI Drip Central assistant. How can I help you today?
+                </div>
+                <!-- Action Chips -->
+                <div class="flex flex-wrap gap-2 mt-2" id="action-chips">
+                    <button onclick="handleAction('track')" class="px-5 py-2.5 rounded-full border border-outline-variant/30 text-xs font-bold hover:bg-slate-50 active:scale-95 transition-all">Track my order</button>
+                    <button onclick="handleAction('returns')" class="px-5 py-2.5 rounded-full border border-outline-variant/30 text-xs font-bold hover:bg-slate-50 active:scale-95 transition-all">Return Policy</button>
+                    <button onclick="handleAction('install')" class="px-5 py-2.5 rounded-full border border-outline-variant/30 text-xs font-bold hover:bg-slate-50 active:scale-95 transition-all">Installation Services</button>
+                    <button onclick="handleAction('human')" class="px-5 py-2.5 rounded-full border border-outline-variant/30 text-xs font-bold hover:bg-slate-50 active:scale-95 transition-all">Talk to a human</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sticky Input -->
+        <div class="fixed bottom-0 w-full bg-white px-6 pb-12 pt-4 border-t border-outline-variant/10">
+            <div class="flex items-center gap-3">
+                <div class="flex-1 bg-surface-container-low rounded-full px-5 py-3.5 flex items-center">
+                    <input id="user-input" type="text" placeholder="Type a message..." class="w-full bg-transparent border-none outline-none text-sm font-medium placeholder:text-on-surface-variant/40">
+                </div>
+                <button onclick="sendMessage()" class="w-12 h-12 bg-[#4F46E5] text-white rounded-full flex items-center justify-center active:scale-90 transition-transform shadow-lg shadow-indigo-200">
+                    <span class="material-symbols-outlined !text-xl">send</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const chatArea = document.getElementById('chat-area');
+        const userInput = document.getElementById('user-input');
+
+        function addMessage(text, type) {
+            const wrapper = document.createElement('div');
+            wrapper.className = `flex flex-col ${type === 'user' ? 'items-end' : 'items-start'} gap-2 message-appear mb-4`;
+            
+            const bubble = document.createElement('div');
+            bubble.className = `px-5 py-4 rounded-2xl max-w-[85%] text-sm font-medium leading-relaxed shadow-sm ${
+                type === 'user' 
+                ? 'bg-[#4F46E5] text-white rounded-br-none' 
+                : 'bg-surface-container-low text-on-surface rounded-bl-none'
+            }`;
+            bubble.textContent = text;
+            
+            wrapper.appendChild(bubble);
+            chatArea.appendChild(wrapper);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        const responses = {
+            'track': "I can help with that! Please enter your 6-digit order number, or tap the button below to view your recent orders.",
+            'returns': "We offer a 14-day hassle-free return policy for all items, provided they are unused and in original packaging. Would you like to start a return?",
+            'install': "Yes! We offer professional installation for all large appliances. You can add this service during checkout or contact support to add it to an existing order.",
+            'human': "Connecting you to a human agent... please click the WhatsApp bubble below to chat with us directly.",
+            'default': "I'm sorry, I didn't quite get that. Could you please select one of the options above or type your question?"
+        };
+
+        function handleAction(key) {
+            const chips = document.getElementById('action-chips');
+            if (chips) chips.remove();
+
+            const labels = {
+                'track': 'Track my order',
+                'returns': 'Return Policy',
+                'install': 'Installation Services',
+                'human': 'Talk to a human'
+            };
+
+            addMessage(labels[key], 'user');
+            
+            setTimeout(() => {
+                addMessage(responses[key], 'bot');
+                if (key === 'track') {
+                    const btn = document.createElement('button');
+                    btn.className = "mt-4 px-6 py-2 bg-primary text-white text-xs font-bold rounded-xl active:scale-95 transition-all text-left w-fit";
+                    btn.textContent = "View My Orders";
+                    btn.onclick = () => window.location.href = '/my-orders';
+                    chatArea.lastChild.appendChild(btn);
+                }
+                if (key === 'human') {
+                    const companyMobile = "<%= (locals.content && locals.content[0] && locals.content[0].company_mobile) ? locals.content[0].company_mobile.replace(/\\D/g, '') : '' %>";
+                    if (companyMobile) {
+                        window.location.href = `https://wa.me/${companyMobile}`;
+                    }
+                }
+            }, 600);
+        }
+
+        function sendMessage() {
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            userInput.value = '';
+            addMessage(text, 'user');
+
+            setTimeout(() => {
+                addMessage(responses['default'], 'bot');
+                chatArea.scrollTop = chatArea.scrollHeight;
+            }, 800);
+        }
+
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+    </script>
+</body>
+</html>

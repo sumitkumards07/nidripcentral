@@ -599,6 +599,10 @@ app.post("/support/create", async (req, res) => {
     }
 });
 
+app.get("/chatbot", (req, res) => {
+    res.render("chatbot");
+});
+
 // FORGOT PASSWORD
 app.post("/forgot-password", async (req, res) => {
     const { user_email } = req.body;
