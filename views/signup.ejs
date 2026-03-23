@@ -1,58 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NI DRIP - Sign Up</title>
-  <link rel="stylesheet" href="/css/modern.css">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Sign Up | NI DRIP CENTRAL</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                colors: {
+                  "tertiary-container": "#261906",
+                  "on-secondary-container": "#fffbff",
+                  "secondary": "#4b41e1",
+                  "on-primary-fixed": "#141b2b",
+                  "on-error-container": "#93000a",
+                  "on-secondary": "#ffffff",
+                  "surface-variant": "#e1e3e4",
+                  "surface-tint": "#575e70",
+                  "outline": "#76777d",
+                  "on-surface": "#191c1d",
+                  "error": "#ba1a1a",
+                  "on-primary-fixed-variant": "#404758",
+                  "surface-dim": "#d9dadb",
+                  "surface": "#f8f9fa",
+                  "surface-container-highest": "#e1e3e4",
+                  "outline-variant": "#c6c6cd",
+                  "inverse-primary": "#c0c6db",
+                  "inverse-on-surface": "#f0f1f2",
+                  "on-background": "#191c1d",
+                  "background": "#f8f9fa",
+                  "surface-bright": "#f8f9fa",
+                  "primary-container": "#141b2b",
+                  "inverse-surface": "#2e3132",
+                  "on-primary": "#ffffff",
+                  "tertiary": "#000000",
+                  "error-container": "#ffdad6",
+                  "tertiary-fixed-dim": "#dcc2a4",
+                  "secondary-container": "#645efb",
+                  "on-surface-variant": "#45464c",
+                  "on-error": "#ffffff",
+                  "on-secondary-fixed": "#0f0069",
+                  "tertiary-fixed": "#f9debf",
+                  "on-tertiary-fixed": "#261906",
+                  "surface-container": "#edeeef",
+                  "surface-container-low": "#f3f4f5",
+                  "on-tertiary-fixed-variant": "#55442d",
+                  "primary-fixed-dim": "#c0c6db",
+                  "primary": "#000000",
+                  "on-primary-container": "#7d8497",
+                  "secondary-fixed": "#e2dfff",
+                  "on-tertiary": "#ffffff",
+                  "on-tertiary-container": "#968065",
+                  "on-secondary-fixed-variant": "#3323cc",
+                  "secondary-fixed-dim": "#c3c0ff",
+                  "primary-fixed": "#dce2f7",
+                  "surface-container-high": "#e7e8e9",
+                  "surface-container-lowest": "#ffffff"
+                },
+                fontFamily: {
+                  "headline": ["Plus Jakarta Sans"],
+                  "body": ["Inter"],
+                  "label": ["Inter"]
+                },
+                borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+              },
+            },
+          }
+        </script>
+    <style>
+          .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+          }
+          body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+          }
+        </style>
+    <style>
+        body {
+          min-height: max(884px, 100dvh);
+        }
+      </style>
 </head>
-<body>
-  <div class="mobile-frame">
-    <div class="auth-bg">
-      <!-- Header -->
-      <button class="login-back-btn" onclick="window.location.href='/auth-choice'"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="#1B1B1B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      
-      <h1 class="login-header-title">Sign Up</h1>
-<form action="/signup" method="POST" class="signup-form-container">
-  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-  <div class="login-form-group">
-    <div class="login-input-wrapper">
-      <label class="login-label">Full Name</label>
-      <input type="text" name="user_name" class="login-input" placeholder="Text your name" required>
-    </div>
-    <div class="login-input-wrapper">
-      <label class="login-label">Email</label>
-      <input type="email" name="user_email" class="login-input" placeholder="Text your email" required>
-    </div>
-    <div class="login-input-wrapper">
-      <label class="login-label">Password</label>
-      <input type="password" name="user_password" class="login-input" placeholder="Text your password" required>
-    </div>
-  </div>
-
-  <div class="login-form-group" style="gap: 24px;">
-    <button type="submit" class="auth-btn-primary" style="width: 100%;">Confirm</button>
-    
-    <div class="divider-auth">
-      <div class="divider-line"></div>
-      <span class="divider-text">Or</span>
-      <div class="divider-line"></div>
-    </div>
-
-    <button class="btn-social-auth" type="button" onclick="window.location.href='/auth/google'" style="width: 100%; border-radius: 16px;">
-      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="20">
-      Continue with Google
-    </button>
-  </div>
-
-  <p class="register-text">
-    Already have an account? <a href="/login" class="register-link" style="color: #FD22C3;">Log In</a>
-  </p>
-</form>
-
-      <!-- Home Indicator -->
-      <div style="width: 134px; height: 5px; background: #000000; border-radius: 100px; margin: auto auto 10px; opacity: 0.1;"></div>
-    </div>
-  </div>
+<body class="bg-surface font-body text-on-surface">
+    <nav class="bg-[#F8F9FA]/85 backdrop-blur-xl fixed top-0 w-full z-50 shadow-[0_12px_40px_rgba(25,28,29,0.04)] pt-12">
+        <div class="flex items-center justify-between px-6 h-16 w-full max-w-7xl mx-auto">
+            <div class="flex items-center gap-4">
+                <button onclick="window.location.href='/auth-choice'" class="active:scale-95 duration-200 hover:opacity-80 transition-opacity">
+                    <span class="material-symbols-outlined text-[#000000]" data-icon="arrow_back">arrow_back</span>
+                </button>
+                <span class="font-['Plus_Jakarta_Sans'] font-bold tracking-tight text-xl text-[#000000]">NI DRIP CENTRAL</span>
+            </div>
+            <div class="hidden md:flex gap-6 items-center">
+                <a class="text-[#45464C] font-['Plus_Jakarta_Sans'] font-semibold hover:opacity-80 transition-opacity" href="/shop">Shop</a>
+                <a class="text-[#45464C] font-['Plus_Jakarta_Sans'] font-semibold hover:opacity-80 transition-opacity" href="/launch">Launch</a>
+            </div>
+        </div>
+    </nav>
+    <main class="pt-32 pb-20 px-6 max-w-lg mx-auto min-h-screen flex flex-col justify-center">
+        <header class="mb-12">
+            <h1 class="font-headline text-[3.5rem] leading-none font-extrabold text-[#111827] tracking-tighter mb-4">
+                Register
+            </h1>
+            <p class="text-on-surface-variant font-body text-lg max-w-[280px]">
+                Create an account to start shopping and track your orders.
+            </p>
+        </header>
+        <section class="space-y-6">
+            <form action="/signup" method="POST" class="space-y-6">
+                <div class="space-y-4">
+                    <div class="group">
+                        <label class="block text-[11px] font-bold uppercase tracking-widest text-on-surface-variant mb-2 ml-1" for="name">Full Name</label>
+                        <input name="user_name" class="w-full bg-surface-container-low border-0 rounded-xl px-5 py-4 text-on-surface placeholder:text-outline-variant focus:ring-1 focus:ring-secondary focus:bg-surface-container-lowest transition-all duration-300 outline-none" id="name" placeholder="Your Name" type="text" required/>
+                    </div>
+                    <div class="group">
+                        <label class="block text-[11px] font-bold uppercase tracking-widest text-on-surface-variant mb-2 ml-1" for="email">Email</label>
+                        <input name="user_email" class="w-full bg-surface-container-low border-0 rounded-xl px-5 py-4 text-on-surface placeholder:text-outline-variant focus:ring-1 focus:ring-secondary focus:bg-surface-container-lowest transition-all duration-300 outline-none" id="email" placeholder="curator@dripcentral.com" type="email" required/>
+                    </div>
+                    <div class="group">
+                        <label class="block text-[11px] font-bold uppercase tracking-widest text-on-surface-variant mb-2 ml-1" for="password">Password</label>
+                        <input name="user_password" class="w-full bg-surface-container-low border-0 rounded-xl px-5 py-4 text-on-surface placeholder:text-outline-variant focus:ring-1 focus:ring-secondary focus:bg-surface-container-lowest transition-all duration-300 outline-none" id="password" placeholder="••••••••" type="password" required/>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-[#111827] text-white font-headline font-bold py-5 rounded-xl shadow-[0_20px_40px_rgba(0,0,0,0.12)] active:scale-[0.98] transition-all duration-200">
+                    Sign Up
+                </button>
+            </form>
+        </section>
+        <div class="relative my-10 flex items-center">
+            <div class="flex-grow border-t border-outline-variant opacity-20"></div>
+            <span class="flex-shrink mx-4 text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Or continue with</span>
+            <div class="flex-grow border-t border-outline-variant opacity-20"></div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+            <button onclick="window.location.href='/auth/google'" class="flex items-center justify-center gap-3 bg-surface-container-lowest border border-outline-variant/10 py-4 rounded-xl hover:bg-surface-container-low transition-colors active:scale-95 duration-200">
+                <span class="material-symbols-outlined text-xl" data-icon="brand_google">google</span>
+                <span class="font-headline font-semibold text-sm">Google</span>
+            </button>
+            <button class="flex items-center justify-center gap-3 bg-surface-container-lowest border border-outline-variant/10 py-4 rounded-xl hover:bg-surface-container-low transition-colors active:scale-95 duration-200">
+                <span class="material-symbols-outlined text-xl" data-icon="apple">ios</span>
+                <span class="font-headline font-semibold text-sm">Apple</span>
+            </button>
+        </div>
+        <footer class="mt-12 text-center">
+            <p class="text-on-surface-variant text-sm">
+                Already part of the drip? 
+                <a class="text-secondary font-bold ml-1 hover:underline underline-offset-4" href="/login">Log In</a>
+            </p>
+        </footer>
+    </main>
+    <div class="fixed top-20 -right-20 w-96 h-96 bg-secondary/5 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+    <div class="fixed bottom-0 -left-20 w-80 h-80 bg-primary/5 rounded-full blur-[80px] pointer-events-none -z-10"></div>
 </body>
 </html>
+

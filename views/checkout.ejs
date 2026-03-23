@@ -1,172 +1,276 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="light" lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NI DRIP - Checkout</title>
-  <link rel="stylesheet" href="/css/modern.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-</head>
-<body style="background-color: #f5f5f5; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh;">
-  <div class="mobile-frame">
-    <div class="checkout-layout" style="background: #f8f8f8; height: 100%; display: flex; flex-direction: column; position: relative; overflow: hidden;">
-      
-      <!-- Top Navigation / Header -->
-      <header class="shop-header" style="background: #fff; z-index: 10;">
-        <button class="shop-back-btn" onclick="history.back()">
-          <i class="fa-solid fa-arrow-left"></i>
-        </button>
-        <span style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 16px; color: #1A1A1A;">Checkout</span>
-        <div style="width: 20px;"></div>
-      </header>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Checkout | NI DRIP CENTRAL</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                colors: {
+                  "on-primary-fixed": "#141b2b",
+                  "surface-container": "#edeeef",
+                  "primary-fixed-dim": "#c0c6db",
+                  "tertiary-container": "#261906",
+                  "on-secondary-container": "#fffbff",
+                  "on-surface": "#191c1d",
+                  "on-error": "#ffffff",
+                  "outline-variant": "#c6c6cd",
+                  "tertiary": "#000000",
+                  "surface-dim": "#d9dadb",
+                  "primary-container": "#141b2b",
+                  "secondary": "#4b41e1",
+                  "inverse-primary": "#c0c6db",
+                  "on-secondary": "#ffffff",
+                  "on-tertiary-container": "#968065",
+                  "on-primary": "#ffffff",
+                  "primary-fixed": "#dce2f7",
+                  "inverse-on-surface": "#f0f1f2",
+                  "error-container": "#ffdad6",
+                  "secondary-container": "#645efb",
+                  "surface-container-highest": "#e1e3e4",
+                  "secondary-fixed": "#e2dfff",
+                  "on-tertiary-fixed": "#261906",
+                  "on-surface-variant": "#45464c",
+                  "on-primary-fixed-variant": "#404758",
+                  "secondary-fixed-dim": "#c3c0ff",
+                  "primary": "#000000",
+                  "tertiary-fixed-dim": "#dcc2a4",
+                  "surface-container-high": "#e7e8e9",
+                  "tertiary-fixed": "#f9debf",
+                  "outline": "#76777d",
+                  "surface-variant": "#e1e3e4",
+                  "surface-tint": "#575e70",
+                  "surface": "#f8f9fa",
+                  "surface-bright": "#f8f9fa",
+                  "on-tertiary": "#ffffff",
+                  "on-secondary-fixed-variant": "#3323cc",
+                  "on-error-container": "#93000a",
+                  "on-secondary-fixed": "#0f0069",
+                  "on-tertiary-fixed-variant": "#55442d",
+                  "inverse-surface": "#2e3132",
+                  "surface-container-lowest": "#ffffff",
+                  "surface-container-low": "#f3f4f5",
+                  "on-primary-container": "#7d8497",
+                  "on-background": "#191c1d",
+                  "background": "#f8f9fa",
+                  "error": "#ba1a1a"
+                },
+                fontFamily: {
+                  "headline": ["Plus Jakarta Sans"],
+                  "body": ["Inter"],
+                  "label": ["Inter"]
+                },
+                borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+              },
+            },
+          }
+        </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+            font-size: 24px;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background font-body text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#F8F9FA]/80 backdrop-blur-xl border-b border-outline-variant/10 pt-12">
+<div class="flex items-center justify-between px-6 py-4 w-full">
+<button onclick="history.back()" class="active:scale-95 duration-200 text-[#000000]">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="text-lg font-extrabold tracking-tighter text-[#000000] font-headline">CHECKOUT</h1>
+<div class="w-6"></div>
+</div>
+</header>
+<main class="pt-32 pb-32 px-6 max-w-4xl mx-auto">
+<!-- Order Progress -->
+<div class="flex items-center justify-center gap-4 mb-12">
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-xs font-bold">1</div>
+<span class="text-[10px] font-bold text-primary uppercase tracking-widest">Shipping</span>
+</div>
+<div class="w-12 h-[2px] bg-primary mb-5"></div>
+<div class="flex flex-col items-center gap-2 opacity-40">
+<div class="w-8 h-8 rounded-full bg-outline-variant text-on-surface flex items-center justify-center text-xs font-bold">2</div>
+<span class="text-[10px] font-bold text-on-surface uppercase tracking-widest">Payment</span>
+</div>
+<div class="w-12 h-[2px] bg-outline-variant mb-5 opacity-40"></div>
+<div class="flex flex-col items-center gap-2 opacity-40">
+<div class="w-8 h-8 rounded-full bg-outline-variant text-on-surface flex items-center justify-center text-xs font-bold">3</div>
+<span class="text-[10px] font-bold text-on-surface uppercase tracking-widest">Review</span>
+</div>
+</div>
 
-      <!-- Checkout Form -->
-      <form action="/checkout/process" method="POST" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; -ms-overflow-style: none; scrollbar-width: none; margin: 0; padding-bottom: 24px;">
-        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-        
-        <!-- Delivery Address Section -->
-        <div style="background: #fff; padding: 24px; margin-bottom: 8px;">
-          <h3 style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 16px; color: #1A1A1A; margin: 0 0 16px 0;">Delivery Address</h3>
-          
-          <div style="display: flex; flex-direction: column; gap: 12px;">
-            <input type="text" name="full_name" placeholder="Full Name" required class="checkout-input">
-            <input type="text" name="address_1" placeholder="Address Line 1" required class="checkout-input">
-            <input type="text" name="address_2" placeholder="Address Line 2 (Optional)" class="checkout-input">
-            <div style="display: flex; gap: 12px;">
-              <input type="text" name="city" placeholder="City" required class="checkout-input" style="flex: 1;">
-              <input type="text" name="postcode" placeholder="Postcode" required class="checkout-input" style="flex: 1;">
-            </div>
-            <input type="tel" name="phone" placeholder="Phone Number" required class="checkout-input">
-          </div>
-        </div>
+<form action="/checkout/process" method="POST" class="space-y-10">
 
-        <!-- Payment Method Section -->
-        <div style="background: #fff; padding: 24px; margin-bottom: 8px;">
-          <h3 style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 16px; color: #1A1A1A; margin: 0 0 16px 0;">Payment Method</h3>
-          
-          <div style="display: flex; flex-direction: column; gap: 12px;">
-            <!-- Stripe -->
-            <label class="payment-option selected" id="opt-stripe">
-              <input type="radio" name="payment_method" value="stripe" checked style="display: none;" onchange="updatePaymentUI(this)">
-              <div class="payment-option-header">
-                <div>
-                  <div class="payment-title">Stripe</div>
-                  <div class="payment-desc">Secure card payment via Stripe</div>
-                </div>
-                <i class="fa-solid fa-circle-check check-icon" style="color: #00DB72; font-size: 18px;"></i>
-              </div>
-            </label>
-
-            <!-- Credit/Debit -->
-            <label class="payment-option" id="opt-card">
-              <input type="radio" name="payment_method" value="card" style="display: none;" onchange="updatePaymentUI(this)">
-              <div class="payment-option-header">
-                <div>
-                  <div class="payment-title">Credit/Debit Card</div>
-                  <div class="payment-desc">Visa, Mastercard, Amex</div>
-                </div>
-                <div class="radio-circle"></div>
-              </div>
-            </label>
-
-            <!-- PayPal -->
-            <label class="payment-option" id="opt-paypal">
-              <input type="radio" name="payment_method" value="paypal" style="display: none;" onchange="updatePaymentUI(this)">
-              <div class="payment-option-header">
-                <div>
-                  <div class="payment-title">PayPal</div>
-                  <div class="payment-desc">Pay with your PayPal account</div>
-                </div>
-                <div class="radio-circle"></div>
-              </div>
-            </label>
-
-            <!-- Bank Transfer -->
-            <label class="payment-option" id="opt-bank">
-              <input type="radio" name="payment_method" value="bank" style="display: none;" onchange="updatePaymentUI(this)">
-              <div class="payment-option-header">
-                <div>
-                  <div class="payment-title">Bank Transfer</div>
-                  <div class="payment-desc">Direct bank transfer</div>
-                </div>
-                <div class="radio-circle"></div>
-              </div>
-            </label>
-          </div>
-
-          <!-- Fake Card Details Block (Only shows if Stripe/Card active) -->
-          <div id="stripe-details-container" style="background: #fcfcfc; border: 1px solid #EBEBEB; border-radius: 12px; padding: 16px; margin-top: 16px;">
-            <div style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px; color: #1A1A1A; margin-bottom: 12px;">Card Details</div>
-            <!-- Mock Stripe Input -->
-            <div style="height: 44px; background: #fff; border: 1px solid #ccc; border-radius: 8px; display: flex; align-items: center; padding: 0 12px; color: #aaa; margin-bottom: 12px;">
-              <i class="fa-regular fa-credit-card" style="margin-right: 8px;"></i> Card number        MM/YY   CVC
-            </div>
-            
-            <button type="button" disabled style="width: 100%; background: #00DB72; color: #fff; padding: 12px; border: none; border-radius: 8px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px; opacity: 0.9;">
-              Pay £<%= total.toFixed(2) %> with Stripe
-            </button>
-            <div style="text-align: center; font-family: 'Inter', sans-serif; font-size: 11px; color: #888; margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 4px;">
-              Powered by <span style="font-weight: 600; color: #635bff;">Stripe</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Order Summary Section -->
-        <div style="background: #fff; padding: 24px; margin-bottom: 8px;">
-          <h3 style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 16px; color: #1A1A1A; margin: 0 0 16px 0;">Order Summary</h3>
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px dashed #EAEAEA; padding-bottom: 16px;">
-            <span style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #666;">Total Amount</span>
-            <span style="font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: 600; color: #1A1A1A;">£<%= total.toFixed(2) %></span>
-          </div>
-
-          <!-- Accepted Payments -->
-          <div style="margin-top: 16px;">
-             <div style="font-family: 'Poppins', sans-serif; font-size: 12px; color: #888; margin-bottom: 8px; text-transform: uppercase; font-weight: 500;">We Accept</div>
-             <div style="display: flex; gap: 8px; align-items: center;">
-               <div class="cc-badge">Visa</div>
-               <div class="cc-badge">Mastercard</div>
-               <div class="cc-badge">Amex</div>
-               <div class="cc-badge">PayPal</div>
-             </div>
-          </div>
-        </div>
-
-        <!-- Sticky Footer -->
-        <div class="checkout-footer" style="padding: 16px 24px 34px 24px; background: #fff; box-shadow: 0 -4px 12px rgba(0,0,0,0.02); z-index: 10; margin-top: auto;">
-          <button type="submit" class="shop-add-cart-btn" style="width: 100%; font-size: 15px; padding: 14px 0; border-radius: 12px; margin-bottom: 12px;">Place Order - £<%= total.toFixed(2) %></button>
-          <div style="text-align: center; font-family: 'Poppins', sans-serif; font-size: 11px; color: #666; display: flex; align-items: center; justify-content: center; gap: 6px;">
-            <i class="fa-solid fa-lock" style="color: #888;"></i> Your payment information is secure and encrypted
-          </div>
-        </div>
-      </form>
-
+    <!-- Shipping Section -->
+    <section>
+    <div class="flex items-center justify-between mb-6">
+    <h2 class="text-2xl font-headline font-extrabold text-primary">Shipping Details</h2>
+    <span class="text-xs font-bold text-secondary bg-secondary/10 px-3 py-1 rounded-full uppercase tracking-tighter">Fast Delivery</span>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="space-y-2 md:col-span-2">
+    <label class="text-xs font-bold text-on-surface-variant uppercase ml-2 tracking-widest">Full Name</label>
+    <input type="text" name="full_name" placeholder="Enter your full name" required class="w-full bg-surface-container-low border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-primary/20 transition-all font-medium placeholder:text-outline-variant">
+    </div>
+    <div class="space-y-2 md:col-span-2">
+    <label class="text-xs font-bold text-on-surface-variant uppercase ml-2 tracking-widest">Street Address</label>
+    <input type="text" name="address_1" placeholder="Address Line 1" required class="w-full bg-surface-container-low border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-primary/20 transition-all font-medium placeholder:text-outline-variant">
+    </div>
+    <div class="space-y-2 md:col-span-2">
+    <input type="text" name="address_2" placeholder="Apartment, suite, etc. (Optional)" class="w-full bg-surface-container-low border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-primary/20 transition-all font-medium placeholder:text-outline-variant">
+    </div>
+    <div class="space-y-2">
+    <label class="text-xs font-bold text-on-surface-variant uppercase ml-2 tracking-widest">City</label>
+    <input type="text" name="city" placeholder="Belfast" required class="w-full bg-surface-container-low border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-primary/20 transition-all font-medium placeholder:text-outline-variant">
+    </div>
+    <div class="space-y-2">
+    <label class="text-xs font-bold text-on-surface-variant uppercase ml-2 tracking-widest">Postcode</label>
+    <input type="text" name="postcode" placeholder="BT1 1AA" required class="w-full bg-surface-container-low border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-primary/20 transition-all font-medium placeholder:text-outline-variant">
+    </div>
+    <div class="space-y-2 md:col-span-2">
+    <label class="text-xs font-bold text-on-surface-variant uppercase ml-2 tracking-widest">Phone Number</label>
+    <input type="tel" name="phone" placeholder="+44 7000 000000" required class="w-full bg-surface-container-low border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-primary/20 transition-all font-medium placeholder:text-outline-variant">
+    </div>
+    </div>
+    </section>
+    <!-- Payment Method -->
+    <section>
+    <h2 class="text-2xl font-headline font-extrabold text-primary mb-6">Payment Method</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <!-- Stripe Option -->
+    <label class="group relative bg-surface-container-low p-6 rounded-2xl cursor-pointer border-2 border-transparent transition-all hover:bg-surface-container-high has-[:checked]:border-secondary has-[:checked]:bg-secondary/5" id="opt-stripe">
+    <input type="radio" name="payment_method" value="stripe" checked class="hidden" onchange="updatePaymentUI(this)">
+    <div class="flex items-center justify-between">
+    <div class="flex items-center gap-4">
+    <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-secondary shadow-sm">
+    <span class="material-symbols-outlined !text-xl">credit_card</span>
+    </div>
+    <div>
+    <p class="font-bold text-primary">Stripe Secure</p>
+    <p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-tighter">Instant & Encrypted</p>
+    </div>
+    </div>
+    <div class="w-5 h-5 rounded-full border-2 border-outline-variant group-has-[:checked]:border-secondary group-has-[:checked]:bg-secondary flex items-center justify-center transition-all">
+    <div class="w-2 h-2 rounded-full bg-white scale-0 group-has-[:checked]:scale-100 transition-all"></div>
+    </div>
+    </div>
+    </label>
+    <!-- PayPal Option -->
+    <label class="group relative bg-surface-container-low p-6 rounded-2xl cursor-pointer border-2 border-transparent transition-all hover:bg-surface-container-high has-[:checked]:border-secondary has-[:checked]:bg-secondary/5" id="opt-paypal">
+    <input type="radio" name="payment_method" value="paypal" class="hidden" onchange="updatePaymentUI(this)">
+    <div class="flex items-center justify-between">
+    <div class="flex items-center gap-4">
+    <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[#003087] shadow-sm">
+    <span class="material-symbols-outlined !text-xl">account_balance_wallet</span>
+    </div>
+    <div>
+    <p class="font-bold text-primary">PayPal</p>
+    <p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-tighter">Fast Checkout</p>
+    </div>
+    </div>
+    <div class="w-5 h-5 rounded-full border-2 border-outline-variant group-has-[:checked]:border-secondary group-has-[:checked]:bg-secondary flex items-center justify-center transition-all">
+    <div class="w-2 h-2 rounded-full bg-white scale-0 group-has-[:checked]:scale-100 transition-all"></div>
+    </div>
+    </div>
+    </label>
+    <!-- Card Option -->
+    <label class="group relative bg-surface-container-low p-6 rounded-2xl cursor-pointer border-2 border-transparent transition-all hover:bg-surface-container-high has-[:checked]:border-secondary has-[:checked]:bg-secondary/5" id="opt-card">
+    <input type="radio" name="payment_method" value="card" class="hidden" onchange="updatePaymentUI(this)">
+    <div class="flex items-center justify-between">
+    <div class="flex items-center gap-4">
+    <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-primary shadow-sm">
+    <span class="material-symbols-outlined !text-xl">payments</span>
+    </div>
+    <div>
+    <p class="font-bold text-primary">Credit/Debit Card</p>
+    <p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-tighter">Visa, MC, Amex</p>
+    </div>
+    </div>
+    <div class="w-5 h-5 rounded-full border-2 border-outline-variant group-has-[:checked]:border-secondary group-has-[:checked]:bg-secondary flex items-center justify-center transition-all">
+    <div class="w-2 h-2 rounded-full bg-white scale-0 group-has-[:checked]:scale-100 transition-all"></div>
+    </div>
+    </div>
+    </label>
+    <!-- Bank Option -->
+    <label class="group relative bg-surface-container-low p-6 rounded-2xl cursor-pointer border-2 border-transparent transition-all hover:bg-surface-container-high has-[:checked]:border-secondary has-[:checked]:bg-secondary/5" id="opt-bank">
+    <input type="radio" name="payment_method" value="bank" class="hidden" onchange="updatePaymentUI(this)">
+    <div class="flex items-center justify-between">
+    <div class="flex items-center gap-4">
+    <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-tertiary shadow-sm">
+    <span class="material-symbols-outlined !text-xl">account_balance</span>
+    </div>
+    <div>
+    <p class="font-bold text-primary">Bank Transfer</p>
+    <p class="text-[10px] text-on-surface-variant uppercase font-bold tracking-tighter">Direct Transfer</p>
+    </div>
+    </div>
+    <div class="w-5 h-5 rounded-full border-2 border-outline-variant group-has-[:checked]:border-secondary group-has-[:checked]:bg-secondary flex items-center justify-center transition-all">
+    <div class="w-2 h-2 rounded-full bg-white scale-0 group-has-[:checked]:scale-100 transition-all"></div>
+    </div>
+    </div>
+    </label>
     </div>
 
-    <!-- Home Indicator -->
-    <div style="position: absolute; bottom: 8px; left: calc(50% - 67px); width: 134px; height: 5px; background: #000000; border-radius: 100px; opacity: 0.1; z-index: 999; pointer-events: none;"></div>
-    
-  </div>
+    <!-- Stripe Details Block -->
+    <div id="stripe-details-container" class="mt-6 bg-surface-container p-6 rounded-2xl border border-outline-variant/15 block">
+        <h3 class="font-bold text-sm mb-4">Pay with Stripe</h3>
+        <div class="h-14 bg-white border border-outline-variant/30 rounded-xl flex items-center px-4 gap-4 text-outline-variant text-sm mb-4">
+            <span class="material-symbols-outlined text-outline">credit_card</span>
+            Card number      MM / YY    CVC
+        </div>
+        <div class="text-center text-[10px] font-bold text-outline-variant uppercase tracking-widest flex items-center justify-center gap-2">
+            Secure Payments Powered by <span class="text-[#635BFF] flex items-center gap-0.5"><span class="material-symbols-outlined !text-xs">bolt</span>Stripe</span>
+        </div>
+    </div>
+    </section>
+    <!-- Order Summary -->
+    <section class="bg-surface-container-high p-8 rounded-3xl">
+    <h2 class="text-2xl font-headline font-extrabold text-primary mb-6">Order Summary</h2>
+    <div class="space-y-4">
+    <div class="flex justify-between items-center opacity-70">
+    <span class="text-sm font-bold uppercase tracking-widest">Subtotal</span>
+    <span class="font-bold">£<%= total.toFixed(2) %></span>
+    </div>
+    <div class="flex justify-between items-center opacity-70">
+    <span class="text-sm font-bold uppercase tracking-widest">Delivery</span>
+    <span class="text-secondary font-bold">FREE</span>
+    </div>
+    <div class="pt-4 border-t border-outline-variant/20 flex justify-between items-center">
+    <span class="text-lg font-bold">Total Amount</span>
+    <span class="text-3xl font-headline font-extrabold text-primary">£<%= total.toFixed(2) %></span>
+    </div>
+    </div>
+    </section>
+    <!-- Bottom Payment Bar -->
+    <div class="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-xl border-t border-outline-variant/10 px-6 py-4 flex items-center justify-center pb-safe">
+    <div class="max-w-4xl w-full">
+    <button type="submit" class="w-full bg-secondary text-on-secondary py-5 rounded-2xl font-headline font-extrabold text-xl shadow-lg shadow-secondary/20 active:scale-[0.98] transition-all flex items-center justify-center gap-3">
+    Confirm Order & Pay
+    <span class="material-symbols-outlined">arrow_forward</span>
+    </button>
+    </div>
+    </div>
+</form>
+</main>
 
-  <script>
+<script>
     function updatePaymentUI(selectedInput) {
-      // Remove 'selected' class and check-icon from all options
-      document.querySelectorAll('.payment-option').forEach(el => {
-        el.classList.remove('selected');
-        const iconDiv = el.querySelector('.check-icon, .radio-circle');
-        if (iconDiv.classList.contains('fa-circle-check')) {
-          el.querySelector('.payment-option-header').innerHTML = el.querySelector('.payment-option-header').innerHTML.replace(/<i[^>]+>/, '<div class="radio-circle"></div>');
-        }
-      });
-
-      // Add 'selected' class and check-icon to clicked option
-      const selectedLabel = selectedInput.closest('.payment-option');
-      selectedLabel.classList.add('selected');
-      const radioCircle = selectedLabel.querySelector('.radio-circle');
-      if (radioCircle) {
-        radioCircle.outerHTML = '<i class="fa-solid fa-circle-check check-icon" style="color: #00DB72; font-size: 18px;"></i>';
-      }
-
-      // Show/Hide Stripe block
       const stripeBlock = document.getElementById('stripe-details-container');
       if (selectedInput.value === 'stripe' || selectedInput.value === 'card') {
         stripeBlock.style.display = 'block';
@@ -174,56 +278,6 @@
         stripeBlock.style.display = 'none';
       }
     }
-  </script>
+</script>
+</body></html>
 
-  <style>
-    form::-webkit-scrollbar { display: none; }
-    .checkout-input {
-      width: 100%;
-      padding: 14px 16px;
-      border: 1px solid #EBEBEB;
-      border-radius: 12px;
-      background: #F8F8F8;
-      font-family: 'Poppins', sans-serif;
-      font-size: 14px;
-      color: #1A1A1A;
-      box-sizing: border-box;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .checkout-input:focus { border-color: #000; background: #fff; }
-    
-    .payment-option {
-      border: 1px solid #EBEBEB;
-      border-radius: 12px;
-      padding: 14px 16px;
-      background: #fff;
-      cursor: pointer;
-      display: block;
-      transition: border-color 0.2s;
-    }
-    .payment-option.selected {
-      border-color: #00DB72;
-      background: #F5FCF8;
-    }
-    .payment-option-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .payment-title { font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #1A1A1A; margin-bottom: 2px; }
-    .payment-desc { font-family: 'Poppins', sans-serif; font-size: 12px; color: #888; }
-    .radio-circle { width: 16px; height: 16px; border: 2px solid #ddd; border-radius: 50%; box-sizing: border-box; }
-    
-    .cc-badge {
-      padding: 4px 8px;
-      background: #F1F1F1;
-      border-radius: 4px;
-      font-family: 'Inter', sans-serif;
-      font-size: 11px;
-      color: #555;
-      font-weight: 500;
-    }
-  </style>
-</body>
-</html>

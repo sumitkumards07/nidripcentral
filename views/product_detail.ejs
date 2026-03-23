@@ -1,252 +1,211 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="light" lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>NI DRIP - <%= product.product_name %></title>
-  <link rel="stylesheet" href="/css/modern.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <style>
-    .product-detail-layout {
-      flex: 1;
-      width: 100%;
-      overflow-y: auto;
-      overflow-x: hidden;
-      padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px));
-      background: #fbfbfb;
-    }
-    .product-hero-image {
-      width: 100%;
-      height: 350px;
-      background: #f0f0f0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-    .product-hero-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      mix-blend-mode: multiply;
-      padding: 20px;
-    }
-    .product-hero-image i {
-      font-size: 100px;
-      color: #ddd;
-    }
-    .product-detail-body {
-      padding: 24px;
-      background: #fff;
-      border-top-left-radius: 24px;
-      border-top-right-radius: 24px;
-      margin-top: -20px;
-      position: relative;
-      box-shadow: 0 -4px 20px rgba(0,0,0,0.03);
-    }
-    .tag-category {
-      display: inline-block;
-      padding: 4px 12px;
-      background: #E8F5E9;
-      color: #00DB72;
-      border-radius: 20px;
-      font-family: 'Poppins', sans-serif;
-      font-size: 12px;
-      font-weight: 600;
-      margin-bottom: 12px;
-    }
-    .detail-title {
-      font-family: 'Poppins', sans-serif;
-      font-weight: 600;
-      font-size: 24px;
-      color: #1B1B1B;
-      margin: 0 0 8px 0;
-      line-height: 1.3;
-    }
-    .detail-price {
-      font-family: 'Poppins', sans-serif;
-      font-weight: 700;
-      font-size: 28px;
-      color: #FD22C3;
-      margin: 0 0 24px 0;
-    }
-    .detail-description-title {
-      font-family: 'Poppins', sans-serif;
-      font-weight: 600;
-      font-size: 16px;
-      color: #1B1B1B;
-      margin: 24px 0 12px 0;
-    }
-    .detail-description {
-      font-family: 'Poppins', sans-serif;
-      font-size: 14px;
-      color: #666;
-      line-height: 1.6;
-      white-space: pre-wrap;
-    }
-    /* Fixed Bottom Action Bar */
-    .product-action-bar {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 500px; /* matches .mobile-frame max-width */
-      background: #fff;
-      padding: 16px 24px calc(16px + env(safe-area-inset-bottom, 0px));
-      box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
-      display: flex;
-      gap: 12px;
-      z-index: 100;
-    }
-    .btn-add-cart {
-      flex: 1;
-      padding: 14px 0;
-      border: 2px solid #1B1B1B;
-      background: #fff;
-      color: #1B1B1B;
-      border-radius: 16px;
-      font-family: 'Poppins', sans-serif;
-      font-weight: 600;
-      font-size: 16px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .btn-buy-now {
-      flex: 1;
-      padding: 14px 0;
-      background: linear-gradient(135deg, #FF334B 0%, #FF1C8C 100%);
-      color: #fff;
-      border: none;
-      border-radius: 16px;
-      font-family: 'Poppins', sans-serif;
-      font-weight: 600;
-      font-size: 16px;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(253, 34, 195, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    .quantity-control {
-      display: flex;
-      align-items: center;
-      border: 1px solid #EBEBEB;
-      border-radius: 12px;
-      overflow: hidden;
-      margin-bottom: 24px;
-      width: fit-content;
-    }
-    .qty-btn {
-      width: 40px;
-      height: 40px;
-      background: #F8F8F8;
-      border: none;
-      font-size: 18px;
-      color: #1B1B1B;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .qty-input {
-      width: 50px;
-      height: 40px;
-      border: none;
-      text-align: center;
-      font-family: 'Poppins', sans-serif;
-      font-weight: 500;
-      font-size: 16px;
-      color: #1B1B1B;
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title><%= product.product_name %> | NI DRIP CENTRAL</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                colors: {
+                  "on-primary-fixed": "#141b2b",
+                  "surface-container": "#edeeef",
+                  "primary-fixed-dim": "#c0c6db",
+                  "tertiary-container": "#261906",
+                  "on-secondary-container": "#fffbff",
+                  "on-surface": "#191c1d",
+                  "on-error": "#ffffff",
+                  "outline-variant": "#c6c6cd",
+                  "tertiary": "#000000",
+                  "surface-dim": "#d9dadb",
+                  "primary-container": "#141b2b",
+                  "secondary": "#4b41e1",
+                  "inverse-primary": "#c0c6db",
+                  "on-secondary": "#ffffff",
+                  "on-tertiary-container": "#968065",
+                  "on-primary": "#ffffff",
+                  "primary-fixed": "#dce2f7",
+                  "inverse-on-surface": "#f0f1f2",
+                  "error-container": "#ffdad6",
+                  "secondary-container": "#645efb",
+                  "surface-container-highest": "#e1e3e4",
+                  "secondary-fixed": "#e2dfff",
+                  "on-tertiary-fixed": "#261906",
+                  "on-surface-variant": "#45464c",
+                  "on-primary-fixed-variant": "#404758",
+                  "secondary-fixed-dim": "#c3c0ff",
+                  "primary": "#000000",
+                  "tertiary-fixed-dim": "#dcc2a4",
+                  "surface-container-high": "#e7e8e9",
+                  "tertiary-fixed": "#f9debf",
+                  "outline": "#76777d",
+                  "surface-variant": "#e1e3e4",
+                  "surface-tint": "#575e70",
+                  "surface": "#f8f9fa",
+                  "surface-bright": "#f8f9fa",
+                  "on-tertiary": "#ffffff",
+                  "on-secondary-fixed-variant": "#3323cc",
+                  "on-error-container": "#93000a",
+                  "on-secondary-fixed": "#0f0069",
+                  "on-tertiary-fixed-variant": "#55442d",
+                  "inverse-surface": "#2e3132",
+                  "surface-container-lowest": "#ffffff",
+                  "surface-container-low": "#f3f4f5",
+                  "on-primary-container": "#7d8497",
+                  "on-background": "#191c1d",
+                  "background": "#f8f9fa",
+                  "error": "#ba1a1a"
+                },
+                fontFamily: {
+                  "headline": ["Plus Jakarta Sans"],
+                  "body": ["Inter"],
+                  "label": ["Inter"]
+                },
+                borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+              },
+            },
+          }
+        </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+            font-size: 24px;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
     }
   </style>
-</head>
-<body style="background-color: #f5f5f5; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh;">
-  <div class="mobile-frame" style="position: relative;">
-    
-    <!-- Header -->
-    <header class="home-header" style="position: absolute; width: 100%; top: 0; background: transparent; padding: calc(16px + env(safe-area-inset-top, 0px)) 24px 16px; box-sizing: border-box;">
-      <button onclick="history.back()" style="width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.9); border: none; font-size: 18px; color: #1B1B1B; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center;">
-        <i class="fa-solid fa-arrow-left"></i>
-      </button>
-      <a href="/cart-view" style="width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.9); border: none; font-size: 18px; color: #1B1B1B; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; text-decoration: none; position: relative;">
-        <i class="fa-solid fa-cart-shopping"></i>
-        <% if (locals.cartCount && locals.cartCount > 0) { %>
-          <span class="shop-cart-badge"><%= locals.cartCount %></span>
-        <% } %>
-      </a>
-    </header>
+  </head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#F8F9FA]/85 backdrop-blur-xl shadow-sm pt-12">
+<div class="flex items-center justify-between px-6 py-4 w-full">
+<div class="flex items-center gap-4">
+<button onclick="history.back()" class="active:scale-95 duration-200 text-[#000000]">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+</div>
+<h1 class="text-lg font-extrabold tracking-tighter text-[#000000] font-headline">NI DRIP CENTRAL</h1>
+<div class="flex items-center gap-4">
+<a href="/cart-view" class="active:scale-95 duration-200 text-[#000000] relative">
+<span class="material-symbols-outlined">shopping_bag</span>
+<% if (locals.cartCount && locals.cartCount > 0) { %>
+    <span class="absolute -top-1 -right-1 bg-secondary text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold"><%= locals.cartCount %></span>
+<% } %>
+</a>
+</div>
+</div>
+<div class="bg-[#F3F4F5] h-[1px] w-full"></div>
+</header>
+<main class="pt-32 pb-32">
+<!-- Edge-to-Edge Gallery -->
+<section class="relative w-full overflow-hidden bg-surface-container-low">
+<div class="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar">
+<div class="flex-none w-full snap-center h-[530px] md:h-[663px]">
+    <% if (product.product_image && product.product_image !== 'null') { %>
+        <img src="/uploads/<%= product.product_image %>" alt="<%= product.product_name %>" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/800x600?text=Product+Image'"/>
+    <% } else { %>
+        <div class="w-full h-full flex items-center justify-center bg-surface-container-low text-outline-variant">
+            <span class="material-symbols-outlined !text-6xl">image_not_supported</span>
+        </div>
+    <% } %>
+</div>
+</div>
+<!-- Gallery Indicators -->
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary/20"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary/20"></span>
+</div>
+<!-- Glass Floating Price Chip -->
+<div class="absolute top-6 right-6 backdrop-blur-md bg-surface-container-lowest/80 px-4 py-2 rounded-xl shadow-sm">
+<span class="text-primary font-headline font-bold text-lg">£<%= product.product_price %></span>
+</div>
+</section>
+<!-- Product Content -->
+<article class="px-8 mt-12 max-w-4xl mx-auto">
+<!-- Header Section -->
+<header class="mb-10">
+<h2 class="text-4xl md:text-5xl font-headline font-extrabold tracking-tight text-primary leading-tight mb-4 ml-2">
+                    <%= product.product_name %>
+                </h2>
+<div class="flex items-center gap-3 ml-2">
+<div class="flex text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">star</span>
+</div>
+<span class="text-sm font-medium text-on-surface-variant">4.8 (Curated Quality)</span>
+</div>
+</header>
 
-    <div class="product-detail-layout">
-      <!-- Hero Image -->
-      <div class="product-hero-image">
-        <% if (product.product_image && product.product_image !== 'null') { %>
-           <img src="/uploads/<%= product.product_image %>" alt="<%= product.product_name %>" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\'fa-solid fa-box-open\'></i>';">
-        <% } else { %>
-           <i class="fa-solid fa-box-open"></i>
-        <% } %>
-      </div>
+<form id="productForm" action="/cart/add" method="POST">
+    <input type="hidden" name="product_id" value="<%= product.product_id %>">
+    <input type="hidden" name="referer" id="refererInput" value="/product/<%= product.product_id %>">
 
-      <!-- Details Body -->
-      <div class="product-detail-body">
-        <% if (product.category_name) { %>
-          <div class="tag-category"><%= product.category_name %></div>
-        <% } %>
-        
-        <h1 class="detail-title"><%= product.product_name %></h1>
-        <div class="detail-price">£<%= product.product_price %></div>
+        <div class="mt-8">
+            <h3 class="font-headline text-lg font-bold mb-4">Select Quantity</h3>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <input type="number" name="qty" value="1" min="1" max="<%= product.stock_quantity || 10 %>" class="w-full sm:w-24 px-4 py-3 bg-white border border-outline-variant/30 rounded-xl font-bold text-center focus:ring-secondary/20" required>
+                <button type="submit" class="flex-1 bg-secondary text-white py-4 rounded-xl font-bold text-lg hover:shadow-lg active:scale-[0.98] transition-all">
+                    Add to Cart
+                </button>
+            </div>
+            <p class="mt-4 text-xs text-on-surface-variant font-medium">
+                Availability: <span class="text-[#10B981] font-bold"><%= product.stock_quantity > 0 ? 'In Stock' : 'Out of Stock' %></span> (<%= product.stock_quantity %> <%= product.unit_name || 'units' %>)
+            </p>
+        </div>
 
-        <form id="productForm" action="/cart/add" method="POST">
-          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <input type="hidden" name="product_id" value="<%= product.product_id %>">
-          <input type="hidden" name="referer" id="refererInput" value="/product/<%= product.product_id %>">
-          
-          <div class="detail-description-title">Quantity</div>
-          <div class="quantity-control">
-            <button type="button" class="qty-btn" onclick="decreaseQty()">-</button>
-            <input type="number" name="qty" id="qtyInput" value="1" min="1" max="<%= product.stock_quantity || 10 %>" class="qty-input" readonly>
-            <button type="button" class="qty-btn" onclick="increaseQty()">+</button>
-          </div>
-          <div style="font-family: 'Poppins'; font-size: 12px; color: #888; margin-top: -16px; margin-bottom: 24px;">
-            In Stock: <%= product.stock_quantity %> <%= product.unit_name || 'units' %>
-          </div>
+        <!-- Details Section -->
+        <div class="mt-12 space-y-8">
+            <div class="prose prose-sm max-w-none text-on-surface-variant leading-relaxed">
+                <h3 class="text-primary font-bold text-lg mb-2">Description</h3>
+                <%= product.product_description || 'No description available.' %>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4 pt-6 border-t border-outline-variant/10">
+                <div>
+                    <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Category</p>
+                    <p class="font-bold text-primary"><%= product.category_name || 'N/A' %></p>
+                </div>
+                <div>
+                    <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Delivery</p>
+                    <p class="font-bold text-primary">Fast Delivery</p>
+                </div>
+            </div>
+        </div>
+    </form>
+</main>
 
-          <div class="detail-description-title">Description</div>
-          <div class="detail-description"><%= product.product_description || 'No description available for this product.' %></div>
-        </form>
-      </div>
+<!-- Navigation -->
+<nav class="fixed bottom-0 w-full z-50 bg-white/85 backdrop-blur-xl border-t border-outline-variant/10 pt-4 pb-8 sm:hidden">
+    <div class="flex justify-around items-center">
+        <a href="/home" class="flex flex-col items-center gap-1 text-on-surface-variant no-underline">
+            <span class="material-symbols-outlined">home</span>
+            <span class="text-[10px] font-bold uppercase tracking-widest">Home</span>
+        </a>
+        <a href="/cart-view" class="flex flex-col items-center gap-1 text-secondary no-underline">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+            <span class="text-[10px] font-bold uppercase tracking-widest">Cart</span>
+        </a>
+        <a href="/profile" class="flex flex-col items-center gap-1 text-on-surface-variant no-underline">
+            <span class="material-symbols-outlined">person</span>
+            <span class="text-[10px] font-bold uppercase tracking-widest">Profile</span>
+        </a>
     </div>
-
-    <!-- Bottom Action Bar -->
-    <div class="product-action-bar">
-      <button type="button" class="btn-add-cart" onclick="submitForm('/cart-view')">
-        <i class="fa-solid fa-cart-plus"></i> Add to Cart
-      </button>
-      <button type="button" class="btn-buy-now" onclick="submitForm('/checkout')">
-        Buy Now
-      </button>
-    </div>
-
-  </div>
-
-  <script>
-    function decreaseQty() {
-      const input = document.getElementById('qtyInput');
-      if (input.value > 1) input.value = parseInt(input.value) - 1;
-    }
-    function increaseQty() {
-      const input = document.getElementById('qtyInput');
-      const max = parseInt(input.getAttribute('max')) || 10;
-      if (input.value < max) input.value = parseInt(input.value) + 1;
-    }
-    function submitForm(referer) {
-      document.getElementById('refererInput').value = referer;
-      document.getElementById('productForm').submit();
-    }
-  </script>
+</nav>
+    <%- include("partials/support_bubble") %>
 </body>
 </html>
+

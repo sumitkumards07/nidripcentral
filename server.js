@@ -28,12 +28,15 @@ const googleClient = new OAuth2Client(
   process.env.GOOGLE_CALLBACK_URL
 );
 
-// ─── PRODUCTION SECURITY MIDDLEWARE ───
+// PRODUCTION SECURITY MIDDLEWARE (DISABLED for simplicity)
+/*
 app.use(helmet({ contentSecurityPolicy: false })); // Security headers (CSP disabled for inline styles/scripts in EJS)
 app.use(compression()); // Gzip compression
 app.use(morgan('combined')); // Structured request logging
+*/
 
-// Rate limiting for auth routes
+// Rate limiting (DISABLED for simplicity)
+/*
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 20, // 20 attempts per window
@@ -41,6 +44,9 @@ const authLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
 });
+*/
+// Dummy authLimiter for compatibility
+const authLimiter = (req, res, next) => next();
 
 app.use(cors({
   origin: "*",
@@ -65,7 +71,8 @@ app.use(session({
   }
 }));
 
-// CSRF Protection (skipped for API routes)
+// CSRF Protection (DISABLED as requested to simplify the app)
+/*
 const csrfProtection = csrf({ cookie: true });
 app.use((req, res, next) => {
   if (req.path.startsWith("/api")) {
@@ -80,6 +87,13 @@ app.use((req, res, next) => {
     return next();
   }
   res.locals.csrfToken = req.csrfToken();
+  next();
+});
+*/
+
+// Mock CSRF for EJS compatibility if needed (but we've removed it from views)
+app.use((req, res, next) => {
+  res.locals.csrfToken = "";
   next();
 });
 
@@ -552,6 +566,36 @@ app.get("/my-orders", async (req, res) => {
     } catch (err) {
         console.error("My Orders Error:", err);
         res.status(500).send("Internal Server Error");
+    }
+});
+
+// SUPPORT CENTER
+app.get("/support", async (req, res) => {
+    if (!req.session.user) return res.redirect("/login");
+    try {
+        const [tickets] = await db.query(
+            "SELECT *, DATE_FORMAT(created_on, '%b %d, %Y') as formatted_date FROM aalierp_tickets WHERE user_id = ? ORDER BY created_on DESC",
+            [req.session.user]
+        );
+        res.render("support", { tickets });
+    } catch (err) {
+        console.error("Support View Error:", err);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+app.post("/support/create", async (req, res) => {
+    if (!req.session.user) return res.redirect("/login");
+    const { subject, message, priority } = req.body;
+    try {
+        await db.query(
+            "INSERT INTO aalierp_tickets (user_id, subject, message, priority, status, created_on) VALUES (?, ?, ?, ?, 'Open', NOW())",
+            [req.session.user, subject, message, priority || 'Normal']
+        );
+        res.redirect("/support?success=" + encodeURIComponent("Ticket created successfully"));
+    } catch (err) {
+        console.error("Ticket Creation Error:", err);
+        res.redirect("/support?error=" + encodeURIComponent("Failed to create ticket"));
     }
 });
 

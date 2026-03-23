@@ -1,87 +1,173 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="light" lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NI DRIP - Verify OTP</title>
-  <link rel="stylesheet" href="/css/modern.css">
-  <style>
-    .otp-inputs {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 30px;
-    }
-    .otp-field {
-      width: 58px;
-      height: 58px;
-      border: none;
-      border-bottom: 2px solid var(--text-gray);
-      background: transparent;
-      text-align: center;
-      font-size: 24px;
-      font-weight: 600;
-      color: var(--text-dark);
-    }
-    .otp-field:focus {
-      outline: none;
-      border-bottom-color: var(--primary-pink);
-    }
-  </style>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Verify OTP - NI DRIP CENTRAL</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                colors: {
+                  "tertiary-container": "#261906",
+                  "on-secondary-container": "#fffbff",
+                  "secondary": "#4b41e1",
+                  "on-primary-fixed": "#141b2b",
+                  "on-error-container": "#93000a",
+                  "on-secondary": "#ffffff",
+                  "surface-variant": "#e1e3e4",
+                  "surface-tint": "#575e70",
+                  "outline": "#76777d",
+                  "on-surface": "#191c1d",
+                  "error": "#ba1a1a",
+                  "on-primary-fixed-variant": "#404758",
+                  "surface-dim": "#d9dadb",
+                  "surface": "#f8f9fa",
+                  "surface-container-highest": "#e1e3e4",
+                  "outline-variant": "#c6c6cd",
+                  "inverse-primary": "#c0c6db",
+                  "inverse-on-surface": "#f0f1f2",
+                  "on-background": "#191c1d",
+                  "background": "#f8f9fa",
+                  "surface-bright": "#f8f9fa",
+                  "primary-container": "#141b2b",
+                  "inverse-surface": "#2e3132",
+                  "on-primary": "#ffffff",
+                  "tertiary": "#000000",
+                  "error-container": "#ffdad6",
+                  "tertiary-fixed-dim": "#dcc2a4",
+                  "secondary-container": "#645efb",
+                  "on-surface-variant": "#45464c",
+                  "on-error": "#ffffff",
+                  "on-secondary-fixed": "#0f0069",
+                  "tertiary-fixed": "#f9debf",
+                  "on-tertiary-fixed": "#261906",
+                  "surface-container": "#edeeef",
+                  "surface-container-low": "#f3f4f5",
+                  "on-tertiary-fixed-variant": "#55442d",
+                  "primary-fixed-dim": "#c0c6db",
+                  "primary": "#000000",
+                  "on-primary-container": "#7d8497",
+                  "secondary-fixed": "#e2dfff",
+                  "on-tertiary": "#ffffff",
+                  "on-tertiary-container": "#968065",
+                  "on-secondary-fixed-variant": "#3323cc",
+                  "secondary-fixed-dim": "#c3c0ff",
+                  "primary-fixed": "#dce2f7",
+                  "surface-container-high": "#e7e8e9",
+                  "surface-container-lowest": "#ffffff"
+                },
+                fontFamily: {
+                  "headline": ["Plus Jakarta Sans"],
+                  "body": ["Inter"],
+                  "label": ["Inter"]
+                },
+                borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+              },
+            },
+          }
+        </script>
+    <style>
+            .material-symbols-outlined {
+                font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            }
+            .otp-input:focus {
+                box-shadow: 0 0 0 1px #4b41e1;
+            }
+            .keypad-blur {
+                backdrop-filter: blur(20px);
+                background-color: rgba(248, 249, 250, 0.85);
+            }
+            .otp-field {
+                width: 3.5rem;
+                height: 4rem;
+                background-color: #f3f4f5;
+                border-radius: 0.75rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: none;
+                text-align: center;
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: #111827;
+                transition: all 0.2s;
+            }
+            .otp-field:focus {
+                background-color: #ffffff;
+                box-shadow: 0 0 0 1px #4b41e1;
+                outline: none;
+            }
+        </style>
+    <style>
+        body {
+          min-height: max(884px, 100dvh);
+        }
+      </style>
 </head>
-<body>
-  <div class="mobile-frame">
-    <div class="auth-bg">
-      <!-- Header -->
-      <button class="login-back-btn" onclick="history.back()"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="#1B1B1B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      
-      <h1 class="login-header-title">Verify OTP</h1>
-
-      <div class="verify-otp-container">
-        <p style="text-align: left; color: #4B4B4B; font-size: 14px; font-family: 'Poppins'; margin-bottom: 0;">
-          A code has been sent to your phone/email. Please enter it below.
-        </p>
-
-        <form action="/verify-otp" method="POST" style="width: 100%; display: flex; flex-direction: column; gap: 40px;">
-          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <div class="otp-inputs">
-            <input type="text" name="otp_1" maxlength="1" class="otp-field" required>
-            <input type="text" name="otp_2" maxlength="1" class="otp-field" required>
-            <input type="text" name="otp_3" maxlength="1" class="otp-field" required>
-            <input type="text" name="otp_4" maxlength="1" class="otp-field" required>
-            <input type="text" name="otp_5" maxlength="1" class="otp-field" required>
-            <input type="text" name="otp_6" maxlength="1" class="otp-field" required>
-          </div>
-
-          <div class="text-center" style="margin-top: -20px;">
-            <p style="color: #8E8E8E; font-size: 14px; font-family: 'Poppins';">Resend in <span style="color: #FD22C3; font-weight: 500;">00:57</span></p>
-          </div>
-
-          <button type="submit" class="auth-btn-primary" style="width: 100%;">Confirm</button>
-        </form>
-      </div>
-
-      <div class="flex-grow"></div>
-      
-      <!-- Home Indicator -->
-      <div style="width: 134px; height: 5px; background: #000000; border-radius: 100px; margin: 0 auto 10px; opacity: 0.1;"></div>
-    </div>
-  </div>
-
-  <script>
-    const fields = document.querySelectorAll('.otp-field');
-    fields.forEach((field, i) => {
-      field.addEventListener('input', (e) => {
-        if (e.target.value.length === 1 && i < fields.length - 1) {
-          fields[i + 1].focus();
-        }
-      });
-      field.addEventListener('keydown', (e) => {
-        if (e.key === 'Backspace' && !e.target.value && i > 0) {
-          fields[i - 1].focus();
-        }
-      });
-    });
-  </script>
+<body class="bg-surface font-body text-on-surface antialiased min-h-screen flex flex-col">
+    <header class="fixed top-0 w-full z-50 bg-[#F8F9FA]/85 backdrop-blur-xl shadow-[0_12px_40px_rgba(25,28,29,0.04)] flex items-center justify-between px-6 h-16">
+        <div class="flex items-center gap-4">
+            <button onclick="history.back()" class="active:scale-95 duration-200 hover:opacity-80 transition-opacity text-[#000000]">
+                <span class="material-symbols-outlined text-2xl">arrow_back</span>
+            </button>
+            <h1 class="font-headline font-bold tracking-tight text-[#000000]">NI DRIP CENTRAL</h1>
+        </div>
+        <div class="w-6"></div>
+    </header>
+    <main class="flex-grow pt-24 pb-80 px-8">
+        <div class="max-w-md mx-auto">
+            <section class="mb-12">
+                <h2 class="font-headline text-[3.5rem] leading-[1.1] font-bold tracking-[-0.02em] text-[#111827] mb-4">
+                    Verify OTP
+                </h2>
+                <p class="text-[#6B7280] font-body text-lg max-w-[280px]">
+                    We sent a verification code to your registered mobile number or email.
+                </p>
+            </section>
+            <form action="/verify-otp" method="POST">
+                <section class="mb-10">
+                    <div class="flex justify-between gap-2 max-w-[360px] mx-auto">
+                        <input type="text" name="otp_1" maxlength="1" class="otp-field" required autocomplete="one-time-code">
+                        <input type="text" name="otp_2" maxlength="1" class="otp-field" required>
+                        <input type="text" name="otp_3" maxlength="1" class="otp-field" required>
+                        <input type="text" name="otp_4" maxlength="1" class="otp-field" required>
+                        <input type="text" name="otp_5" maxlength="1" class="otp-field" required>
+                        <input type="text" name="otp_6" maxlength="1" class="otp-field" required>
+                    </div>
+                </section>
+                <section class="text-center mb-12">
+                    <button type="button" class="text-secondary font-medium hover:opacity-80 transition-opacity">
+                        Resend code in <span class="font-semibold">00:57</span>
+                    </button>
+                </section>
+                <section>
+                    <button type="submit" class="w-full bg-[#000000] text-white font-headline font-bold py-5 rounded-xl shadow-[0_12px_40px_rgba(25,28,29,0.08)] active:scale-[0.98] transition-all duration-200">
+                        Verify
+                    </button>
+                </section>
+            </form>
+        </div>
+    </main>
+    <script>
+        const fields = document.querySelectorAll('.otp-field');
+        fields.forEach((field, i) => {
+            field.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && i < fields.length - 1) {
+                    fields[i + 1].focus();
+                }
+            });
+            field.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && i > 0) {
+                    fields[i - 1].focus();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
+

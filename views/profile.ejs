@@ -1,82 +1,145 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="light" lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NI DRIP - Profile</title>
-  <link rel="stylesheet" href="/css/modern.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>My Profile | NI DRIP CENTRAL</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                colors: {
+                  "on-secondary-container": "#fffbff",
+                  "secondary": "#4b41e1",
+                  "on-surface": "#191c1d",
+                  "surface": "#f8f9fa",
+                  "primary": "#000000",
+                  "background": "#f8f9fa",
+                  "on-background": "#191c1d",
+                  "outline-variant": "#c6c6cd",
+                  "error": "#ba1a1a"
+                },
+                fontFamily: {
+                  "headline": ["Plus Jakarta Sans"],
+                  "body": ["Inter"]
+                }
+              }
+            }
+          }
+    </script>
 </head>
-<body style="background-color: #f5f5f5; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh;">
-  <div class="mobile-frame">
-    <div style="background: #fcfcfc; height: 100%; display: flex; flex-direction: column; position: relative;">
-      
-      <!-- Top Navigation / Header -->
-      <header class="shop-header">
-        <button class="shop-back-btn" onclick="history.back()">
-          <i class="fa-solid fa-arrow-left"></i>
+<body class="bg-background font-body text-on-surface antialiased">
+<header class="fixed top-0 w-full z-50 bg-white/85 backdrop-blur-xl border-b border-outline-variant/10 pt-12">
+    <div class="flex items-center justify-between px-6 py-4 w-full">
+        <button onclick="history.back()" class="active:scale-95 duration-200 text-[#000000]">
+            <span class="material-symbols-outlined">arrow_back</span>
         </button>
-        <span style="font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 16px; color: #1A1A1A;">My Profile</span>
-        <div style="width: 20px;"></div>
-      </header>
-
-      <div style="padding: 24px; flex: 1; overflow-y: auto; -ms-overflow-style: none; scrollbar-width: none;">
-        
-        <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 32px; margin-top: 16px;">
-          <div style="width: 80px; height: 80px; border-radius: 50%; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-            <i class="fa-regular fa-user"></i>
-          </div>
-          <h2 style="font-family: 'Poppins', sans-serif; font-size: 20px; font-weight: 600; color: #1A1A1A; margin: 0 0 4px 0;"><%= locals.user ? locals.user.user_name : 'Guest User' %></h2>
-          <p style="font-family: 'Poppins', sans-serif; font-size: 14px; color: #888; margin: 0;"><%= locals.user ? locals.user.user_email : 'Please log in' %></p>
-        </div>
-
-        <div style="background: #fff; border: 1px solid #EBEBEB; border-radius: 16px; padding: 0 16px;">
-          
-          <!-- Default Email View -->
-          <div style="padding: 16px 0; border-bottom: 1px solid #EBEBEB; display: flex; align-items: center; gap: 16px;">
-            <div style="width: 40px; height: 40px; border-radius: 50%; background: #F8F8F8; display: flex; align-items: center; justify-content: center; color: #1A1A1A;">
-              <i class="fa-regular fa-envelope"></i>
-            </div>
-            <div style="flex: 1;">
-              <div style="font-family: 'Poppins', sans-serif; font-size: 12px; color: #888;">Email</div>
-              <div style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #1A1A1A;"><%= locals.user ? locals.user.user_email : 'N/A' %></div>
-            </div>
-          </div>
-
-          <!-- Default Mobile View -->
-          <div style="padding: 16px 0; border-bottom: 1px solid #EBEBEB; display: flex; align-items: center; gap: 16px;">
-            <div style="width: 40px; height: 40px; border-radius: 50%; background: #F8F8F8; display: flex; align-items: center; justify-content: center; color: #1A1A1A;">
-              <i class="fa-solid fa-phone"></i>
-            </div>
-            <div style="flex: 1;">
-              <div style="font-family: 'Poppins', sans-serif; font-size: 12px; color: #888;">Phone Number</div>
-              <div style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #1A1A1A;"><%= locals.user ? locals.user.user_mobile : 'N/A' %></div>
-            </div>
-          </div>
-          
-          <!-- Orders -->
-          <a href="/my-orders" style="padding: 16px 0; display: flex; align-items: center; gap: 16px; cursor: pointer; text-decoration: none; color: inherit;">
-            <div style="width: 40px; height: 40px; border-radius: 50%; background: #F8F8F8; display: flex; align-items: center; justify-content: center; color: #1A1A1A;">
-              <i class="fa-solid fa-box"></i>
-            </div>
-            <div style="flex: 1; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: #1A1A1A;">My Orders</div>
-            <i class="fa-solid fa-chevron-right" style="color: #ccc; font-size: 14px;"></i>
-          </a>
-
-        </div>
-
-        <a href="/logout" style="display: block; width: 100%; text-align: center; text-decoration: none; color: #FF2B4D; border: 1px solid #FF2B4D; padding: 14px 0; border-radius: 12px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 15px; margin-top: 32px; transition: all 0.2s ease;">
-          Log Out
-        </a>
-
-      </div>
-
-      <!-- Home Indicator -->
-      <div style="position: absolute; bottom: 8px; left: calc(50% - 67px); width: 134px; height: 5px; background: #000000; border-radius: 100px; opacity: 0.1;"></div>
+        <h1 class="text-lg font-extrabold tracking-tighter text-[#000000] font-headline">MY ACCOUNT</h1>
+        <div class="w-6"></div>
     </div>
-  </div>
-  <style>
-    div::-webkit-scrollbar { display: none; }
-  </style>
-</body>
-</html>
+</header>
+
+<main class="pt-32 pb-32 px-6 max-w-md mx-auto space-y-10">
+    <!-- Profile Header -->
+    <section class="flex flex-col items-center text-center space-y-4">
+        <div class="w-24 h-24 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+            <span class="material-symbols-outlined !text-5xl" style="font-variation-settings: 'FILL' 1;">person</span>
+        </div>
+        <div>
+            <h2 class="text-2xl font-headline font-extrabold text-primary"><%= locals.user ? locals.user.user_name : 'Guest' %></h2>
+            <p class="text-on-surface-variant font-medium text-sm"><%= locals.user ? locals.user.user_email : 'No email provided' %></p>
+        </div>
+        <div class="inline-flex items-center gap-2 bg-secondary/5 px-4 py-1.5 rounded-full border border-secondary/10">
+            <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+            <span class="text-[10px] font-bold text-secondary uppercase tracking-widest"><%= locals.user ? locals.user.user_type : 'User' %> Account</span>
+        </div>
+    </section>
+
+    <!-- Info Cards -->
+    <section class="space-y-4">
+        <div class="bg-white p-6 rounded-3xl border border-outline-variant/10 space-y-6">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant">
+                    <span class="material-symbols-outlined !text-xl">call</span>
+                </div>
+                <div>
+                    <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Phone Number</p>
+                    <p class="font-bold text-primary"><%= locals.user && locals.user.user_mobile && locals.user.user_mobile !== 'null' ? locals.user.user_mobile : 'Not linked' %></p>
+                </div>
+            </div>
+            
+            <a href="/my-orders" class="flex items-center justify-between group no-underline">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant group-hover:bg-secondary/10 group-hover:text-secondary transition-colors">
+                        <span class="material-symbols-outlined !text-xl">shopping_bag</span>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Orders</p>
+                        <p class="font-bold text-primary">Track your purchases</p>
+                    </div>
+                </div>
+                <span class="material-symbols-outlined text-outline-variant group-hover:text-secondary transition-colors">chevron_right</span>
+            </a>
+
+            <div class="h-px bg-outline-variant/10 ml-14"></div>
+
+            <a href="/support" class="flex items-center justify-between group no-underline">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant group-hover:bg-secondary/10 group-hover:text-secondary transition-colors">
+                        <span class="material-symbols-outlined !text-xl">support_agent</span>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Support</p>
+                        <p class="font-bold text-primary">Help & Support Center</p>
+                    </div>
+                </div>
+                <span class="material-symbols-outlined text-outline-variant group-hover:text-secondary transition-colors">chevron_right</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Logout Button -->
+    <section class="pt-6">
+        <a href="/logout" class="flex items-center justify-between bg-error/5 p-6 rounded-3xl border border-error/10 hover:bg-error/10 transition-colors no-underline group">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-xl bg-error/10 flex items-center justify-center text-error">
+                    <span class="material-symbols-outlined !text-xl">logout</span>
+                </div>
+                <div>
+                    <p class="font-extrabold text-error font-headline uppercase tracking-widest text-xs">Sign Out</p>
+                </div>
+            </div>
+            <span class="material-symbols-outlined text-error/30 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+        </a>
+    </section>
+</main>
+
+<!-- Bottom Nav -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-2xl bg-white/85 backdrop-blur-xl shadow-[0_-4px_40px_rgba(0,0,0,0.04)] border-t border-slate-100 pb-8">
+    <div class="flex justify-around items-center h-20 px-4 w-full">
+        <a href="/home" class="flex flex-col items-center justify-center text-slate-400 px-3 py-1 hover:text-black transition-colors active:scale-90 duration-200 no-underline">
+            <span class="material-symbols-outlined">home</span>
+            <span class="font-headline text-[10px] font-semibold uppercase tracking-widest mt-1">Home</span>
+        </a>
+        <a href="/shop" class="flex flex-col items-center justify-center text-slate-400 px-3 py-1 hover:text-black transition-colors active:scale-90 duration-200 no-underline">
+            <span class="material-symbols-outlined">grid_view</span>
+            <span class="font-headline text-[10px] font-semibold uppercase tracking-widest mt-1">Categories</span>
+        </a>
+        <div class="flex flex-col items-center justify-center text-slate-400 px-3 py-1 hover:text-black transition-colors active:scale-90 duration-200 cursor-pointer">
+            <span class="material-symbols-outlined">favorite</span>
+            <span class="font-headline text-[10px] font-semibold uppercase tracking-widest mt-1">Wishlist</span>
+        </div>
+        <a href="/profile" class="flex flex-col items-center justify-center text-indigo-600 bg-indigo-50/50 rounded-xl px-3 py-1 active:scale-90 duration-200 no-underline">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+            <span class="font-headline text-[10px] font-semibold uppercase tracking-widest mt-1">Account</span>
+        </a>
+    </div>
+</nav>
+
+    <%- include("partials/support_bubble") %>
+</body></html>
+
