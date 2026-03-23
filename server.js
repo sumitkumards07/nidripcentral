@@ -28,11 +28,13 @@ const googleClient = new OAuth2Client(
   process.env.GOOGLE_CALLBACK_URL
 );
 
-// PRODUCTION SECURITY MIDDLEWARE (DISABLED for simplicity)
-/*
-app.use(helmet({ contentSecurityPolicy: false })); // Security headers (CSP disabled for inline styles/scripts in EJS)
+// PRODUCTION OPTIMIZATION
 app.use(compression()); // Gzip compression
 app.use(morgan('combined')); // Structured request logging
+
+// SECURITY MIDDLEWARE (DISABLED for simplicity as requested)
+/*
+app.use(helmet({ contentSecurityPolicy: false })); // Security headers
 */
 
 // Rate limiting (DISABLED for simplicity)
