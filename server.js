@@ -193,11 +193,11 @@ app.post("/cart/add", async (req, res) => {
             await db.query("INSERT INTO aalierp_cart (user_id, p_id, qty, date, ip_add) VALUES (?, ?, ?, NOW(), ?)", [req.session.user, product_id, qty, req.ip]);
         }
         const referer = req.get('Referer');
-        res.redirect(referer || '/cart-view');
+        res.redirect(referer || '/cart');
     } catch (err) {
         console.error("Cart Add Error:", err);
         const referer = req.get('Referer');
-        res.redirect(referer || '/cart-view');
+        res.redirect(referer || '/cart');
     }
 });
 
@@ -205,30 +205,36 @@ app.post("/cart/remove/:cart_id", async (req, res) => {
     if (!req.session.user) return res.redirect("/login");
     try {
         await db.query("DELETE FROM aalierp_cart WHERE id = ? AND user_id = ?", [req.params.cart_id, req.session.user]);
-        res.redirect("/cart-view");
+        res.redirect("/cart");
     } catch (err) {
         console.error("Cart Remove Error:", err);
-        res.redirect("/cart-view");
+        res.redirect("/cart");
     }
 });
 
-app.get("/cart-view", async (req, res) => {
-    if (!req.session.user) return res.redirect("/login");
+app.get("/cart", async (req, res) => {
     try {
+        if (!req.session.user) {
+            // Guest Cart: Frontend will handle localStorage
+            return res.render("cart", { items: [], total: 0 });
+        }
         const [items] = await db.query(`
-            SELECT c.id AS cart_id, c.qty, p.product_name, p.product_price, p.product_image 
+            SELECT c.id AS cart_id, c.qty, p.product_name, p.product_price, p.product_image, p.product_id
             FROM aalierp_cart c 
             JOIN aalierp_product p ON c.p_id = p.product_id 
             WHERE c.user_id = ?
         `, [req.session.user]);
         
-        let total = items.reduce((acc, item) => acc + (parseFloat(item.product_price) * item.qty), 0);
-        res.render("cart", { items, total });
+        let totalAmount = items.reduce((acc, item) => acc + (parseFloat(item.product_price) * item.qty), 0);
+        res.render("cart", { cartItems: items, totalAmount });
     } catch (err) {
-        console.error("Cart Fetch Error:", err);
-        res.status(500).send("Internal Server Error");
+        console.error("Cart Route Error:", err);
+        res.render("cart", { cartItems: [], totalAmount: 0 });
     }
 });
+
+// Redirect old route
+app.get("/cart-view", (req, res) => res.redirect("/cart"));
 
 // CHECKOUT ROUTES
 app.get("/checkout", async (req, res) => {
@@ -494,6 +500,37 @@ app.post("/signup", async (req, res) => {
 
 //Logout
 app.get("/logout", (req, res) => { req.session.destroy(() => res.redirect("/")); });
+
+app.get("/home", async (req, res) => {
+    try {
+        const [categories] = await db.query("SELECT * FROM aalierp_category");
+        const [products] = await db.query("SELECT * FROM aalierp_product LIMIT 10");
+        res.render("home", { categories, products });
+    } catch (err) {
+        console.error("Home Route Error:", err);
+        res.render("home", { categories: [], products: [] });
+    }
+});
+
+app.get("/shop", async (req, res) => {
+    try {
+        const activeCategoryId = req.query.category_id;
+        const [categories] = await db.query("SELECT * FROM aalierp_category");
+        let query = "SELECT * FROM aalierp_product WHERE 1=1";
+        const params = [];
+        
+        if (activeCategoryId) {
+            query += " AND category_id = ?";
+            params.push(activeCategoryId);
+        }
+        
+        const [products] = await db.query(query, params);
+        res.render("shop", { products, categories, activeCategoryId });
+    } catch (err) {
+        console.error("Shop Route Error:", err);
+        res.render("shop", { products: [], categories: [], activeCategoryId: null });
+    }
+});
 
 // PRODUCT SEARCH
 app.get("/search", async (req, res) => {
@@ -993,7 +1030,7 @@ app.use((err, req, res, next) => {
 // KEEP-ALIVE PING: Prevent Render from sleeping
 const https = require('https');
 setInterval(() => {
-    https.get('https://nidripcentral-1.onrender.com', (res) => {
+    https.get('https://nidripcentral.onrender.com/api/categories', (res) => {
         console.log(`[Keep-Alive] Pinged server, status: ${res.statusCode}`);
     }).on('error', (err) => {
         console.log(`[Keep-Alive] Ping failed: ${err.message}`);
